@@ -1,0 +1,63 @@
+<div *ngIf="!loadingService.IsLoading" class="wrap scrollbar scrollbar-black bordered-black square thin">
+
+  <form [formGroup]='userForm'>
+
+    <div>
+
+      <div class="imgCont">
+        <img [src]="user.imagePath" (click)="showPic()">
+      </div>
+
+      <div class="twoCont">
+
+        <mat-form-field>
+          <mat-label>First name</mat-label>
+          <input matInput readonly formControlName="firstName">
+        </mat-form-field>
+
+        <mat-form-field id="secondCont">
+          <mat-label>Last name</mat-label>
+          <input matInput readonly formControlName="lastName">
+        </mat-form-field>
+
+      </div>
+
+      <mat-form-field>
+        <mat-label>Email</mat-label>
+        <input matInput readonly formControlName="email">
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Phone Number</mat-label>
+        <input matInput readonly formControlName="phoneNumber">
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Gender</mat-label>
+        <input matInput readonly [value]="user.gender ? 'female' : 'male'">
+      </mat-form-field>
+
+      <div class="twoCont">
+        <mat-form-field>
+          <mat-label>Birthdate</mat-label>
+          <input matInput readonly [value]="user.birthDate | date:'dd/MM/yyyy'">
+        </mat-form-field>
+
+        <mat-form-field id="secondCont">
+          <mat-label>Registration date</mat-label>
+          <input matInput readonly [value]="user.registrationDate | date:'dd/MM/yyyy'">
+        </mat-form-field>
+      </div>
+
+    </div>
+
+    <div class="btnCont" id="secondCont">
+      <button *ngIf="user.blocked == null" mat-button id="btnBlock" type="button" (click)="blockUser()">Block</button>
+      <button *ngIf="user.blocked != null" mat-button id="unBlockBtn" type="button"
+        (click)="unblockUser()">Unblock</button>
+
+      <button mat-button type="button" (click)="dialogRef.close(false)" id="btnCancel">Cancel</button>
+    </div>
+
+  </form>
+</div>

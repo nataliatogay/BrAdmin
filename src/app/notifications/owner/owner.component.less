@@ -1,0 +1,108 @@
+@backgroundCol: #e4e4e4;
+@fieldBackground: #c4c4c4;
+@mainTextColor: #5f6d7b;
+@secondColor: #c0c0c0;
+
+/deep/ .mat-dialog-container {
+  background-color: rgb(226, 226, 226);
+  padding: 20px 50px;
+}
+
+.headerCont {
+  display: flex;
+  flex-direction: row;
+
+  h2 {
+    text-align: center;
+    background: linear-gradient(to bottom, #1275c0 0%, #2aa9e2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin: 5px 0;
+  }
+
+  button {
+    border: 2px solid @secondColor;
+    color: @mainTextColor;
+    margin: auto 0 auto 20px;
+    padding: 3px;
+    box-sizing: content-box;
+    height: 20px;
+    line-height: normal;
+    width: min-content;
+  }
+}
+
+.dateCont {
+  label {
+    font-size: 12px;
+  }
+}
+
+.wrap {
+  // height: 50vh;
+  width: 70vh;
+  display: grid;
+
+  mat-form-field {
+    font-family: inherit;
+    margin: 3px;
+
+    textarea {
+      height: 100px;
+      background-color: #C4C4C4;
+      resize: none;
+    }
+
+    textarea::-webkit-scrollbar {
+      width: 12px;
+      background-color: transparent;
+    }
+
+    textarea::-webkit-scrollbar-thumb {
+      border-radius: 10px;
+      -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+      background-color: @mainTextColor;
+    }
+  }
+
+  .organizationCont {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    button {
+      border: 2px solid @secondColor;
+      color: @mainTextColor;
+      margin: auto 0 auto 20px;
+      padding: 3px;
+      box-sizing: content-box;
+      height: 20px;
+      line-height: normal;
+      width: min-content;
+    }
+  }
+
+  .btnCont {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+
+    button {
+      color: white;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+      font-family: inherit;
+      line-height: 0;
+      margin: 5px;
+      line-height: 0;
+      height: 30px;
+    }
+
+    #btnSave {
+      background: linear-gradient(to bottom, #1275c0 0%, #2aa9e2 100%);
+    }
+
+    #btnCancel {
+      background: linear-gradient(to bottom, #bc4c04 0%, #e16028 100%);
+    }
+  }
+}

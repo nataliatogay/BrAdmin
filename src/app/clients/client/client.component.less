@@ -1,0 +1,248 @@
+@backgroundCol: #e4e4e4;
+@fieldBackground: #c4c4c4;
+@secondColor: #c0c0c0;
+@mainTextColor: #5f6d7b;
+
+.scrollbar-black::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+  background-color: @secondColor;
+  border-radius: 10px;
+}
+
+.scrollbar-black::-webkit-scrollbar {
+  height: 7px;
+  width: 7px;
+  background-color: #f5f5f5;
+  border-radius: 10px;
+}
+
+.scrollbar-black::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+  background-color: @mainTextColor;
+}
+
+.bordered-black::-webkit-scrollbar-track {
+  -webkit-box-shadow: none;
+  // border: 1px solid #000;
+  border: 0 solid @mainTextColor;
+}
+
+.bordered-black::-webkit-scrollbar-thumb {
+  -webkit-box-shadow: none;
+}
+
+.mat-button {
+  width: auto;
+  height: auto;
+  padding: 0;
+  min-width: 0;
+}
+
+.wrap {
+  background-color: @backgroundCol;
+  overflow: auto;
+  position: absolute;
+  height: calc(100% - 80px);
+  width: calc(100% - 60px);
+  border-radius: 5px;
+
+  .mat-divider {
+    margin: 10px 0;
+  }
+
+  .cont {
+    margin: 0 35%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+
+    .mat-form-field {
+      border-radius: 5px;
+      font-family: inherit;
+      // background-color: @fieldBackground;
+      // margin: 10px 0;
+
+      input,
+      .mat-select {
+        color: @mainTextColor;
+        font-family: inherit;
+      }
+    }
+
+    .imgCont {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+
+      img {
+        height: 150px;
+        width: 250px;
+        margin: 20px auto;
+        cursor: pointer;
+        border-radius: 5px;
+      }
+
+      .imgSwiper {
+        overflow: auto;
+        display: flex;
+        flex-direction: row;
+        margin-top: 5px;
+
+        img {
+          margin: 3px;
+          height: 100px;
+          width: 150px;
+        }
+      }
+
+      button {
+        font-family: inherit;
+        border: 2px solid @secondColor;
+        color: @mainTextColor;
+        margin: 10px 0;
+        padding: 3px;
+        box-sizing: content-box;
+        height: 20px;
+        line-height: normal;
+        width: min-content;
+      }
+    }
+
+    .mapCont {
+      #map-canvas {
+        height: 300px;
+        margin-top: 10px;
+      }
+
+      button {
+        font-family: inherit;
+        border: 2px solid @secondColor;
+        color: @mainTextColor;
+        margin: 5px 0;
+        padding: 3px;
+        box-sizing: content-box;
+        height: 20px;
+        line-height: normal;
+      }
+    }
+
+    .timeCont {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      margin: 5px;
+
+      .mat-form-field {
+        margin: 0;
+      }
+    }
+
+    .numbersCont {
+      margin-top: 10px;
+      display: flex;
+      flex-direction: column;
+
+      .numCont {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        border-radius: 5px;
+
+        .mat-form-field {
+          margin: 0;
+        }
+
+        .mat-checkbox {
+          margin: auto;
+        }
+
+        .mat-button {
+          height: fit-content;
+          margin: auto 0;
+        }
+      }
+
+      button {
+        font-family: inherit;
+        border: 2px solid @secondColor;
+        color: @mainTextColor;
+        margin: 5px 0;
+        box-sizing: content-box;
+        line-height: normal;
+        width: fit-content;
+      }
+    }
+
+    .socLinkCont {
+      margin-top: 10px;
+      display: flex;
+      flex-direction: column;
+
+      .socCont {
+        display: grid;
+        grid-template-columns: 10fr 1fr auto;
+
+        .mat-form-field {
+          width: 100%;
+          margin: auto;
+        }
+
+        button {
+          grid-column: 3;
+          margin: auto;
+          line-height: normal;
+        }
+      }
+
+      button {
+        font-family: inherit;
+        border: 2px solid @secondColor;
+        color: @mainTextColor;
+        margin: 5px 0;
+        width: fit-content;
+        line-height: normal;
+      }
+    }
+
+    .parametrCont {
+      display: grid;
+      grid-template-columns: 1fr 2fr 1fr;
+
+      .paramRight {
+        grid-column: 3;
+      }
+    }
+
+    .reservParamCont {
+      display: flex;
+      flex-direction: column;
+      margin-top: 5px;
+    }
+
+    .btnCont {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-end;
+      margin: 5px 0;
+
+      button {
+        color: white;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        font-family: inherit;
+        line-height: 0;
+        margin: 5px;
+        line-height: 0;
+        height: 30px;
+      }
+
+      #btnSave {
+        background: linear-gradient(to bottom, #1275c0 0%, #2aa9e2 100%);
+      }
+
+      #btnCancel {
+        background: linear-gradient(to bottom, #bc4c04 0%, #e16028 100%);
+      }
+    }
+  }
+}

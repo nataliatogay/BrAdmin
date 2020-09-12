@@ -1,0 +1,76 @@
+<div class="wrap" *ngIf="!loadingService.IsLoading">
+
+  <div class="headerCont">
+    <h2>Venue</h2>
+  </div>
+
+  <div class="generalInfoCont">
+    <div class="contactsCont">
+      <mat-form-field>
+        <mat-label>Restaurant Title</mat-label>
+        <input matInput [value]="newClientTitle">
+      </mat-form-field>
+
+      <div class="ownerCont">
+        <mat-form-field>
+          <mat-label>Owner name</mat-label>
+          <input matInput [value]="data.owner.name">
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Owner phone</mat-label>
+          <input matInput [value]="data.owner.phoneNumber">
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Owner email</mat-label>
+          <input matInput [value]="data.owner.email">
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Organization name</mat-label>
+          <input matInput [value]="data.owner.organizationTitle">
+        </mat-form-field>
+      </div>
+
+      <div class="adminObject" *ngIf="admin!=null">
+        <h4>Administrator</h4>
+
+        <div class="gridCont">
+
+          <label id="nameL">Name:&nbsp;</label>
+          <label id="phoneL">Phone number:&nbsp;</label>
+          <label id="emailL">Email:&nbsp;</label>
+
+          <span id="nameS"
+            matTooltip="{{(admin.name.length > 20) ? admin.name : ''}}">{{(admin.name.length > 20) ? (admin.name | slice: 0:20) + '...' : (admin.name)}}</span>
+
+          <span id="phoneS">+{{admin.phoneNumber}}</span>
+
+          <span id="emailS"
+            matTooltip="{{(admin.email.length > 20) ? admin.email : ''}}">{{(admin.email.length > 20) ? (admin.email | slice: 0:20) + '...' : (admin.email)}}</span>
+        </div>
+
+        <!-- <div class="configurationCont">
+          <mat-icon id="editIcon" (click)="addNewAdmin()">create</mat-icon>
+          <mat-icon id="deleteIcon" (click)="removeAdmin()">delete</mat-icon>
+        </div> -->
+      </div>
+
+      <!-- <div class="btnCont" *ngIf="newAdmin === null">
+        <button mat-button id="btnSave" type="button" (click)="addNewAdmin()">Add Admin</button>
+      </div> -->
+
+    </div>
+
+    <div class="logoCont">
+      <label>Logo</label>
+      <div class="imgCont">
+        <img [src]="sanitizeImageUrl(logo)" (click)="showLogo()">
+      </div>
+      <button mat-button type="button" (click)="uploadLogo()">Upload logo</button>
+    </div>
+  </div>
+
+  <div class="btnCont">
+    <button mat-button id="btnCancel" type="button" (click)="dialogVenue.close(null)">Cancel</button>
+    <button mat-button id="btnSave" (click)="confirmClient()">Confirm</button>
+  </div>
+</div>

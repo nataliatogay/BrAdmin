@@ -1,0 +1,12 @@
+<form [formGroup]='libraryForm' (ngSubmit)='onSubmit()'>
+  <h3>{{ data.item == null ? 'New' : 'Edit' }} {{ titles[data.selectedArrayIndex] }}</h3>
+
+  <mat-form-field>
+    <input matInput formControlName='title' title="{{libraryForm.value.title}}" placeholder="Title" id="titleId">
+  </mat-form-field>
+
+  <div class="btnCont">
+    <button mat-button type="submit" id="btnSave">Save</button>
+    <button mat-button type="button" (click)="dialogRef.close(false)" id="btnCancel">Cancel</button>
+  </div>
+</form>

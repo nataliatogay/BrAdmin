@@ -1,0 +1,15 @@
+.loadingCont {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 20;
+}
+.loadingCont .mat-progress-spinner {
+  position: absolute;
+  top: 45%;
+  left: 45%;
+}
+.loadingCont .mat-progress-spinner /deep/ circle {
+  stroke: #2aa9e2;
+}

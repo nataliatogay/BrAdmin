@@ -1,0 +1,26 @@
+<div class="loginWrap">
+  <div class="imageBlur">
+    <form class="loginCont" id="loginId" [formGroup]='loginForm'>
+      <div class="hCont">
+        <h1 class="noSelect">Sign In</h1>
+      </div>
+      <div class="cont">
+        <mat-form-field>
+          <mat-label>Email</mat-label>
+          <input matInput type="email" formControlName='email'>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Password</mat-label>
+          <input matInput type="password" formControlName='password'>
+        </mat-form-field>
+        <div class="remForCont">
+          <mat-checkbox formControlName='remember'>Remember me</mat-checkbox>
+          <a routerLink='/account/forgotPassword'>Forgot password?</a>
+        </div>
+      </div>
+      <div class="buttonCont">
+        <button mat-button (click)="login()">Login</button>
+      </div>
+    </form>
+  </div>
+</div>

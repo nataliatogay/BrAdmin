@@ -1,0 +1,15 @@
+<form [formGroup]='changeEmailForm' (ngSubmit)='onSubmit()'>
+
+  <h2>Change Email</h2>
+
+  <mat-form-field>
+    <mat-label>New Email</mat-label>
+    <input matInput formControlName='newEmail' type="email">
+  </mat-form-field>
+  <mat-divider></mat-divider>
+
+  <div>
+    <button mat-button type="submit">Change</button>
+  </div>
+
+</form>

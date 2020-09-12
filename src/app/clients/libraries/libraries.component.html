@@ -1,0 +1,90 @@
+<div class="wrap">
+  <hr>
+
+  <div class="headerCont">
+
+    <div class="tabCont">
+
+      <mat-tab-group (selectedTabChange)="selectArray($event)">
+        <mat-tab label="Client types">
+          <div class="listOverflow scrollbar scrollbar-black bordered-black square thin">
+            <div class="listCont" *ngFor="let item of parameters[0]">
+              <label>{{item.title}}</label>
+              <div class="editDelCont">
+                <button mat-button (click)="editParameter(item)">Edit</button>
+                <button mat-button (click)="deleteParameter(item)">Delete</button>
+              </div>
+            </div>
+          </div>
+        </mat-tab>
+        <mat-tab label="Cuisines">
+          <div class="listOverflow scrollbar scrollbar-black bordered-black square thin">
+            <div class="listCont" *ngFor="let item of parameters[1]">
+              <label>{{item.title}}</label>
+              <div class="editDelCont">
+                <button mat-button (click)="editParameter(item)">Edit</button>
+                <button mat-button (click)="deleteParameter(item)">Delete</button>
+              </div>
+            </div>
+          </div>
+        </mat-tab>
+        <mat-tab label="Dishes">
+          <div class="listOverflow scrollbar scrollbar-black bordered-black square thin">
+            <div class="listCont" *ngFor="let item of parameters[2]">
+              <label>{{item.title}}</label>
+              <div class="editDelCont">
+                <button mat-button (click)="editParameter(item)">Edit</button>
+                <button mat-button (click)="deleteParameter(item)">Delete</button>
+              </div>
+            </div>
+          </div>
+        </mat-tab>
+        <mat-tab label="Good fors">
+          <div class="listOverflow scrollbar scrollbar-black bordered-black square thin">
+            <div class="listCont" *ngFor="let item of parameters[3]">
+              <label>{{item.title}}</label>
+              <div class="editDelCont">
+                <button mat-button (click)="editParameter(item)">Edit</button>
+                <button mat-button (click)="deleteParameter(item)">Delete</button>
+              </div>
+            </div>
+          </div>
+        </mat-tab>
+        <mat-tab label="Special diets">
+          <div class="listOverflow scrollbar scrollbar-black bordered-black square thin">
+            <div class="listCont" *ngFor="let item of parameters[4]">
+              <label>{{item.title}}</label>
+              <div class="editDelCont">
+                <button mat-button (click)="editParameter(item)">Edit</button>
+                <button mat-button (click)="deleteParameter(item)">Delete</button>
+              </div>
+            </div>
+          </div>
+        </mat-tab>
+        <mat-tab label="Features">
+          <div class="listOverflow scrollbar scrollbar-black bordered-black square thin">
+
+            <div class="listCont" *ngFor="let item of parameters[5]">
+              <label>{{item.title}}</label>
+              <div class="editDelCont">
+                <button mat-button (click)="editParameter(item)">Edit</button>
+                <button mat-button (click)="deleteParameter(item)">Delete</button>
+              </div>
+            </div>
+          </div>
+        </mat-tab>
+      </mat-tab-group>
+    </div>
+
+    <div class="btnCont">
+
+      <button mat-button (click)="addParameter()">
+        Add
+        <mat-icon>add_circle_outline</mat-icon>
+      </button>
+    </div>
+
+  </div>
+</div>
+
+<router-outlet></router-outlet>

@@ -1,0 +1,23 @@
+<div class="wrap">
+  <div class="btnCont">
+    <button mat-button *ngIf="data.clientId != null && data.isMainImage" (click)="uploadNewMainImage()">Upload new</button>
+
+    <button mat-button *ngIf="data.clientId != null && ifSave" (click)="uploadMainImage()">Save</button>
+
+    <div class="anotherPicCont" *ngIf="data.clientId != null && !data.isMainImage">
+      <button mat-button (click)="setMain()">Set as Main</button>
+      <button mat-button (click)="delete()">Delete</button>
+    </div>
+  </div>
+
+  <div class="galleryCont" > 
+    <button mat-button *ngIf="data.clientId != null && !data.isMainImage" (click)="changePic(false)" (keydown)="changePicKey($event)">
+      <mat-icon>chevron_left</mat-icon>
+    </button>
+    <img [src]="sanitizeImageUrl(src)">
+    <button mat-button *ngIf="data.clientId != null && !data.isMainImage" (click)="changePic(true)" (keydown)="changePicKey($event)">
+      <mat-icon>chevron_right</mat-icon>
+    </button>
+  </div>
+
+</div>

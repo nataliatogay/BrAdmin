@@ -1,0 +1,235 @@
+@mainTextColor: #5f6d7b;
+@fieldColor: #788897;
+@toolsHeight: 40px;
+@secondTextColor: #8996a3;
+@thirdColor: #c0c0c0;
+@borderBottom: 1px;
+
+
+.scrollbar-black::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+  background-color: @thirdColor;
+  border-radius: 10px;
+}
+
+.scrollbar-black::-webkit-scrollbar {
+  width: 7px;
+  background-color: #f5f5f5;
+  border-radius: 10px;
+}
+
+.scrollbar-black::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+  background-color: @mainTextColor;
+}
+
+.bordered-black::-webkit-scrollbar-track {
+  -webkit-box-shadow: none;
+  // border: 1px solid #000;
+  border: 0 solid @mainTextColor;
+}
+
+.bordered-black::-webkit-scrollbar-thumb {
+  -webkit-box-shadow: none;
+}
+
+.wrap {
+  .toolsCont {
+    display: flex;
+    flex-direction: row;
+
+    .contView {
+      margin: auto 0;
+      height: @toolsHeight;
+
+      .choosenView {
+        background: #8996a3;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      mat-icon {
+        height: auto;
+        width: auto;
+        margin-right: 12px;
+        font-size: 40px;
+        cursor: pointer;
+        background: #c0c0c0;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+    }
+
+    .sortSearchCont {
+      margin: auto 0 auto 150px;
+      display: flex;
+      flex-direction: row;
+      font-family: inherit;
+      border-bottom: @borderBottom solid @mainTextColor;
+      width: 150px;
+      height: @toolsHeight;
+
+      img {
+        height: 15px;
+        margin: auto 10px;
+      }
+
+      input {
+        border: 0;
+        font-family: inherit;
+        color: @mainTextColor;
+        height: 30px;
+        margin: auto 0;
+        font-size: 15px;
+        width: 110px;
+
+        &:focus {
+          margin: auto 0;
+        }
+      }
+    }
+
+    .sortCont {
+      margin: auto 0 auto 20px;
+      display: flex;
+      flex-direction: row;
+      font-family: inherit;
+      border-bottom: @borderBottom solid @mainTextColor;
+      height: @toolsHeight;
+
+      img {
+        height: 15px;
+        margin: auto 10px;
+      }
+
+      select {
+        width: 200px;
+        border: 0;
+        -moz-appearance: none; /* Firefox */
+        -webkit-appearance: none; /* Safari and Chrome */
+        appearance: none;
+        font-family: inherit;
+        background: url(../../assets/Pictures/AtoZ_arrow.png) no-repeat right
+          white;
+        cursor: pointer;
+        color: @mainTextColor;
+        font-size: 15px;
+        background-size: 15px;
+
+        // .styled-select {
+        //   width: 100px;
+        //   height: 17px;
+        //   overflow: hidden;
+        //   overflow: -moz-hidden-unscrollable;
+        //   border: 2px double red;
+        //   display: inline-block;
+        //   position: relative;
+        // }
+      }
+    }
+  }
+
+  .gridCont {
+    margin-top: 15px;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    overflow: auto;
+    position: absolute;
+    height: calc(100% - 137px);
+    width: calc(100% - 30px);
+
+    .clientCont {
+      border-radius: 10px;
+      background-color: lightgray;
+      width: 220px;
+      height: 280px;
+      margin: 10px 15px 10px 0;
+
+      .privInfoCont {
+        margin: 20px auto;
+        display: flex;
+        justify-content: space-around;
+
+        img {
+          height: 70px;
+          width: 70px;
+          border-radius: 50%;
+        }
+
+        .nameCont {
+          display: flex;
+          flex-direction: column;
+          justify-content: space-evenly;
+        }
+
+        span {
+          font-size: 20px;
+          color: @fieldColor;
+          margin: auto;
+        }
+
+        .firstSpan {
+          color: @secondTextColor;
+        }
+      }
+
+      .infoButCont {
+        margin: 0 15px;
+
+        h3 {
+          margin: 7px 0;
+          text-align: center;
+        }
+
+        .fieldCont {
+          display: flex;
+          justify-content: space-between;
+          margin-bottom: 10px;
+
+          label,
+          a {
+            font-size: 12px;
+            color: @fieldColor;
+            text-decoration: none;
+          }
+
+          a:hover {
+            text-decoration: underline;
+          }
+        }
+
+        .btnCont {
+          margin-top: 25px;
+
+          button {
+            float: right;
+            margin: auto;
+            background: linear-gradient(to bottom, #1275c0 0%, #2aa9e2 100%);
+            color: white;
+            font-size: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            font-family: inherit;
+
+            mat-icon {
+              font-size: 40px;
+              height: auto;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .tableCont {
+    margin-top: 15px;
+    overflow: auto;
+    position: absolute;
+    height: calc(100% - 137px);
+    width: calc(100% - 30px);
+
+    table {
+      width: 100%;
+    }
+  }
+}

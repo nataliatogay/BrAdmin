@@ -1,0 +1,53 @@
+<app-loading *ngIf="loadingService.IsLoading"></app-loading>
+
+<div class="wrap" *ngIf='isAuth'>
+  <div class="headerCont">
+
+    <div class="imgCont">
+      <img src="../../assets/Pictures/logo.png">
+    </div>
+
+    <div class="tabCont">
+      <mat-toolbar>
+        <a routerLink='/clients' mat-button routerLinkActive='active' (click)="routeChange('clientsId')"
+          id="clientsId">Clients</a>
+        <hr>
+        <a routerLink='/users' mat-button routerLinkActive='active' (click)="routeChange('usersId')"
+          id="usersId">Users</a>
+        <hr>
+        <a routerLink='/clients/libraries' mat-button routerLinkActive='active' (click)="routeChange('librariesId')"
+          id="librariesId">Libraries</a>
+        <hr>
+        <a routerLink='/statistics' mat-button routerLinkActive='active' (click)="routeChange('statisticsId')"
+          id="statisticsId">Statistics</a>
+        <hr>
+        <a routerLink='/notifications' mat-button routerLinkActive='active' (click)="routeChange('notificationsId')"
+          id="notificationsId" [matBadgeHidden]="undoneNotificationCount === 0"
+          matBadge="{{ undoneNotificationCount }}">Notifications</a>
+      </mat-toolbar>
+    </div>
+
+    <div class="profileCont">
+      <div class="iconMenu">
+        <mat-icon class="color">person</mat-icon>
+
+        <div class="menuCont">
+          <mat-icon mat-button [matMenuTriggerFor]="menu" class="color">expand_more</mat-icon>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item routerLink='/account/changeEmail'>Change Email</button>
+            <hr>
+            <button mat-menu-item routerLink='/account/changePassword'>Change Password</button>
+            <hr>
+            <button mat-menu-item (click)="logOut()">Log out</button>
+          </mat-menu>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<div [class]="isAuth ? 'outletCont' : ''">
+  <router-outlet></router-outlet>
+</div>

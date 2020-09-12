@@ -1,0 +1,111 @@
+.btnCont {
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: row;
+  margin-top: 20px;
+}
+.btnCont .mat-button {
+  color: white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  font-family: inherit;
+  line-height: 0;
+  margin: 5px;
+  height: 30px;
+}
+.btnCont #btnSave {
+  background: linear-gradient(to bottom, #1275c0 0%, #2aa9e2 100%);
+}
+.btnCont #btnCancel {
+  background: linear-gradient(to bottom, #bc4c04 0%, #e16028 100%);
+}
+.generalInfoCont {
+  display: grid;
+  grid-template-columns: auto 20px auto;
+  width: 100%;
+}
+.generalInfoCont .contactsCont {
+  display: flex;
+  flex-direction: column;
+}
+.generalInfoCont .contactsCont .adminObject span {
+  font-family: none;
+  white-space: pre;
+}
+.generalInfoCont .contactsCont .adminObject .gridCont {
+  display: grid;
+  grid-template-columns: 1fr 10px 1fr;
+  grid-template-rows: repeat(3, auto);
+}
+.generalInfoCont .contactsCont .adminObject .gridCont #nameL {
+  grid-column: 1;
+  grid-row: 1;
+}
+.generalInfoCont .contactsCont .adminObject .gridCont #phoneL {
+  grid-column: 1;
+  grid-row: 2;
+}
+.generalInfoCont .contactsCont .adminObject .gridCont #emailL {
+  grid-column: 1;
+  grid-row: 3;
+}
+.generalInfoCont .contactsCont .adminObject .gridCont #nameS {
+  grid-column: 3;
+  grid-row: 1;
+}
+.generalInfoCont .contactsCont .adminObject .gridCont #phoneS {
+  grid-column: 3;
+  grid-row: 2;
+}
+.generalInfoCont .contactsCont .adminObject .gridCont #emailS {
+  grid-column: 3;
+  grid-row: 3;
+}
+.generalInfoCont .contactsCont .adminObject .configurationCont {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+.generalInfoCont .contactsCont .adminObject .configurationCont .mat-icon {
+  cursor: pointer;
+  font-size: 20px;
+  height: auto;
+  width: auto;
+}
+.generalInfoCont .contactsCont .adminObject .configurationCont #editIcon {
+  color: orange;
+}
+.generalInfoCont .contactsCont .adminObject .configurationCont #deleteIcon {
+  color: red;
+  margin-left: 10px;
+}
+.generalInfoCont .logoCont {
+  grid-column: 3;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.generalInfoCont .logoCont label {
+  margin: 0 auto;
+}
+.generalInfoCont .logoCont .imgCont {
+  border: 1px dashed lightgray;
+  width: 150px;
+  height: 150px;
+  margin: 0 auto;
+}
+.generalInfoCont .logoCont .imgCont img {
+  max-width: 150px;
+  height: 150px;
+  margin: 0 auto;
+  object-fit: cover;
+  cursor: pointer;
+}
+.generalInfoCont .logoCont button {
+  font-family: inherit;
+  border: 2px solid #c0c0c0;
+  color: #5f6d7b;
+  margin: 10px auto;
+  height: 20px;
+  line-height: normal;
+  font-size: 12px;
+}

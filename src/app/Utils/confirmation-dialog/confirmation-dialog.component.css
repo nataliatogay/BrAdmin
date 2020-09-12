@@ -1,0 +1,29 @@
+ /deep/ .mat-dialog-container {
+  padding: 24px;
+  background-color: lightgray;
+}
+.wrap {
+  height: 20vh;
+  display: grid;
+}
+.wrap h1 {
+  color: #8996a3;
+}
+.wrap .mat-dialog-actions {
+  display: flex;
+  flex-direction: row-reverse;
+}
+.wrap .mat-dialog-actions button {
+  color: white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  font-family: inherit;
+  margin: 5px;
+  line-height: 0;
+  height: 30px;
+}
+.wrap .mat-dialog-actions #btnYes {
+  background: linear-gradient(to bottom, #1275c0 0%, #2aa9e2 100%);
+}
+.wrap .mat-dialog-actions #btnNo {
+  background: linear-gradient(to bottom, #bc4c04 0%, #e16028 100%);
+}

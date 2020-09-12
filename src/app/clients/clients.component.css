@@ -1,0 +1,181 @@
+.scrollbar-black::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+  background-color: #c0c0c0;
+  border-radius: 10px;
+}
+.scrollbar-black::-webkit-scrollbar {
+  width: 7px;
+  background-color: #f5f5f5;
+  border-radius: 10px;
+}
+.scrollbar-black::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+  background-color: #5f6d7b;
+}
+.bordered-black::-webkit-scrollbar-track {
+  -webkit-box-shadow: none;
+  border: 0 solid #5f6d7b;
+}
+.bordered-black::-webkit-scrollbar-thumb {
+  -webkit-box-shadow: none;
+}
+.wrap .toolsCont {
+  display: grid;
+  grid-template-columns: 1fr 1fr 2fr 1fr;
+}
+.wrap .toolsCont .contView {
+  margin: auto 0;
+  height: 40px;
+}
+.wrap .toolsCont .contView .choosenView {
+  background: #8996a3;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.wrap .toolsCont .contView mat-icon {
+  height: auto;
+  width: auto;
+  margin-right: 12px;
+  font-size: 40px;
+  cursor: pointer;
+  background: #c0c0c0;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.wrap .toolsCont .sortToolsCont {
+  display: flex;
+  flex-direction: row;
+}
+.wrap .toolsCont .sortSearchCont {
+  margin: auto 0;
+  display: flex;
+  flex-direction: row;
+  font-family: inherit;
+  border-bottom: 1px solid #5f6d7b;
+  width: 150px;
+  height: 40px;
+}
+.wrap .toolsCont .sortSearchCont img {
+  height: 15px;
+  margin: auto 10px;
+}
+.wrap .toolsCont .sortSearchCont input {
+  border: 0;
+  font-family: inherit;
+  color: #5f6d7b;
+  height: 30px;
+  margin: auto 0;
+  font-size: 15px;
+  width: 110px;
+}
+.wrap .toolsCont .sortSearchCont input:focus {
+  margin: auto 0;
+}
+.wrap .toolsCont .sortCont {
+  margin: auto 0 auto 20px;
+  display: flex;
+  flex-direction: row;
+  font-family: inherit;
+  border-bottom: 1px solid #5f6d7b;
+  height: 40px;
+}
+.wrap .toolsCont .sortCont img {
+  height: 15px;
+  margin: auto 10px;
+}
+.wrap .toolsCont .sortCont select {
+  width: 200px;
+  border: 0;
+  -moz-appearance: none;
+  /* Firefox */
+  -webkit-appearance: none;
+  /* Safari and Chrome */
+  appearance: none;
+  font-family: inherit;
+  background: url(../../assets/Pictures/AtoZ_arrow.png) no-repeat right white;
+  cursor: pointer;
+  color: #5f6d7b;
+  font-size: 15px;
+  background-size: 15px;
+}
+.wrap .toolsCont .btnCont {
+  display: flex;
+  justify-content: flex-end;
+  margin: auto 30px;
+  grid-column: 4;
+}
+.wrap .toolsCont .btnCont button {
+  background: linear-gradient(to bottom, #1275c0 0%, #2aa9e2 100%);
+  color: white;
+  font-size: 17px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  font-family: inherit;
+}
+.wrap .toolsCont .btnCont button mat-icon {
+  font-size: 25px;
+  height: auto;
+}
+.wrap .gridCont {
+  margin-top: 15px;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  overflow: auto;
+  position: absolute;
+  height: calc(100% - 137px);
+  width: calc(100% - 30px);
+}
+.wrap .gridCont .clientCont {
+  border-radius: 10px;
+  background-color: lightgray;
+  width: 220px;
+  height: 280px;
+  margin: 10px 15px 10px 0;
+}
+.wrap .gridCont .clientCont img {
+  width: 220px;
+  height: 100px;
+  border-radius: 10px 10px 0 0;
+}
+.wrap .gridCont .clientCont .infoButCont {
+  margin: 0 15px;
+}
+.wrap .gridCont .clientCont .infoButCont h3 {
+  margin: 7px 0;
+  text-align: center;
+}
+.wrap .gridCont .clientCont .infoButCont .fieldCont {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+.wrap .gridCont .clientCont .infoButCont .fieldCont label {
+  font-size: 12px;
+  color: #788897;
+}
+.wrap .gridCont .clientCont .infoButCont .btnCont {
+  margin-top: 25px;
+}
+.wrap .gridCont .clientCont .infoButCont .btnCont button {
+  float: right;
+  margin: auto;
+  background: linear-gradient(to bottom, #1275c0 0%, #2aa9e2 100%);
+  color: white;
+  font-size: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  font-family: inherit;
+}
+.wrap .gridCont .clientCont .infoButCont .btnCont button mat-icon {
+  font-size: 40px;
+  height: auto;
+}
+.wrap .tableCont {
+  margin-top: 15px;
+  overflow: auto;
+  position: absolute;
+  height: calc(100% - 137px);
+  width: calc(100% - 30px);
+}
+.wrap .tableCont table {
+  width: 100%;
+}

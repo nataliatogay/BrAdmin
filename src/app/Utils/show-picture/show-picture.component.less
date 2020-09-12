@@ -1,0 +1,50 @@
+@mainTextColor: #5f6d7b;
+@secondColor: #c0c0c0;
+
+/deep/.mat-dialog-container {
+  padding: 24px;
+  background-color: white;
+}
+
+.wrap {
+  display: flex;
+  flex-direction: column;
+
+  .galleryCont {
+    display: flex;
+    flex-direction: row;
+
+    button {
+      margin: 0 3px;
+    }
+
+    img {
+      height: 80vh;
+      width: 60vw;
+      border-radius: 5px;
+    }
+  }
+
+  .btnCont {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    margin: 5px 0;
+
+    button {
+      font-family: inherit;
+      border: 2px solid @secondColor;
+      color: @mainTextColor;
+      padding: 3px;
+      box-sizing: content-box;
+      height: 20px;
+      line-height: normal;
+      width: min-content;
+      margin-left: 5px;
+    }
+
+    .anotherPicCont {
+      margin-right: 70px;
+    }
+  }
+}
