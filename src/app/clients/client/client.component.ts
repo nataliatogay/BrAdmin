@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ClientService } from 'src/app/core/services/client.service';
 import { OrganizationService } from 'src/app/core/services/organization.service';
@@ -11,6 +11,7 @@ import { ClientInfoFull } from 'src/app/core/models/client-info-full';
 import { OrganizationInfo } from 'src/app/core/models/organization-info';
 import { ClientParameterInfo } from 'src/app/core/models/client-parameter-info';
 import { forkJoin, Observable } from 'rxjs';
+import * as moment from 'moment';
 import { ParameterService } from 'src/app/core/services/parameter.service';
 import { isUndefined } from 'util';
 import { ClientPhoneInfo } from 'src/app/core/models/client-phone-info';
@@ -23,6 +24,7 @@ import { ShowPictureComponent } from 'src/app/Utils/show-picture/show-picture.co
 import { UploadImagesRequest } from 'src/app/core/models/upload-images-request';
 import { ClientImageInfo } from 'src/app/core/models/client-image-info';
 import { LoadingService } from 'src/app/core/services/loading.service';
+import { NewClientCharacteristics } from 'src/app/core/models/new-client-characteristics';
 
 @Component({
   selector: 'app-client',
@@ -44,14 +46,28 @@ export class ClientComponent implements OnInit {
   specialDiets: ClientParameterInfo[] = [];
   features: ClientParameterInfo[] = [];
 
+
+  clientTypeSelected = [];
+  mealTypesSelected = [];
+  dishesSelected = [];
+  goodForSelected = [];
+  cuisinesSelected = [];
+  specialDietSelected = [];
+  featuresSelected = [];
+  dayOffSelected = [];
+
+
   phones: ClientPhoneInfo[] = [];
   links: SocialLink[] = [];
 
-  isBarReservation: boolean = false;
-  barReservationId: number = 0;
+  isBarReservation = false;
+  barReservationId = 0;
 
-  lat: number = 0;
-  long: number = 0;
+  lat = 0;
+  long = 0;
+
+  logo: string;
+  logoString: string = null;
 
   screenOptions = {
     position: 3
@@ -81,84 +97,65 @@ export class ClientComponent implements OnInit {
     this.loadingService.setIsLoading(true);
 
     this.route.params.forEach((params) => {
-      this.clientId = +params['id'];
+      this.clientId = +params.id;
 
 
-      this.clientService.getClientFullInfo(this.clientId).subscribe(
-        (result: ServerResponseGeneric<ClientInfoFull>) => {
-          if (result.statusCode == StatusCode.Ok) {
-            this.client = result.data;
-
-            console.log(this.client)
-
-            this.clientForm = this.fb.group({
-
-              restaurantName: [this.client.clientName],
-              adminName: [this.client.adminName],
-              adminPhoneNumber: [this.client.adminPhoneNumber],
-              mainImagePath: [this.client.mainImagePath],
-              openTime: [this.parseIntToTime(this.client.openTime)],
-              closeTime: [this.parseIntToTime(this.client.closeTime)],
-              phones: [this.client.phones],
-              socialLinks: [this.client.socialLinks],
-              mealTypeIds: [this.client.mealTypeIds],
-              clientTypeIds: [this.client.clientTypeIds],
-              cuisineIds: [this.client.cuisineIds],
-              specialDietIds: [this.client.specialDietIds],
-              goodForIds: [this.client.goodForIds],
-              dishIds: [this.client.dishIds],
-              featureIds: [this.client.featureIds],
-              priceCategory: [this.client.priceCategory],
-              maxReserveDays: [this.client.maxReserveDays],
-              reserveDurationAvg: [this.client.reserveDurationAvg],
-              barReserveDurationAvg: [this.client.barReserveDurationAvg],
-              confirmationDuration: [this.client.confirmationDuration],
-              description: [this.client.description]
-            });
-
-            this.galleryImages = this.client.images;
-            this.mainImage = this.client.mainImagePath;
-            this.lat = this.client.lat;
-            this.long = this.client.long;
-            this.phones = this.client.phones;
-            this.client.socialLinks.forEach(element => {
-              this.links.push(new SocialLink(element));
-            });
-
-            this.loadingService.setIsLoading(false);
-
-          } else {
-            this.router.navigate(['clients']);
-          }
-        }
-      )
     });
 
     forkJoin(
-      this.organizationService.getOrganizations(),
+
       this.parameterService.getCuisines(),
       this.parameterService.getClientTypes(),
       this.parameterService.getMealTypes(),
       this.parameterService.getDishes(),
       this.parameterService.getGoodFors(),
       this.parameterService.getSpecialDiets(),
-      this.parameterService.getFeatures()
+      this.parameterService.getFeatures(),
+      this.clientService.getClientFullInfo(this.clientId)
     ).subscribe(
       (result: any) => {
-        this.organizations = result[0].data,
-          this.cuisines = result[1].data;
-        this.clientTypes = result[2].data;
-        this.mealTypes = result[3].data;
-        this.dishes = result[4].data;
-        this.goodFors = result[5].data;
-        this.specialDiets = result[6].data;
-        this.features = result[7].data;
+        this.cuisines = result[0].data;
+        this.clientTypes = result[1].data;
+        this.mealTypes = result[2].data;
+        this.dishes = result[3].data;
+        this.goodFors = result[4].data;
+        this.specialDiets = result[5].data;
+        this.features = result[6].data;
+        this.client = result[7].data;
 
-        let feature = this.features.find(item => item.title.toLocaleUpperCase() === "BAR RESERVATION");
+        const feature = this.features.find(
+          (item) => item.title.toLocaleUpperCase() === 'BAR RESERVATION'
+        );
+
         if (!isUndefined(feature)) {
-
           this.barReservationId = feature.id;
+          if (
+            this.client != null &&
+            this.client.characteristics != null
+          ) {
+            if (
+              this.client.characteristics.featureIds.includes(
+                this.barReservationId
+              )
+            ) {
+              this.isBarReservation = true;
+              this.clientForm.addControl(
+                'barReserveDurationAvg',
+                new FormControl(
+                  this.client.characteristics.barReserveDurationAvg,
+                  Validators.required
+                )
+              );
+            } else {
+              this.isBarReservation = false;
+              // this.clientForm.removeControl('barReserveDurationAvg');
+            }
+          }
         }
+
+        this.setClientProperties();
+        this.loadingService.setIsLoading(false);
+
       },
       (error) => {
         console.log(error);
@@ -169,6 +166,237 @@ export class ClientComponent implements OnInit {
     // this.socialLinks = this.clientForm.value.socialLinks;
 
 
+  }
+
+  setClientProperties() {
+    let openTime = null;
+    let closeTime = null;
+    if (this.client.characteristics != null) {
+      openTime = moment()
+        .utc()
+        .startOf('day')
+        .add(this.client.characteristics.openTime, 'minutes')
+        .local();
+      closeTime = moment
+        .utc()
+        .startOf('day')
+        .add(this.client.characteristics.closeTime, 'minutes')
+        .local();
+    }
+
+    console.log(close);
+
+    this.clientForm = this.fb.group({
+      restaurantName: [this.client.clientName, Validators.required],
+
+      address: [
+        this.client.characteristics == null
+          ? ''
+          : this.client.characteristics.address,
+        Validators.required,
+      ],
+      openTime: [
+        this.client.characteristics == null ? '' : openTime.format('HH:mm'),
+      ],
+      closeTime: [
+        this.client.characteristics == null ? '' : closeTime.format('HH:mm'),
+      ],
+      dayOffs: [
+        this.client.characteristics == null
+          ? ''
+          : this.client.characteristics.dayOffs,
+      ],
+      mealTypeIds: [
+        this.client.characteristics == null
+          ? ''
+          : this.client.characteristics.mealTypeIds,
+        Validators.required,
+      ],
+      clientTypeIds: [
+        this.client.characteristics == null
+          ? ''
+          : this.client.characteristics.clientTypeIds,
+      ],
+      cuisineIds: [
+        this.client.characteristics == null
+          ? ''
+          : this.client.characteristics.cuisineIds,
+      ],
+      specialDietIds: [
+        this.client.characteristics == null
+          ? ''
+          : this.client.characteristics.specialDietIds,
+      ],
+      goodForIds: [
+        this.client.characteristics == null
+          ? ''
+          : this.client.characteristics.goodForIds,
+      ],
+      dishIds: [
+        this.client.characteristics == null
+          ? ''
+          : this.client.characteristics.dishIds,
+      ],
+      featureIds: [
+        this.client.characteristics == null
+          ? ''
+          : this.client.characteristics.featureIds,
+        Validators.required,
+      ],
+      priceCategory: [
+        this.client.characteristics == null
+          ? ''
+          : this.client.characteristics.priceCategory,
+        Validators.required,
+      ],
+
+      maxReserveDays: [
+        this.client.characteristics == null
+          ? 1
+          : this.client.characteristics.maxReserveDays,
+        Validators.required,
+      ],
+
+      reserveDurationAvg: [
+        this.client.characteristics == null
+          ? 120
+          : this.client.characteristics.reserveDurationAvg,
+        [
+          Validators.required,
+          Validators.min(30),
+          Validators.pattern(/^([1-9])([0-9]+)$/),
+        ],
+      ],
+      confirmationDuration: [
+        this.client.characteristics == null
+          ? 15
+          : this.client.characteristics.confirmationDuration,
+        [Validators.required, Validators.min(15)],
+      ],
+      description: [
+        this.client.characteristics == null
+          ? ''
+          : this.client.characteristics.description,
+      ],
+    });
+
+    this.galleryImages = this.client.images;
+    if (this.client.images.length > 0) {
+      const mainImgIndex = this.client.images.findIndex((item) => item.isMain);
+
+      if (mainImgIndex !== -1) {
+        this.galleryImages.splice(
+          0,
+          0,
+          this.galleryImages.splice(mainImgIndex, 1)[0]
+        );
+      }
+    }
+
+    this.logo = this.client.logoPath;
+
+    if (this.client.characteristics != null) {
+      this.lat = this.client.characteristics.lat;
+      this.long = this.client.characteristics.long;
+
+      this.phones = [];
+      this.client.characteristics.phones.forEach((element) => {
+        this.phones.push(
+          new ClientPhoneInfo(
+            element.number,
+            element.isWhatsApp,
+            element.isTelegram
+          )
+        );
+      });
+
+      this.links = [];
+      this.client.characteristics.socialLinks.forEach((element) => {
+        this.links.push(new SocialLink(element));
+      });
+
+      this.clientTypeSelected = [];
+      this.mealTypesSelected = [];
+      this.cuisinesSelected = [];
+      this.specialDietSelected = [];
+      this.goodForSelected = [];
+      this.dishesSelected = [];
+      this.featuresSelected = [];
+
+      this.client.characteristics.clientTypeIds.forEach((item) => {
+        this.clientTypeSelected.push(item);
+      });
+
+      this.client.characteristics.mealTypeIds.forEach((item) => {
+        this.mealTypesSelected.push(item);
+      });
+
+      this.client.characteristics.cuisineIds.forEach((item) => {
+        this.cuisinesSelected.push(item);
+      });
+
+      this.client.characteristics.specialDietIds.forEach((item) => {
+        this.specialDietSelected.push(item);
+      });
+
+      this.client.characteristics.goodForIds.forEach((item) => {
+        this.goodForSelected.push(item);
+      });
+
+      this.client.characteristics.dishIds.forEach((item) => {
+        this.dishesSelected.push(item);
+      });
+
+      this.client.characteristics.featureIds.forEach((item) => {
+        this.featuresSelected.push(item);
+      });
+
+      this.client.characteristics.dayOffs.forEach((item) => {
+        this.dayOffSelected.push(item);
+      });
+
+      if (this.barReservationId !== 0) {
+        if (
+          this.client.characteristics.featureIds.includes(this.barReservationId)
+        ) {
+          this.isBarReservation = true;
+          this.clientForm.addControl(
+            'barReserveDurationAvg',
+            new FormControl(
+              this.client.characteristics.barReserveDurationAvg,
+              Validators.required
+            )
+          );
+        } else {
+          this.isBarReservation = false;
+        }
+      }
+    }
+  }
+
+
+  uploadLogo() {
+    let fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.setAttribute('accept', 'image/*');
+
+    fileInput.addEventListener('change', async (event) => {
+      const target = event.target as HTMLInputElement;
+      const selectedFile = target.files[0];
+      this.logo = URL.createObjectURL(selectedFile);
+      const res = await this.readFileAsync(selectedFile);
+      let binary = '';
+      const bytes = new Uint8Array(res as ArrayBuffer);
+      const len = bytes.byteLength;
+      for (let j = 0; j < len; j++) {
+        binary += String.fromCharCode(bytes[j]);
+      }
+      this.logoString = window.btoa(binary);
+
+      fileInput = null;
+    });
+
+    fileInput.click();
   }
 
 
@@ -184,28 +412,13 @@ export class ClientComponent implements OnInit {
   }
 
 
-  parseIntToTime(time: number) {
-    let mins = time % 60;
-    let hours = (time - mins) / 60;
 
-    let hourString = (hours < 10 ? '0' : '') + hours;
-    let minsString = (mins < 10 ? '0' : '') + mins;
-    return hourString + ':' + minsString;
-  }
-
-
-
-  parseTimeToInt(time: string) {
-    let hours = +time.substr(0, time.length - time.indexOf(':') - 1);
-    let min = +time.substr(time.indexOf(':') + 1);
-    return hours * 60 + min;
-  }
 
 
 
   addNumber() {
     if (this.phones.length < 4) {
-      this.phones.push(new ClientPhoneInfo('', false));
+      this.phones.push(new ClientPhoneInfo('', false, false));
     }
   }
 
@@ -370,7 +583,7 @@ export class ClientComponent implements OnInit {
 
       this.clientService.uploadImages(new UploadImagesRequest(this.client.id, stringArray)).subscribe(
         (result: ServerResponseGeneric<ClientImageInfo[]>) => {
-          if (result.statusCode == StatusCode.Ok) {
+          if (result.statusCode === StatusCode.Ok) {
             this.galleryImages = result.data;
             alert(result.statusCode);
           } else {
@@ -438,28 +651,58 @@ export class ClientComponent implements OnInit {
 
     if (this.clientForm.valid) {
 
-      let updateClientRequest = new UpdateClientRequest(
-        this.clientId,
-        this.clientForm.value.restaurantName,
+      const socialLinks = [];
+      this.links.forEach((element) => {
+        socialLinks.push(element.link);
+      });
+
+      const openDate = moment(
+        `${new Date().toLocaleDateString()} ${this.clientForm.value.openTime}`,
+        'MM/DD/YYYY HH:mm'
+      );
+      const closeDate = moment(
+        `${new Date().toLocaleDateString()} ${this.clientForm.value.closeTime}`,
+        'MM/DD/YYYY HH:mm'
+      );
+
+      this.phones.forEach((element) => {
+        element.number = this.replaceAll(element.number, [' ', '_', '+'], '');
+
+        element.number = `+${element.number}`;
+      });
+
+      const newCharacts = new NewClientCharacteristics(
+        this.clientForm.value.address,
         this.lat,
         this.long,
-        this.parseTimeToInt(this.clientForm.value.openTime),
-        this.parseTimeToInt(this.clientForm.value.closeTime),
+        openDate.format(),
+        closeDate.format(),
+        this.clientForm.value.dayOffs,
         this.clientForm.value.description,
         this.clientForm.value.maxReserveDays,
         this.clientForm.value.reserveDurationAvg,
-        this.isBarReservation ? this.clientForm.value.barReserveDurationAvg : null,
+        this.isBarReservation
+          ? this.clientForm.value.barReserveDurationAvg
+          : null,
         this.clientForm.value.confirmationDuration,
         this.clientForm.value.priceCategory,
+        '123',
         socialLinks,
-        this.clientForm.value.cuisineIds,
         this.clientForm.value.clientTypeIds,
         this.clientForm.value.mealTypeIds,
+        this.clientForm.value.cuisineIds,
         this.clientForm.value.dishIds,
         this.clientForm.value.goodForIds,
         this.clientForm.value.specialDietIds,
         this.clientForm.value.featureIds,
         this.phones
+      );
+
+      const updateClientRequest = new UpdateClientRequest(
+        this.clientId,
+        this.clientForm.value.restaurantName,
+        this.logoString,
+        newCharacts
       );
 
       console.log(updateClientRequest);
@@ -475,6 +718,18 @@ export class ClientComponent implements OnInit {
         }
       )
     }
+  }
+
+  replaceAll(
+    sourceString: string,
+    searchCharArray: string[],
+    replaceChar: string
+  ) {
+    searchCharArray.forEach((element) => {
+      sourceString = sourceString.split(element).join(replaceChar);
+    });
+
+    return sourceString;
   }
 
   confirmClient() {
@@ -494,14 +749,14 @@ export class ClientComponent implements OnInit {
         this.clientService.confirmClient(this.client.id).subscribe(
           (result: ServerResponse) => {
             if (result.statusCode === StatusCode.Ok) {
-              this.client.confirmed = new Date();
+              this.client.confirmedByAdmin = new Date();
               alert('Client has been confirmed');
 
             } else {
               alert(result.statusCode);
             }
           }
-        )
+        );
       }
     }
 
@@ -566,7 +821,7 @@ export class ClientComponent implements OnInit {
               alert(result.statusCode);
             }
           }
-        )
+        );
       }
     });
   }

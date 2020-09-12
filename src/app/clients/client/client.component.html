@@ -4,50 +4,24 @@
     <div class="cont">
       <h2>Client Info</h2>
       <div class="btnCont">
-        <button *ngIf="client.confirmed == null" mat-button id="btnSave" type="button" (click)="confirmClient()">Confirm</button>
-        <button *ngIf="client.confirmed != null && client.blocked == null" mat-button id="btnSave" type="button" (click)="blockClient()">Block</button>
-        <button *ngIf="client.confirmed != null && client.blocked != null" mat-button id="btnSave" type="button" (click)="unblockClient()">Unblock</button>
+        <!-- <button *ngIf="client.confirmed == null" mat-button id="btnSave" type="button" (click)="confirmClient()">Confirm</button> -->
+        <button *ngIf="client.confirmed != null && client.blocked == null" mat-button id="btnSave" type="button"
+          (click)="blockClient()">Block</button>
+        <button *ngIf="client.confirmed != null && client.blocked != null" mat-button id="btnSave" type="button"
+          (click)="unblockClient()">Unblock</button>
       </div>
       <mat-form-field>
         <mat-label>Title</mat-label>
         <input matInput formControlName="restaurantName">
       </mat-form-field>
 
-      <mat-form-field>
-        <mat-label>Email</mat-label>
-        <input [readonly]="true" matInput [value]="client.email">
-      </mat-form-field>
 
-      <mat-form-field>
-        <mat-label>Administrator</mat-label>
-        <input [readonly]="true" matInput formControlName="adminName">
-      </mat-form-field>
 
-      <mat-form-field>
-        <mat-label>Phone Number</mat-label>
-        <input [readonly]="true" matInput formControlName="adminPhoneNumber">
-      </mat-form-field>
 
-      <mat-form-field>
-        <mat-label>Organization</mat-label>
-        <input [readonly]="true" matInput [value]="client.organization.title">
-      </mat-form-field>
 
       <mat-divider></mat-divider>
 
-      <div class="imgCont">
-        <label>Main Image</label>
-        <img [src]="sanitizeImageUrl(mainImage)" (click)="showMainImage()">
 
-        <label>Images</label>
-        <div class="imgSwiper scrollbar scrollbar-black bordered-black square thin">
-
-          <img *ngFor="let item of galleryImages" [src]="sanitizeImageUrl(item.path)" (click)="showGalleryImage(item)">
-        </div>
-        <button mat-button type="button" (click)="uploadImages()">Upload new images</button>
-      </div>
-
-      <mat-divider></mat-divider>
 
       <div class="mapCont">
         <label>Map</label>
@@ -94,7 +68,6 @@
 
           <mat-checkbox labelPosition="before" [(ngModel)]="item.isWhatsApp" [ngModelOptions]="{standalone: true}">
             WhatsApp</mat-checkbox>
-
           <button type="button" mat-button [disabled]="phones.length === 1" (click)="removeNumber(item)">
             <mat-icon>remove</mat-icon>
           </button>

@@ -38,7 +38,7 @@
 
   <div class="gridCont scrollbar scrollbar-black bordered-black square thin" *ngIf="view">
     <div *ngFor="let item of clients" class="clientCont">
-      <img src="{{ item.mainImagePath }}">
+      <img src="{{ item.logoPath }}">
 
       <div class="infoButCont">
 
@@ -46,9 +46,17 @@
           {{item.clientName}}
         </h3>
 
-        <div class="fieldCont">
-          <label>Email:</label>
-          <a href="mailto:{{item.email}}">{{item.email}}</a>
+        <div *ngIf="item.admins.length !== 0">
+          <div class="fieldCont">
+            <label>Email:</label>
+            <a href="mailto:{{item.admins[0].email}}">{{item.admins[0].email}}</a>
+          </div>
+        </div>
+        <div *ngIf="item.admins.length === 0">
+          <div class="fieldCont">
+            <label>Email:</label>
+            <a href="mailto:{{item.owner.email}}">{{item.owner.email}}</a>
+          </div>
         </div>
         <div class="fieldCont">
           <label>Registration date:</label>
@@ -118,4 +126,3 @@
 </div>
 
 <router-outlet></router-outlet>
-

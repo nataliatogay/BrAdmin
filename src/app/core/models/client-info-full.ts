@@ -2,42 +2,20 @@ import { ClientPhoneInfo } from './client-phone-info';
 import { ClientParameterInfo } from './client-parameter-info';
 import { ClientImageInfo } from './client-image-info';
 import { OrganizationInfo } from './organization-info';
+import { ClientAdminInfo } from './client-admin-info';
+import { ClientCharacteristicsInfo } from './client-characteristics-info';
 
 export class ClientInfoFull {
     constructor(
         public id: number,
         public clientName: string,
-        public organization: OrganizationInfo,
-        public email: string,
-        public adminName: string,
-        public adminPhoneNumber: string,
-        public mainImagePath: string,
+        public characteristics: ClientCharacteristicsInfo,
+        public admins: ClientAdminInfo[],
+        public logoPath: string,
         public images: ClientImageInfo[],
         public registrationDate: Date,
-        public confirmed: Date,
+        public confirmedByAdmin: Date,
         public blocked: Date,
-        public deleted: Date,
-        public lat: number,
-        public long: number,
-        public openTime: number,
-        public closeTime: number,
-        public priceCategory: number,
-        public maxReserveDays: number,
-        public reserveDurationAvg: number,
-        public barReserveDurationAvg: number,
-        public confirmationDuration: number,
-        public description: string,
-        public socialLinks: string[],
-        public phones: ClientPhoneInfo[],
-        public mealTypeIds: ClientParameterInfo[],
-        public clientTypeIds: ClientParameterInfo[],
-        public cuisineIds: ClientParameterInfo[],
-        public specialDietIds: ClientParameterInfo[],
-        public goodForIds: ClientParameterInfo[],
-        public dishIds: ClientParameterInfo[],
-        public featureIds: ClientParameterInfo[]
-
-
-
+        public deleted: Date
     ) { }
 }
