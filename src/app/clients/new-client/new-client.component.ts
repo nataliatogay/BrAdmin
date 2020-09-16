@@ -84,7 +84,7 @@ export class NewClientComponent implements OnInit {
         this.specialDiets = result[6].data;
         this.features = result[7].data;
 
-        let feature = this.features.find(item => item.title.toLocaleUpperCase() === "BAR RESERVATION");
+        const feature = this.features.find(item => item.title.toLocaleUpperCase() === 'BAR RESERVATION');
         if (!isUndefined(feature)) {
 
           this.barReservationId = feature.id;
@@ -97,7 +97,7 @@ export class NewClientComponent implements OnInit {
 
 
 
-    this.phones.push(new ClientPhoneInfo('', false));
+    this.phones.push(new ClientPhoneInfo('', false, false));
     this.links.push(new SocialLink(''));
 
     this.clientForm = this.fb.group(
@@ -192,8 +192,8 @@ export class NewClientComponent implements OnInit {
 
 
   parseTime(time: string) {
-    let hours = +time.substr(0, time.length - time.indexOf(':') - 1);
-    let min = +time.substr(time.indexOf(':') + 1);
+    const hours = +time.substr(0, time.length - time.indexOf(':') - 1);
+    const min = +time.substr(time.indexOf(':') + 1);
     return hours * 60 + min;
   }
 
@@ -210,7 +210,7 @@ export class NewClientComponent implements OnInit {
 
   addNumber() {
     if (this.phones.length < 4) {
-      this.phones.push(new ClientPhoneInfo('', false));
+      this.phones.push(new ClientPhoneInfo('', false, false));
     }
   }
 
