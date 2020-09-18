@@ -26,12 +26,10 @@ import { NotificationComponent } from './notification/notification.component';
   styleUrls: ['./notifications.component.css'],
 })
 export class NotificationsComponent implements OnInit {
-  notificationCount: number;
 
   notifications: NotificationInfo[] = [];
 
 
-  currentDate: string;
 
   dialogRef: MatDialogRef<ConfirmationDialogComponent>;
 
@@ -54,8 +52,6 @@ export class NotificationsComponent implements OnInit {
           console.log(this.notifications);
 
 
-
-          this.currentDate = new Date().toLocaleDateString();
         },
         (error) => {
           console.log(error);
@@ -67,98 +63,106 @@ export class NotificationsComponent implements OnInit {
 
 
   openNotification(notification: NotificationInfo) {
+    console.log(notification);
+    const notifDialog = this.dialog.open(NotificationComponent, { data: notification });
+    notifDialog.afterClosed().subscribe(
+      (dialogResult) => {
+        if (dialogResult) {
+          if (notification.notificationTypeId === NotificationType.RequestOwner) {
+            let requestInfo: OwnerRequestInfo;
+            this.notificationService.getRequest(notification.reference)
+              .pipe(first())
+              .subscribe(
+                (response: ServerResponseGeneric<OwnerRequestInfo>) => {
+                  if (response.statusCode === StatusCode.Ok) {
+                    requestInfo = response.data;
+                    const dialogRef = this.dialog.open(OwnerComponent, {
+                      data: requestInfo,
+                      disableClose: true,
+                    });
 
-    let refer = this.dialog.open(NotificationComponent, { data: notification });
+                    dialogRef.afterClosed().subscribe((dialogResult) => {
+                      if (dialogResult.event === 'decline') {
+                        this.notificationService
+                          .declineRequest(dialogResult.data)
+                          .subscribe((result: ServerResponse) => {
+                            if (result.statusCode === StatusCode.Ok) {
+                              alert('Success');
+                              window.location.reload();
+                            } else {
+                              alert(result.statusCode);
+                            }
+                          });
+                      } else if (dialogResult.event === 'add') {
+                        if (dialogResult.data != null) {
+                          this.ownerService
+                            .addOwner(dialogResult.data)
+                            .subscribe((result: ServerResponse) => {
+                              if (result.statusCode === StatusCode.Ok) {
+                                alert('Success');
+                                window.location.reload();
+                              } else {
+                                alert(result.statusCode);
+                              }
+                            });
+                        }
+                      }
 
-    // if (notification.notificationTypeId === NotificationType.RequestOwner) {
-    //   let requestInfo: OwnerRequestInfo;
-    //   this.notificationService.getRequest(notification.reference)
-    //     .pipe(first())
-    //     .subscribe(
-    //       (response: ServerResponseGeneric<OwnerRequestInfo>) => {
-    //         if (response.statusCode === StatusCode.Ok) {
-    //           requestInfo = response.data;
-    //           const dialogRef = this.dialog.open(OwnerComponent, {
-    //             data: requestInfo,
-    //             disableClose: true,
-    //           });
+                      // this.router.navigate(['/notifications']);
+                    });
 
-    //           dialogRef.afterClosed().subscribe((dialogResult) => {
-    //             if (dialogResult.event === 'decline') {
-    //               this.notificationService
-    //                 .declineRequest(dialogResult.data)
-    //                 .subscribe((result: ServerResponse) => {
-    //                   if (result.statusCode === StatusCode.Ok) {
-    //                     alert('Success');
-    //                     window.location.reload();
-    //                   } else {
-    //                     alert(result.statusCode);
-    //                   }
-    //                 });
-    //             } else if (dialogResult.event === 'add') {
-    //               if (dialogResult.data != null) {
-    //                 this.ownerService
-    //                   .addOwner(dialogResult.data)
-    //                   .subscribe((result: ServerResponse) => {
-    //                     if (result.statusCode === StatusCode.Ok) {
-    //                       alert('Success');
-    //                       window.location.reload();
-    //                     } else {
-    //                       alert(result.statusCode);
-    //                     }
-    //                   });
-    //               }
-    //             }
+                  }
+                },
+                error => {
 
-    //             // this.router.navigate(['/notifications']);
-    //           });
+                }
+              );
+            console.log('yes');
+          } else if (notification.notificationTypeId === NotificationType.RequestClient) {
+            this.clientService.getRegisteredClientInfo(notification.reference)
+              .pipe(first())
+              .subscribe(
+                (response: ServerResponseGeneric<ClientInfoShort>) => {
+                  if (response.statusCode === StatusCode.Ok) {
+                    console.log(response.data);
+                    const dialogRef = this.dialog.open(ClientFormComponent, {
+                      data: response.data,
+                      disableClose: true,
+                    });
 
-    //         }
-    //       },
-    //       error => {
+                    dialogRef.afterClosed().subscribe(result => {
+                      console.log(result);
+                      if (result != null) {
+                        // confirm client
+                        if (result) {
+                          this.clientService.confirmClient(notification.reference)
+                            .pipe(first())
+                            .subscribe(
+                              (responseConfirm: ServerResponse) => {
+                                if (responseConfirm.statusCode === StatusCode.Ok) {
+                                  alert('Client was confirmed');
+                                } else {
+                                  alert('Some error occured');
+                                  console.log(responseConfirm.statusCode);
+                                }
+                              },
+                              (error) => {
+                                console.log('Some error occured');
+                                console.log(error);
+                              }
+                            );
+                        }
+                      }
+                    });
+                  }
+                }
+              );
+          }
+        }
+        console.log(dialogResult);
+      }
+    );
 
-    //       }
-    //     );
-    //   console.log('yes');
-    // } else if (notification.notificationTypeId === NotificationType.RequestClient) {
-    //   this.clientService.getRegisteredClientInfo(notification.reference)
-    //     .pipe(first())
-    //     .subscribe(
-    //       (response: ServerResponseGeneric<ClientInfoShort>) => {
-    //         if (response.statusCode === StatusCode.Ok) {
-    //           console.log(response.data);
-    //           const dialogRef = this.dialog.open(ClientFormComponent, {
-    //             data: response.data,
-    //             disableClose: true,
-    //           });
 
-    //           dialogRef.afterClosed().subscribe(result => {
-    //             console.log(result);
-    //             if (result != null) {
-    //               // confirm client
-    //               if (result) {
-    //                 this.clientService.confirmClient(notification.reference)
-    //                   .pipe(first())
-    //                   .subscribe(
-    //                     (responseConfirm: ServerResponse) => {
-    //                       if (responseConfirm.statusCode === StatusCode.Ok) {
-    //                         alert('Client was confirmed');
-    //                       } else {
-    //                         alert('Some error occured');
-    //                         console.log(responseConfirm.statusCode);
-    //                       }
-    //                     },
-    //                     (error) => {
-    //                       console.log('Some error occured');
-    //                       console.log(error);
-    //                     }
-    //                   );
-    //               }
-    //             }
-    //           });
-    //         }
-    //       }
-    //     );
-    // }
   }
 }

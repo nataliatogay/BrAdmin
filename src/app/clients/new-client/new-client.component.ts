@@ -4,7 +4,6 @@ import { OrganizationInfo } from 'src/app/core/models/organization-info';
 import { ClientParameterInfo } from 'src/app/core/models/client-parameter-info';
 import { forkJoin } from 'rxjs';
 import { ParameterService } from 'src/app/core/services/parameter.service';
-import { OrganizationService } from 'src/app/core/services/organization.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ClientPhoneInfo } from 'src/app/core/models/client-phone-info';
 import { GeoLocationService } from 'src/app/core/services/geo-location.service';
@@ -54,7 +53,6 @@ export class NewClientComponent implements OnInit {
 
   constructor(
     private parameterService: ParameterService,
-    private organizationService: OrganizationService,
     private fb: FormBuilder,
 
     private dialogRef: MatDialogRef<NewClientComponent>,
@@ -65,7 +63,6 @@ export class NewClientComponent implements OnInit {
   ngOnInit() {
 
     forkJoin(
-      this.organizationService.getOrganizations(),
       this.parameterService.getCuisines(),
       this.parameterService.getClientTypes(),
       this.parameterService.getMealTypes(),
@@ -75,14 +72,13 @@ export class NewClientComponent implements OnInit {
       this.parameterService.getFeatures()
     ).subscribe(
       (result: any) => {
-        this.organizations = result[0].data,
-          this.cuisines = result[1].data;
-        this.clientTypes = result[2].data;
-        this.mealTypes = result[3].data;
-        this.dishes = result[4].data;
-        this.goodFors = result[5].data;
-        this.specialDiets = result[6].data;
-        this.features = result[7].data;
+          this.cuisines = result[0].data;
+        this.clientTypes = result[1].data;
+        this.mealTypes = result[2].data;
+        this.dishes = result[3].data;
+        this.goodFors = result[4].data;
+        this.specialDiets = result[5].data;
+        this.features = result[6].data;
 
         const feature = this.features.find(item => item.title.toLocaleUpperCase() === 'BAR RESERVATION');
         if (!isUndefined(feature)) {

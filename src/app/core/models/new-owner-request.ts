@@ -3,7 +3,7 @@ export class NewOwnerRequest {
         public ownerName: string,
         public email: string,
         public ownerNumber: string,
-        public organizationId: number,
+        public organizationTitle: number,
         public requestId: number
     ) { }
 }

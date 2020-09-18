@@ -2,9 +2,6 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { OwnerRequestInfo } from 'src/app/core/models/owner-request-info';
-import { OrganizationService } from 'src/app/core/services/organization.service';
-import { StatusCode, ServerResponseGeneric } from 'src/app/core/models/server-response';
-import { OrganizationInfo } from 'src/app/core/models/organization-info';
 import { NewOwnerRequest } from 'src/app/core/models/new-owner-request';
 
 @Component({
@@ -14,14 +11,11 @@ import { NewOwnerRequest } from 'src/app/core/models/new-owner-request';
 })
 export class OwnerComponent implements OnInit {
 
-  organizations: OrganizationInfo[] = [];
-
   ownerForm: FormGroup;
 
   constructor(
     private fb: FormBuilder,
 
-    private organizationService: OrganizationService,
     public dialogRef: MatDialogRef<OwnerComponent>,
     @Inject(MAT_DIALOG_DATA) public data: OwnerRequestInfo
   ) { }
@@ -29,20 +23,11 @@ export class OwnerComponent implements OnInit {
   ngOnInit() {
     this.ownerForm = this.fb.group({
       ownerName: [this.data.ownerName, Validators.required],
-      organizationId: ['', Validators.required],
       organizationName: [this.data.organizationName],
       email: [this.data.email, Validators.required],
       ownerPhoneNumber: [this.data.ownerPhoneNumber, Validators.required],
       comments: [this.data.comments]
     });
-    this.organizationService.getOrganizations().subscribe(
-      (result: ServerResponseGeneric<OrganizationInfo[]>) => {
-        if (result.statusCode === StatusCode.Ok) {
-          this.organizations = result.data;
-        }
-
-      }
-    );
   }
 
   onSubmit() {
@@ -51,7 +36,7 @@ export class OwnerComponent implements OnInit {
         this.ownerForm.value.ownerName,
         this.ownerForm.value.email,
         this.ownerForm.value.ownerPhoneNumber,
-        this.ownerForm.value.organizationId,
+        this.ownerForm.value.organizationName,
         this.data.id
       );
       this.dialogRef.close({ event: 'add', data: newOwnerRequest });
@@ -68,20 +53,5 @@ export class OwnerComponent implements OnInit {
     this.dialogRef.close({ event: 'cancel' });
   }
 
-
-  addOrganization() {
-    if (this.ownerForm.value.organizationName != null && this.ownerForm.value.organizationName.trim() !== '') {
-
-      this.organizationService.addOrganization(this.ownerForm.value.organizationName).subscribe(
-        (result: ServerResponseGeneric<OrganizationInfo>) => {
-
-          if (result.statusCode === StatusCode.Ok) {
-            this.organizations.push(result.data);
-          }
-        }
-      );
-    }
-
-  }
 
 }

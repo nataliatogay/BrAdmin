@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ClientService } from 'src/app/core/services/client.service';
-import { OrganizationService } from 'src/app/core/services/organization.service';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { SafeUrl, DomSanitizer } from '@angular/platform-browser';
 import { MouseEvent } from '@agm/core';
@@ -82,7 +81,6 @@ export class ClientComponent implements OnInit {
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private clientService: ClientService,
-    private organizationService: OrganizationService,
     private parameterService: ParameterService,
     public router: Router,
     private dialog: MatDialog,

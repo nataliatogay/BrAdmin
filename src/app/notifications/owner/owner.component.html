@@ -1,11 +1,8 @@
 <div class="headerCont">
   <h2>New Owner Request</h2>
-  <button *ngIf="data.done == null" mat-button type="button" (click)="declineRequest()">Decline</button>
+  <!-- <button mat-button type="button" (click)="declineRequest()">Decline</button> -->
 </div>
 
-<div *ngIf="data.done != null">
-  <label>{{ data.done ? "saved as new owner" : "declined" }}</label>
-</div>
 
 <div class="dateCont">
   <label>{{ data.registeredDate | date: 'dd.MM.yyyy HH:mm' }}</label>
@@ -16,52 +13,41 @@
   <!-- <div> -->
   <mat-form-field>
     <mat-label>Name</mat-label>
-    <input [readonly]="data.done != null" matInput formControlName="ownerName">
+    <input matInput formControlName="ownerName">
   </mat-form-field>
 
   <mat-form-field>
     <mat-label>Phone Number</mat-label>
-    <input [readonly]="data.done != null" matInput formControlName="ownerPhoneNumber">
+    <input matInput formControlName="ownerPhoneNumber">
   </mat-form-field>
   <!-- </div> -->
 
   <mat-form-field>
     <mat-label>Email</mat-label>
-    <input [readonly]="data.done != null" matInput formControlName="email">
+    <input matInput formControlName="email">
   </mat-form-field>
 
-  <div *ngIf="data.done == null" class="organizationCont">
+  <div class="organizationCont">
 
-    <mat-form-field>
-      <mat-label>Organization</mat-label>
-      <mat-select formControlName="organizationId">
-        <mat-option *ngFor="let item of organizations" [value]="item.id">
-          {{item.title}}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
+    
 
     <mat-form-field style="margin-left: 55px;">
-      <mat-label>Organization in request</mat-label>
+      <mat-label>Organization title</mat-label>
       <input matInput formControlName="organizationName">
     </mat-form-field>
 
-    <button mat-button type="button" id="btnSave" (click)="addOrganization()">Add</button>
+   
 
   </div>
 
-  <mat-form-field *ngIf="data.done != null">
-    <mat-label>Organization</mat-label>
-    <input [readonly]="data.done != null" matInput formControlName="organizationName">
-  </mat-form-field>
 
   <mat-form-field>
     <mat-label>Comments</mat-label>
-    <textarea [readonly]="data.done != null" matInput formControlName="comments"></textarea>
+    <textarea [readonly]="true" matInput formControlName="comments"></textarea>
   </mat-form-field>
 
   <div class="btnCont">
-    <button *ngIf="data.done == null" mat-button type="submit" id="btnSave">Save</button>
+    <button mat-button type="submit" id="btnSave">Save</button>
     <button mat-button type="button" (click)="cancelWindow()" id="btnCancel">Cancel</button>
   </div>
 
