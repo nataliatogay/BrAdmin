@@ -9,9 +9,15 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 import { MatDialogRef } from '@angular/material';
 import { ClientFormComponent } from './client-form/client-form.component';
+import { NotificationComponent } from './notification/notification.component';
 
 @NgModule({
-  declarations: [NotificationsComponent, OwnerComponent, ClientFormComponent],
+  declarations: [
+    NotificationsComponent,
+    OwnerComponent,
+    ClientFormComponent,
+    NotificationComponent
+  ],
   imports: [
     CommonModule,
     NotificationsRoutingModule,
@@ -19,6 +25,10 @@ import { ClientFormComponent } from './client-form/client-form.component';
     ReactiveFormsModule,
     FormsModule,
   ],
-  entryComponents: [OwnerComponent, ClientFormComponent],
+  entryComponents: [
+    OwnerComponent,
+    ClientFormComponent,
+    NotificationComponent
+  ]
 })
-export class NotificationsModule {}
+export class NotificationsModule { }

@@ -6,6 +6,7 @@ import { ServerResponse, StatusCode, ServerResponseGeneric } from './core/models
 import { NotificationService } from './core/services/notification.service';
 import { LoadingService } from './core/services/loading.service';
 import { isNull } from 'util';
+import { NotificationInfo } from './core/models/notification-info';
 
 @Component({
   selector: 'app-root',
@@ -37,10 +38,10 @@ export class AppComponent {
       this.router.navigate(['/account/login']);
     } else {
 
-      this.notificationService.getUndoneNotificationsCount().subscribe(
-        (result: ServerResponseGeneric<number>) => {
+      this.notificationService.getNotifications().subscribe(
+        (result: ServerResponseGeneric<NotificationInfo[]>) => {
           if (result.statusCode === StatusCode.Ok) {
-            this.undoneNotificationCount = result.data;
+            this.undoneNotificationCount = result.data.length;
           }
         },
         (error) => {

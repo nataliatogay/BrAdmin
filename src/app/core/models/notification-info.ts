@@ -1,11 +1,13 @@
+import { NotificationType } from './notification-type';
+
 export class NotificationInfo {
     constructor(
-        public id: number,
+        public id: string,
         public title: string,
+        public description: string,
         public dateTime: Date,
-        public done: boolean,
-        public notificationType: string,
-        public clientId: number,
-        public requestId: number
+        public reference: number,
+        public handled: boolean,
+        public notificationTypeId: NotificationType
     ) { }
 }

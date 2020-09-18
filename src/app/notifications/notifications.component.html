@@ -1,5 +1,5 @@
 <div class="wrap">
-  <div class="paginationCont">
+  <!-- <div class="paginationCont">
     <label>{{ pagesView }} of {{ notificationCount }}</label>
     <button mat-button [disabled]="currentPage === 1" (click)="pageChange(false)">
       <mat-icon>chevron_left</mat-icon>
@@ -7,19 +7,18 @@
     <button mat-button [disabled]="currentPage === lastPage || lastPage === 0" (click)="pageChange(true)">
       <mat-icon>chevron_right</mat-icon>
     </button>
-  </div>
+  </div> -->
 
   <div class="notificationsCont scrollbar scrollbar-black bordered-black square thin">
 
-    <div *ngFor="let item of notifications" class="notifCont {{ item.done == null ? 'unDone' : 'done' }}"
-      (click)="openNotification(item)">
+    <div *ngFor="let item of notifications" class="notifCont done" (click)="openNotification(item)">
       <label>{{ item.dateTime | date: 'dd.MM.yyyy HH:mm' }}</label>
 
       <label>{{item.title}}</label>
 
-      <label class="{{item.notificationType}}">{{item.notificationType}}</label>
+      <!-- <label class="{{item.notificationType}}">{{item.notificationType}}</label> -->
 
-      <mat-checkbox [disabled]="true" [checked]="item.done != null" readonly>Done</mat-checkbox>
+      <!-- <mat-checkbox [disabled]="true" [checked]="item.done != null" readonly>Done</mat-checkbox> -->
 
     </div>
 

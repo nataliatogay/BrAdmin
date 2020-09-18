@@ -17,6 +17,8 @@ import { ClientFormComponent } from './client-form/client-form.component';
 import { ClientService } from '../core/services/client.service';
 import { first } from 'rxjs/operators';
 import { ClientInfoShort } from '../core/models/client-info-short';
+import { NotificationType } from '../core/models/notification-type';
+import { NotificationComponent } from './notification/notification.component';
 
 @Component({
   selector: 'app-notifications',
@@ -28,10 +30,6 @@ export class NotificationsComponent implements OnInit {
 
   notifications: NotificationInfo[] = [];
 
-  currentPage = 1;
-  byCount = 50;
-  pagesView: string;
-  lastPage: number;
 
   currentDate: string;
 
@@ -46,161 +44,121 @@ export class NotificationsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    forkJoin(
-      this.notificationService.getNotificationsCount(),
-      this.notificationService.getNotifications(0, this.byCount)
-    ).subscribe(
-      (result: any) => {
-        this.notificationCount = result[0].data;
-        this.notifications = result[1].data;
-
-        console.log(this.notifications);
-
-        this.lastPage = Math.ceil(this.notificationCount / this.byCount);
-        this.pagesView = this.getPagesViewLabel();
-        this.currentDate = new Date().toLocaleDateString();
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
-  }
-
-  getPagesViewLabel() {
-    if (this.lastPage === 0) {
-      return '0-0';
-    }
-
-    const fromCount = (this.currentPage - 1) * this.byCount + 1;
-    let toCount = this.currentPage * this.byCount;
-
-    if (this.currentPage === this.lastPage) {
-      toCount = this.notificationCount;
-    }
-    return fromCount + '-' + toCount;
-  }
-
-  pageChange(dir) {
-    if (dir) {
-      this.currentPage++;
-    } else {
-      this.currentPage--;
-    }
-
-    this.notificationService
-      .getNotifications((this.currentPage - 1) * this.byCount, this.byCount)
+    this.notificationService.getNotifications()
+      .pipe(first())
       .subscribe(
         (result: ServerResponseGeneric<NotificationInfo[]>) => {
           if (result.statusCode === StatusCode.Ok) {
             this.notifications = result.data;
-          } else {
-            alert(result.statusCode);
           }
+          console.log(this.notifications);
+
+
+
+          this.currentDate = new Date().toLocaleDateString();
         },
-        (error) => { }
+        (error) => {
+          console.log(error);
+        }
       );
-    // this.notifications = this.notifServ.getShortListNotif(this.currentPage, this.byCount);
-
-    this.pagesView = this.getPagesViewLabel();
   }
 
-  openClientForm(item) {
 
-  }
+
 
   openNotification(notification: NotificationInfo) {
-    if (notification.notificationType.toLocaleUpperCase() === 'REQUEST') {
-      let requestInfo: OwnerRequestInfo;
-      this.notificationService
-        .getRequest(notification.requestId)
-        .subscribe((result: ServerResponseGeneric<OwnerRequestInfo>) => {
-          if (result.statusCode === StatusCode.Ok) {
-            requestInfo = result.data;
-            requestInfo.done = notification.done;
-            // requestInfo.done = false;
-            setTimeout(() => {
-              const dialogRef = this.dialog.open(OwnerComponent, {
-                data: requestInfo,
-                disableClose: true,
-              });
 
-              dialogRef.afterClosed().subscribe((dialogResult) => {
-                if (dialogResult.event === 'decline') {
-                  this.notificationService
-                    .declineRequest(dialogResult.data)
-                    .subscribe((result: ServerResponse) => {
-                      if (result.statusCode === StatusCode.Ok) {
-                        alert('Success');
-                        window.location.reload();
-                      } else {
-                        alert(result.statusCode);
-                      }
-                    });
-                } else if (dialogResult.event === 'add') {
-                  if (dialogResult.data != null) {
-                    this.ownerService
-                      .addOwner(dialogResult.data)
-                      .subscribe((result: ServerResponse) => {
-                        if (result.statusCode === StatusCode.Ok) {
-                          alert('Success');
-                          window.location.reload();
-                        } else {
-                          alert(result.statusCode);
-                        }
-                      });
-                  }
-                }
+    let refer = this.dialog.open(NotificationComponent, { data: notification });
 
-                // this.router.navigate(['/notifications']);
-              });
-            });
-          }
-        });
-    } else if (
-      notification.notificationType.toLocaleUpperCase() === 'REGISTRATION'
-    ) {
-      console.log(notification);
-      this.clientService.getRegisteredClientInfo(notification.clientId)
-        .pipe(first())
-        .subscribe(
-          (response: ServerResponseGeneric<ClientInfoShort>) => {
-            if (response.statusCode === StatusCode.Ok) {
-              console.log(response.data);
-              const dialogRef = this.dialog.open(ClientFormComponent, {
-                data: response.data,
-                disableClose: true,
-              });
+    // if (notification.notificationTypeId === NotificationType.RequestOwner) {
+    //   let requestInfo: OwnerRequestInfo;
+    //   this.notificationService.getRequest(notification.reference)
+    //     .pipe(first())
+    //     .subscribe(
+    //       (response: ServerResponseGeneric<OwnerRequestInfo>) => {
+    //         if (response.statusCode === StatusCode.Ok) {
+    //           requestInfo = response.data;
+    //           const dialogRef = this.dialog.open(OwnerComponent, {
+    //             data: requestInfo,
+    //             disableClose: true,
+    //           });
 
-              dialogRef.afterClosed().subscribe(result => {
-                console.log(result);
-                if (result != null) {
-                  // confirm client
-                  if (result) {
-                    this.clientService.confirmClient(notification.clientId)
-                      .pipe(first())
-                      .subscribe(
-                        (responseConfirm: ServerResponse) => {
-                          if (responseConfirm.statusCode === StatusCode.Ok) {
-                            alert('Client was confirmed');
-                          } else {
-                            alert('Some error occured');
-                            console.log(responseConfirm.statusCode);
-                          }
-                        },
-                        (error) => {
-                          console.log('Some error occured');
-                          console.log(error);
-                        }
-                      );
-                  }
-                }
-              });
-            }
-          }
-        )
+    //           dialogRef.afterClosed().subscribe((dialogResult) => {
+    //             if (dialogResult.event === 'decline') {
+    //               this.notificationService
+    //                 .declineRequest(dialogResult.data)
+    //                 .subscribe((result: ServerResponse) => {
+    //                   if (result.statusCode === StatusCode.Ok) {
+    //                     alert('Success');
+    //                     window.location.reload();
+    //                   } else {
+    //                     alert(result.statusCode);
+    //                   }
+    //                 });
+    //             } else if (dialogResult.event === 'add') {
+    //               if (dialogResult.data != null) {
+    //                 this.ownerService
+    //                   .addOwner(dialogResult.data)
+    //                   .subscribe((result: ServerResponse) => {
+    //                     if (result.statusCode === StatusCode.Ok) {
+    //                       alert('Success');
+    //                       window.location.reload();
+    //                     } else {
+    //                       alert(result.statusCode);
+    //                     }
+    //                   });
+    //               }
+    //             }
 
+    //             // this.router.navigate(['/notifications']);
+    //           });
 
+    //         }
+    //       },
+    //       error => {
 
-    }
+    //       }
+    //     );
+    //   console.log('yes');
+    // } else if (notification.notificationTypeId === NotificationType.RequestClient) {
+    //   this.clientService.getRegisteredClientInfo(notification.reference)
+    //     .pipe(first())
+    //     .subscribe(
+    //       (response: ServerResponseGeneric<ClientInfoShort>) => {
+    //         if (response.statusCode === StatusCode.Ok) {
+    //           console.log(response.data);
+    //           const dialogRef = this.dialog.open(ClientFormComponent, {
+    //             data: response.data,
+    //             disableClose: true,
+    //           });
+
+    //           dialogRef.afterClosed().subscribe(result => {
+    //             console.log(result);
+    //             if (result != null) {
+    //               // confirm client
+    //               if (result) {
+    //                 this.clientService.confirmClient(notification.reference)
+    //                   .pipe(first())
+    //                   .subscribe(
+    //                     (responseConfirm: ServerResponse) => {
+    //                       if (responseConfirm.statusCode === StatusCode.Ok) {
+    //                         alert('Client was confirmed');
+    //                       } else {
+    //                         alert('Some error occured');
+    //                         console.log(responseConfirm.statusCode);
+    //                       }
+    //                     },
+    //                     (error) => {
+    //                       console.log('Some error occured');
+    //                       console.log(error);
+    //                     }
+    //                   );
+    //               }
+    //             }
+    //           });
+    //         }
+    //       }
+    //     );
+    // }
   }
 }

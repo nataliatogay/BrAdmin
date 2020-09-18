@@ -29,7 +29,7 @@ export class OwnerComponent implements OnInit {
   ngOnInit() {
     this.ownerForm = this.fb.group({
       ownerName: [this.data.ownerName, Validators.required],
-      organizationId: ["", Validators.required],
+      organizationId: ['', Validators.required],
       organizationName: [this.data.organizationName],
       email: [this.data.email, Validators.required],
       ownerPhoneNumber: [this.data.ownerPhoneNumber, Validators.required],
@@ -47,38 +47,39 @@ export class OwnerComponent implements OnInit {
 
   onSubmit() {
     if (this.ownerForm.valid) {
-      let newOwnerRequest = new NewOwnerRequest(
+      const newOwnerRequest = new NewOwnerRequest(
         this.ownerForm.value.ownerName,
         this.ownerForm.value.email,
         this.ownerForm.value.ownerPhoneNumber,
         this.ownerForm.value.organizationId,
         this.data.id
       );
-      this.dialogRef.close({event:'add', data: newOwnerRequest });
+      this.dialogRef.close({ event: 'add', data: newOwnerRequest });
     }
 
   }
 
 
-  declineRequest(){
+  declineRequest() {
     this.dialogRef.close({ event: 'decline', data: this.data.id });
   }
 
-  cancelWindow(){
+  cancelWindow() {
     this.dialogRef.close({ event: 'cancel' });
   }
 
 
   addOrganization() {
-    if (this.ownerForm.value.organizationName != null && this.ownerForm.value.organizationName.trim() != "") {
+    if (this.ownerForm.value.organizationName != null && this.ownerForm.value.organizationName.trim() !== '') {
 
       this.organizationService.addOrganization(this.ownerForm.value.organizationName).subscribe(
         (result: ServerResponseGeneric<OrganizationInfo>) => {
-          if (result.statusCode == StatusCode.Ok) {
+
+          if (result.statusCode === StatusCode.Ok) {
             this.organizations.push(result.data);
           }
         }
-      )
+      );
     }
 
   }

@@ -17,16 +17,10 @@ export class NotificationService {
 
   constructor(public http: HttpClient) { }
 
-  getNotificationsCount(): Observable<ServerResponseGeneric<number>> {
-    return this.http.get<ServerResponseGeneric<number>>(`${this.notificationUrl}/AdminNotificationsCount`);
-  }
 
-  getNotifications(skip: number, take: number): Observable<ServerResponseGeneric<NotificationInfo[]>> {
-    return this.http.get<ServerResponseGeneric<NotificationInfo[]>>(`${this.notificationUrl}/AdminNotifications`, { params: { skip: skip.toString(), take: take.toString() } });
-  }
 
-  getUndoneNotificationsCount(): Observable<ServerResponseGeneric<number>> {
-    return this.http.get<ServerResponseGeneric<number>>(`${this.notificationUrl}/UndoneAdminNotificationsCount`);
+  getNotifications(): Observable<ServerResponseGeneric<NotificationInfo[]>> {
+    return this.http.get<ServerResponseGeneric<NotificationInfo[]>>(`${this.notificationUrl}`);
   }
 
   getRequest(id: number): Observable<ServerResponseGeneric<OwnerRequestInfo>> {
