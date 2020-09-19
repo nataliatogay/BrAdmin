@@ -20,6 +20,8 @@ import { MatCardModule } from '@angular/material';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { TextMaskModule } from 'angular2-text-mask';
 
 @NgModule({
   imports: [
@@ -43,7 +45,9 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatCardModule,
     NgxMaterialTimepickerModule,
     MatProgressSpinnerModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatExpansionModule,
+    TextMaskModule
   ],
   exports: [
     MatButtonModule,
@@ -66,7 +70,9 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatCardModule,
     NgxMaterialTimepickerModule,
     MatProgressSpinnerModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatExpansionModule,
+    TextMaskModule
   ],
   providers: [
     {

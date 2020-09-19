@@ -1,0 +1,31 @@
+<div class="wrap">
+  <form [formGroup]='adminForm' (ngSubmit)='onSubmit()'>
+    <div class="adminCont">
+      <h4>Administrator</h4>
+      <mat-form-field>
+        <mat-label>Name</mat-label>
+        <input matInput formControlName="name">
+      </mat-form-field>
+    </div>
+    <div class="infoCont">
+      <mat-form-field class="numberCont">
+        <mat-label>Number</mat-label>
+        <span matPrefix *ngIf="numberAdminFocus || (num.value != '')">+&nbsp;</span>
+        <input #num matInput [textMask]='{mask: numberMask}' placeholder="___ __ ___ __ __"
+          (focus)='numberAdminFocus = true' formControlName="phoneNumber"
+          (blur)="num.value == '' ? numberAdminFocus = false : ''">
+      </mat-form-field>
+      <mat-form-field class="emailCont">
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="email" type="email">
+        <mat-error *ngIf="adminForm.get('email').hasError('email')">Email not valid
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="btnCont">
+      <button mat-button id="btnCancel" type="button" (click)="dialogNewAdmin.close()">Cancel</button>
+      <button mat-button id="btnSave" type="submit">Save</button>
+    </div>
+  </form>
+</div>

@@ -6,10 +6,7 @@ import { Injectable } from '@angular/core';
 
 export class LoadingService {
 
-  constructor(
-  ) {
-    this.isLoading = false;
-  }
+  constructor() {}
 
   private isLoading;
 

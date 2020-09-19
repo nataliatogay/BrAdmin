@@ -122,12 +122,12 @@ export class NewClientComponent implements OnInit {
       }
     );
 
-    this.geolocationService.getPosition().subscribe(
-      (pos: Position) => {
-        this.lat = this.clientForm.value.lat = +(pos.coords.latitude);
-        this.long = this.clientForm.value.long = +(pos.coords.longitude);
-      }
-    );
+    // this.geolocationService.getPosition().subscribe(
+    //   (pos: Position) => {
+    //     this.lat = this.clientForm.value.lat = +(pos.coords.latitude);
+    //     this.long = this.clientForm.value.long = +(pos.coords.longitude);
+    //   }
+    // );
 
   }
 

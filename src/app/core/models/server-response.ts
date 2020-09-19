@@ -2,9 +2,9 @@ export class ServerResponse {
     constructor(public statusCode: StatusCode) { }
 }
 
-export class ServerResponseGeneric<T> extends ServerResponse{
+export class ServerResponseGeneric<T> extends ServerResponse {
 
-    constructor(public statusCode: StatusCode, 
+    constructor(public statusCode: StatusCode,
         public data: T) { super(statusCode); }
 }
 
@@ -36,5 +36,7 @@ export enum StatusCode {
     NotFound,
     Duplicate,
     EmailNotConfirmed,
-    BlobError
+    BlobError,
+    ClientNotConfirmed,
+    Handled
 }

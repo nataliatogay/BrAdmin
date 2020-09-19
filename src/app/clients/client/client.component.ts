@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ClientService } from 'src/app/core/services/client.service';
@@ -24,12 +24,25 @@ import { UploadImagesRequest } from 'src/app/core/models/upload-images-request';
 import { ClientImageInfo } from 'src/app/core/models/client-image-info';
 import { LoadingService } from 'src/app/core/services/loading.service';
 import { NewClientCharacteristics } from 'src/app/core/models/new-client-characteristics';
+import { CustomErrorStateMatcher } from 'src/app/Utils/CustomErrorStateMatcher';
+import { NewAdminComponent } from 'src/app/Utils/new-admin/new-admin.component';
+import { GeoLocationService } from 'src/app/core/services/geo-location.service';
+import { ErrorService } from 'src/app/core/services/error.service';
+import { NewParameterComponent } from 'src/app/Utils/new-parameter/new-parameter.component';
+import { first } from 'rxjs/operators';
+
+export class WeekDay {
+  constructor(public id: number, public title: string) { }
+}
 
 @Component({
+  // changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-client',
   templateUrl: './client.component.html',
   styleUrls: ['./client.component.css'],
+  providers: [GeoLocationService]
 })
+
 export class ClientComponent implements OnInit {
 
   clientForm: FormGroup;
@@ -45,7 +58,6 @@ export class ClientComponent implements OnInit {
   specialDiets: ClientParameterInfo[] = [];
   features: ClientParameterInfo[] = [];
 
-
   clientTypeSelected = [];
   mealTypesSelected = [];
   dishesSelected = [];
@@ -55,6 +67,31 @@ export class ClientComponent implements OnInit {
   featuresSelected = [];
   dayOffSelected = [];
 
+  dayOffArray: WeekDay[] = [
+    new WeekDay(1, 'Monday'),
+    new WeekDay(2, 'Tuesday'),
+    new WeekDay(3, 'Wednesday'),
+    new WeekDay(4, 'Thursday'),
+    new WeekDay(5, 'Friday'),
+    new WeekDay(6, 'Saturday'),
+    new WeekDay(7, 'Sunday'),
+  ];
+
+  parameterTypes: string[] = [
+    'clientType',
+    'cuisine',
+    'dish',
+    'goodFor',
+    'specialDiet',
+    'feature',
+  ];
+
+  settingIdArray = [
+    'maxReserveDaysId',
+    'reserveDurationAvgId',
+    'confirmationDurationId',
+    'barReserveDurationAvgId',
+  ];
 
   phones: ClientPhoneInfo[] = [];
   links: SocialLink[] = [];
@@ -77,6 +114,14 @@ export class ClientComponent implements OnInit {
 
   clientId: number;
 
+  numberFocus = false;
+
+  matcher = new CustomErrorStateMatcher();
+
+  numberMask = [/\d/, /\d/, /\d/, ' ', /\d/, /\d/, ' ', /\d/, /\d/, /\d/, ' ', /\d/, /\d/, ' ', /\d/, /\d/];
+
+  timeMask = [/[0-2]/, /\d/, ':', /[0-5]/, /\d/];
+
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
@@ -88,7 +133,8 @@ export class ClientComponent implements OnInit {
     private dialogConfirmRef: MatDialogRef<ConfirmationDialogComponent>,
     private sanitizer: DomSanitizer,
     public loadingService: LoadingService,
-    // private geoServ: GeoLocationService
+    private geoServ: GeoLocationService,
+    private errorService: ErrorService
   ) { }
 
   ngOnInit() {
@@ -96,8 +142,6 @@ export class ClientComponent implements OnInit {
 
     this.route.params.forEach((params) => {
       this.clientId = +params.id;
-
-
     });
 
     forkJoin(
@@ -153,17 +197,15 @@ export class ClientComponent implements OnInit {
 
         this.setClientProperties();
         this.loadingService.setIsLoading(false);
-
       },
       (error) => {
         console.log(error);
+        this.loadingService.setIsLoading(false);
       }
     );
 
     // this.numbers = this.clientForm.value.numbers;
     // this.socialLinks = this.clientForm.value.socialLinks;
-
-
   }
 
   setClientProperties() {
@@ -182,7 +224,7 @@ export class ClientComponent implements OnInit {
         .local();
     }
 
-    console.log(close);
+    console.log('close');
 
     this.clientForm = this.fb.group({
       restaurantName: [this.client.clientName, Validators.required],
@@ -372,6 +414,12 @@ export class ClientComponent implements OnInit {
     }
   }
 
+  getCurrentLocation() {
+    this.geoServ.getPosition().then((pos) => {
+      this.lat = pos.lat;
+      this.long = pos.long;
+    });
+  }
 
   uploadLogo() {
     let fileInput = document.createElement('input');
@@ -714,8 +762,194 @@ export class ClientComponent implements OnInit {
             alert(result.statusCode);
           }
         }
-      )
+      );
     }
+  }
+
+  showTooltip(array, origArray) {
+    let res = '';
+    const length = array.length;
+    array.forEach((element, index) => {
+      res +=
+        origArray.find((ar) => ar.id === element).title +
+        (index < length - 1 ? ', ' : '');
+    });
+
+    return res;
+  }
+
+  scrollTo(elem) {
+    elem.scrollIntoView({ block: 'start', behavior: 'smooth' });
+  }
+
+  showLogo() {
+    this.dialogRef = this.dialog.open(ShowPictureComponent, {
+      data: {
+        logoPath: this.logo,
+        galleryImage: null,
+        isLogo: true,
+        imagePathsArray: '',
+      },
+    });
+  }
+
+  validateTime(time) {
+    const re = /^[0-2][0-9]:[0-5][0-9]$/;
+    return re.test(time);
+  }
+
+  timeStart24Check(event) {
+    const timeValidate = event.target.value;
+    if (this.validateTime(timeValidate)) {
+      console.log('Start good');
+    }
+  }
+
+  timeEnd24Check(event) {
+    const timeValidate = event.target.value;
+    if (this.validateTime(timeValidate)) {
+      console.log('End good');
+    }
+  }
+
+  timeStartValidCheck(event) {
+    if (
+      event.target.value[0] === '2' &&
+      +event.target.selectionEnd === 1 &&
+      +event.key > 3
+    ) {
+      return false;
+    }
+  }
+
+  timeEndValidCheck(event) {
+    if (
+      event.target.value[0] === '2' &&
+      +event.target.selectionEnd === 1 &&
+      +event.key > 3
+    ) {
+      return false;
+    }
+  }
+
+  socialLinkCheck(id) {
+    if (this.links[id].link !== '') {
+      document
+        .getElementById('addSocialLinkButton')
+        .removeAttribute('disabled');
+    } else {
+      document
+        .getElementById('addSocialLinkButton')
+        .setAttribute('disabled', '');
+    }
+  }
+
+  numberCheck(id) {
+    if (this.phones[id].number !== '') {
+      document.getElementById('addNumberButton').removeAttribute('disabled');
+    } else {
+      document.getElementById('addNumberButton').setAttribute('disabled', '');
+    }
+  }
+
+  editAdmin(item) {
+    console.log(item);
+    setTimeout(() => {
+      const dialogRef = this.dialog.open(NewAdminComponent, {
+        data: item,
+        disableClose: true,
+      });
+
+      dialogRef.afterClosed().subscribe((dialogResult) => {
+        if (!isUndefined(dialogResult)) {
+
+          // add new or update ClientAdmin
+
+        }
+        console.log(dialogResult);
+      });
+    });
+  }
+
+  addParam(selectedTypeIndex: number) {
+    setTimeout(() => {
+      const dialogNewParameter = this.dialog.open(NewParameterComponent, {
+        disableClose: true,
+        data: selectedTypeIndex,
+      });
+
+      dialogNewParameter.afterClosed().subscribe((dialogResult) => {
+        if (dialogResult) {
+          this.parameterService
+            .addParameter(dialogResult, this.parameterTypes[selectedTypeIndex])
+            .pipe(first())
+            .subscribe(
+              (result: ServerResponseGeneric<ClientParameterInfo>) => {
+                if (result.statusCode === StatusCode.Ok) {
+                  switch (selectedTypeIndex) {
+                    case 0:
+                      this.clientTypes.push(result.data);
+                      this.clientTypes.sort((item1, item2) => item1.title.localeCompare(item2.title));
+                      break;
+                    case 1:
+                      this.cuisines.push(result.data);
+                      this.cuisines.sort((item1, item2) => item1.title.localeCompare(item2.title));
+                      break;
+                    case 2:
+                      this.dishes.push(result.data);
+                      this.dishes.sort((item1, item2) => item1.title.localeCompare(item2.title));
+                      break;
+                    case 3:
+                      this.goodFors.push(result.data);
+                      this.goodFors.sort((item1, item2) => item1.title.localeCompare(item2.title));
+                      break;
+                    case 4:
+                      this.specialDiets.push(result.data);
+                      this.specialDiets.sort((item1, item2) => item1.title.localeCompare(item2.title));
+                      break;
+                    case 5:
+                      this.features.push(result.data);
+                      this.features.sort((item1, item2) => item1.title.localeCompare(item2.title));
+                      break;
+                  }
+                } else {
+                  this.errorService.handleServerResponse(result.statusCode);
+                }
+              },
+              (error) => {
+                this.errorService.openErrorDialog('Some error occured');
+              }
+            );
+        }
+      });
+    });
+  }
+
+
+  onEnterCatchKeyDown(event, index) {
+    if (event.key === 'Enter') {
+      if (index === 3) {
+        if (!this.isBarReservation) {
+          document.getElementById(this.settingIdArray[index - 1]).blur();
+          return false;
+        }
+      }
+
+      if (index === -1) {
+        document
+          .getElementById(this.settingIdArray[this.settingIdArray.length - 1])
+          .blur();
+        return false;
+      }
+
+      document.getElementById(this.settingIdArray[index]).focus();
+      return false;
+    }
+  }
+
+  resetEdit() {
+    this.setClientProperties();
+    document.getElementById('addNumberButton').removeAttribute('disabled');
   }
 
   replaceAll(
@@ -758,7 +992,7 @@ export class ClientComponent implements OnInit {
       }
     }
 
-    )
+    );
   }
 
 
@@ -786,11 +1020,11 @@ export class ClientComponent implements OnInit {
               alert(result.statusCode);
             }
           }
-        )
+        );
       }
     }
 
-    )
+    );
   }
 
 

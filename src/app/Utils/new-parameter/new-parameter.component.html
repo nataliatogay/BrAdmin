@@ -1,0 +1,12 @@
+<form [formGroup]='parameterForm' (ngSubmit)='onSubmit()'>
+  <h3>New {{ titles[data] }}</h3>
+
+  <mat-form-field>
+    <input matInput formControlName='title' title="{{parameterForm.value.title}}" placeholder="Title" id="titleId">
+  </mat-form-field>
+
+  <div class="btnCont">
+    <button mat-button type="submit" id="btnSave">Save</button>
+    <button mat-button type="button" (click)="dialogRef.close(false)" id="btnCancel">Cancel</button>
+  </div>
+</form>

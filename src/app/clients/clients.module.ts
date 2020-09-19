@@ -11,7 +11,8 @@ import { NewClientComponent } from './new-client/new-client.component';
 import { AgmCoreModule } from '@agm/core';
 import { AppModule } from '../app.module';
 import { LibraryItemComponent } from './library-item/library-item.component';
-
+import { NewAdminComponent } from '../Utils/new-admin/new-admin.component';
+import { NewParameterComponent } from '../Utils/new-parameter/new-parameter.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,8 @@ import { LibraryItemComponent } from './library-item/library-item.component';
     LibrariesComponent,
     LibraryItemComponent,
     NewClientComponent,
+    NewAdminComponent,
+    NewParameterComponent
   ],
   imports: [
     CommonModule,
@@ -33,7 +36,9 @@ import { LibraryItemComponent } from './library-item/library-item.component';
   ],
   entryComponents: [
     LibraryItemComponent,
-    NewClientComponent
+    NewClientComponent,
+    NewAdminComponent,
+    NewParameterComponent
   ]
 })
 export class ClientsModule { }

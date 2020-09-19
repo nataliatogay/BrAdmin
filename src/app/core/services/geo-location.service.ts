@@ -8,20 +8,21 @@ export class GeoLocationService {
 
   constructor() { }
 
-  public getPosition(): Observable<Position> {
-    return Observable.create(
-      (observer) => {
-        navigator.geolocation.watchPosition((pos: Position) => {
-          this.coordinates = pos;
-          observer.next(pos);
-        }),
-          () => {
-            console.log('Position is not available');
-          },
-        {
-          enableHighAccuracy: true
-        };
-      }
-    );
+  getPosition(): Promise<any> {
+    return new Promise((resolve, reject) => {
+
+      navigator.geolocation.getCurrentPosition(
+        resp => {
+          resolve({ long: resp.coords.longitude, lat: resp.coords.latitude });
+        },
+        err => {
+          reject(err);
+        }, {
+        enableHighAccuracy: true,
+        timeout: Infinity,
+        maximumAge: 0
+      });
+    });
+
   }
 }

@@ -1,209 +1,433 @@
-<div *ngIf="!loadingService.IsLoading" class="wrap scrollbar scrollbar-black bordered-black square thin">
-  <form [formGroup]='clientForm' (ngSubmit)='onSubmit()'>
+<div *ngIf="!loadingService.IsLoading" class="wrap">
+  <form [formGroup]='clientForm'>
+    <div class="btnCont">
+      <!-- <button *ngIf="client.confirmed == null" mat-button id="btnSave" type="button" (click)="confirmClient()">Confirm</button> -->
+      <!-- <button *ngIf="client.confirmed != null && client.blocked == null" mat-button id="btnSave" type="button"
+        (click)="blockClient()">Block</button>
+      <button *ngIf="client.confirmed != null && client.blocked != null" mat-button id="btnSave" type="button"
+        (click)="unblockClient()">Unblock</button> -->
 
-    <div class="cont">
-      <h2>Client Info</h2>
-      <div class="btnCont">
-        <!-- <button *ngIf="client.confirmed == null" mat-button id="btnSave" type="button" (click)="confirmClient()">Confirm</button> -->
-        <button *ngIf="client.confirmed != null && client.blocked == null" mat-button id="btnSave" type="button"
-          (click)="blockClient()">Block</button>
-        <button *ngIf="client.confirmed != null && client.blocked != null" mat-button id="btnSave" type="button"
-          (click)="unblockClient()">Unblock</button>
-      </div>
-      <mat-form-field>
-        <mat-label>Title</mat-label>
-        <input matInput formControlName="restaurantName">
-      </mat-form-field>
+      <button mat-button id="btnReset" type="button" (click)="resetEdit()">Reset</button>
+      <button mat-button id="btnSave" type="button" [disabled]="!clientForm.valid" (click)="onSubmit()">Save</button>
+    </div>
+    <div class="cont scrollbar scrollbar-black bordered-black square thin">
+      <mat-accordion multi='true'>
+        <div #general>
+          <mat-expansion-panel [expanded]=true (afterExpand)="scrollTo(general)">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <label id="headerTitleId">General</label>
+                <label id="headerStarId">&nbsp;&nbsp;*</label>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <mat-panel-description>
+              <div class="generalInfoCont">
+                <div class="contactsCont">
+                  <mat-form-field>
+                    <mat-label>Restaurant Title</mat-label>
+                    <input matInput class="titleCont" formControlName="restaurantName">
+                  </mat-form-field>
 
+                  <h4>Administrators</h4>
 
+                  <div class="adminList scrollbar scrollbar-black bordered-black square thin">
+                    <div class="adminObject" *ngFor="let item of client.admins">
+                      <label
+                        matTooltip="{{(item.name.length > 10) ? item.name : ''}}">{{(item.name.length > 10) ? (item.name | slice: 0:10) + '...' : (item.name)}}</label>
 
+                      <label>+{{item.phoneNumber}}</label>
 
+                      <label
+                        matTooltip="{{(item.email.length > 20) ? item.email : ''}}">{{(item.email.length > 20) ? (item.email | slice: 0:20) + '...' : (item.email)}}</label>
 
-      <mat-divider></mat-divider>
+                      <div class="configurationCont">
+                        <mat-icon id="editIcon" (click)="editAdmin(item)">create</mat-icon>
+                        <!-- <mat-icon id="deleteIcon" (click)="removeAdmin()">delete</mat-icon> -->
+                      </div>
+                    </div>
 
+                    <div class="btnCont">
+                      <button mat-button id="btnSave" type="button" (click)="editAdmin(null)">Add Admin</button>
+                    </div>
+                  </div>
 
+                </div>
+                <div class="logoCont">
+                  <label>Logo</label>
+                  <div class="imgCont">
+                    <img [src]="sanitizeImageUrl(logo)" (click)="showLogo()">
+                  </div>
+                  <button mat-button type="button" (click)="uploadLogo()">Upload logo</button>
+                </div>
+              </div>
+            </mat-panel-description>
+          </mat-expansion-panel>
+        </div>
 
-      <div class="mapCont">
-        <label>Map</label>
-        <agm-map id="map-canvas" [latitude]='lat' [longitude]='long' [zoom]="16" [fullscreenControl]="true"
-          [fullscreenControlOptions]="screenOptions">
+        <div #overview>
+          <mat-expansion-panel (afterExpand)="scrollTo(overview)">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <label id="headerTitleId">Overview</label>
+                <label id="headerStarId">&nbsp;&nbsp;*</label>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <mat-panel-description>
+              <div class="overviewCont">
+                <div class="galleryCont">
+                  <div class="hCont">
+                    <h4>Photo Gallery</h4>
+                  </div>
+                  <div class="imgSwiper scrollbar scrollbar-black bordered-black square thin">
+                    <div class="iconImgCont" *ngFor="let item of galleryImages;">
+                      <mat-icon *ngIf="item.isMain">check_circle</mat-icon>
+                      <img [src]="sanitizeImageUrl(item.path)" (click)="showGalleryImage(item)">
+                    </div>
+                  </div>
+                  <button mat-button type="button" (click)="uploadImages()">Upload new images</button>
+                </div>
+                <div class="locationCont">
+                  <mat-form-field class="addressCont">
+                    <mat-label>Address</mat-label>
+                    <textarea matInput formControlName="address"></textarea>
+                  </mat-form-field>
+                  <div class="mapCont">
+                    <h4>Location</h4>
+                    <agm-map id="map-canvas" [zoom]="12" [latitude]='lat' [longitude]='long' [scrollwheel]='null'
+                      [gestureHandling]="'cooperative'" [fullscreenControl]="true"
+                      [fullscreenControlOptions]="screenOptions">
 
-          <agm-marker [latitude]='lat' [longitude]='long' [markerDraggable]="true" (dragEnd)="markerDragEnd($event)">
-          </agm-marker>
-        </agm-map>
+                      <agm-marker [latitude]='lat' [longitude]='long' [markerDraggable]="true"
+                        (dragEnd)="markerDragEnd($event)">
+                      </agm-marker>
+                    </agm-map>
+                    <div class="locBtnClass">
+                      <button mat-button (click)="getCurrentLocation()" type="button">Current location</button>
+                    </div>
+                  </div>
+                </div>
+                <mat-form-field id="descId">
+                  <mat-label>Description</mat-label>
+                  <textarea matInput formControlName="description"></textarea>
+                </mat-form-field>
+                <div class="openingHourCont">
 
-        <!-- <div class="locBtnClass">
-          <button mat-button (click)="curLoc();" type="button">Current location</button>
+                  <div class="dayOffTimeCont">
+
+                    <div class="timeCont">
+                      <label>Opening hours:</label>
+
+                      <mat-form-field>
+                        <mat-label>open</mat-label>
+                        <input matInput type="text" [textMask]='{mask: timeMask}' formControlName="openTime"
+                          placeholder="__:__" (keyup)='timeStart24Check($event)'
+                          (keypress)="timeStartValidCheck($event)">
+                      </mat-form-field>
+
+                      <mat-form-field>
+                        <mat-label>close</mat-label>
+                        <input matInput type="text" [textMask]='{mask: timeMask}' formControlName="closeTime"
+                          placeholder="__:__" (keyup)='timeEnd24Check($event)' (keypress)='timeEndValidCheck($event)'>
+                      </mat-form-field>
+                    </div>
+
+                    <div class="dayOffCont">
+
+                      <label>Day offs:</label>
+
+                      <mat-form-field>
+                        <mat-select multiple formControlName="dayOffs" [(value)]="dayOffSelected"
+                          matTooltip="{{showTooltip(dayOffSelected, dayOffArray)}}">
+                          <mat-option *ngFor="let item of dayOffArray" [value]="item.id">{{item.title}}</mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
+
+                  </div>
+
+                </div>
+                <div class="priceCategCont">
+                  <label>Price category:</label>
+                  <mat-form-field>
+                    <mat-select formControlName="priceCategory">
+                      <mat-option [value]="1">&#8380;</mat-option>
+                      <mat-option [value]="2">&#8380;&#8380;</mat-option>
+                      <mat-option [value]="3">&#8380;&#8380;&#8380;</mat-option>
+                      <mat-option [value]="4">&#8380;&#8380;&#8380;&#8380;</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+
+                <div class="numbersCont">
+                  <label>Number for reservation</label>
+                  <div class="numCont" *ngFor="let item of phones; let i = index">
+                    <div>
+                      <mat-form-field>
+                        <mat-label>Phone number</mat-label>
+                        <span matPrefix *ngIf="numberFocus || (num.value != '')">+&nbsp;</span>
+                        <input #num matInput [textMask]='{mask: numberMask}' placeholder="___ __ ___ __ __"
+                          [(ngModel)]="item.number" [ngModelOptions]="{standalone: true}" (focus)='numberFocus = true'
+                          (blur)="num.value == '' ? numberFocus = false : ''" (ngModelChange)="numberCheck(i)">
+                      </mat-form-field>
+
+                      <mat-checkbox labelPosition="before" [(ngModel)]="item.isWhatsApp"
+                        [ngModelOptions]="{standalone: true}">
+                        WhatsApp</mat-checkbox>
+
+                      <mat-checkbox labelPosition="before" [(ngModel)]="item.isTelegram"
+                        [ngModelOptions]="{standalone: true}">
+                        Telegram</mat-checkbox>
+                    </div>
+
+                    <button type="button" mat-button [disabled]="phones.length === 1" (click)="removeNumber(item)">
+                      <mat-icon>remove</mat-icon>
+                    </button>
+                  </div>
+
+                  <div class="plusCont">
+
+                    <button type="button" mat-button [disabled]="(phones.length === 4)" id='addNumberButton'
+                      (click)="addNumber()">
+                      <mat-icon>add</mat-icon>
+                    </button>
+                  </div>
+                </div>
+
+                <div class="socLinkCont">
+                  <label>Social link</label>
+                  <div class="socCont" *ngFor="let item of links; let i = index">
+                    <mat-form-field>
+                      <input matInput [(ngModel)]="item.link" [ngModelOptions]="{standalone: true}"
+                        (ngModelChange)='socialLinkCheck(i)'>
+                    </mat-form-field>
+
+                    <button type="button" mat-button [disabled]="links.length === 1" (click)="removeSocLink(item)">
+                      <mat-icon>remove</mat-icon>
+                    </button>
+                  </div>
+
+                  <div class="plusCont">
+                    <button type="button" mat-button [disabled]="links.length === 4" id='addSocialLinkButton'
+                      (click)="addSocLink()">
+                      <mat-icon>add</mat-icon>
+                    </button>
+                  </div>
+                </div>
+
+              </div>
+            </mat-panel-description>
+          </mat-expansion-panel>
+        </div>
+
+        <div #details>
+          <mat-expansion-panel (afterExpand)="scrollTo(details)">
+            <mat-expansion-panel-header>
+              <label id="headerTitleId">Details</label>
+              <label id="headerStarId">&nbsp;&nbsp;*</label>
+            </mat-expansion-panel-header>
+            <mat-panel-description>
+              <div class="parametrCont">
+
+                <div class="paramLeft">
+                  <div class="formField">
+                    <mat-form-field>
+                      <mat-label>Client type</mat-label>
+                      <mat-select multiple formControlName="clientTypeIds" [(value)]="clientTypeSelected"
+                        matTooltip="{{showTooltip(clientTypeSelected, clientTypes)}}">
+                        <mat-option *ngFor="let item of clientTypes" [value]="item.id">{{item.title}}</mat-option>
+                        <mat-divider></mat-divider>
+                        <div class="addCont">
+                          <button mat-button (click)="addParam(0)">Add new</button>
+                        </div>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+
+                  <div class="formField">
+                    <mat-form-field>
+                      <mat-label>Meal Type</mat-label>
+                      <mat-select multiple formControlName="mealTypeIds" [(value)]="mealTypesSelected"
+                        matTooltip="{{showTooltip(mealTypesSelected, mealTypes)}}">
+                        <mat-option *ngFor="let item of mealTypes" [value]="item.id">{{item.title}}</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+
+                  <div class="formField">
+                    <mat-form-field>
+                      <mat-label>Dishes</mat-label>
+                      <mat-select multiple formControlName="dishIds" [(value)]="dishesSelected"
+                        matTooltip="{{showTooltip(dishesSelected, dishes)}}">
+                        <mat-option *ngFor="let item of dishes" [value]="item.id">{{item.title}}</mat-option>
+                        <mat-divider></mat-divider>
+                        <div class="addCont">
+                          <button mat-button (click)="addParam(2)">Add new</button>
+                        </div>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+
+                  <div class="formField">
+                    <mat-form-field>
+                      <mat-label>Good for</mat-label>
+                      <mat-select multiple formControlName="goodForIds" [(value)]="goodForSelected"
+                        matTooltip="{{showTooltip(goodForSelected, goodFors)}}">
+                        <mat-option *ngFor="let item of goodFors" [value]="item.id">{{item.title}}</mat-option>
+                        <mat-divider></mat-divider>
+                        <div class="addCont">
+                          <button mat-button (click)="addParam(3)">Add new</button>
+                        </div>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                </div>
+
+                <div class="paramLeftCont">
+                  <div class="paramCont scrollbar scrollbar-black bordered-black square thin">
+                    <label>{{showTooltip(clientTypeSelected, clientTypes)}}</label>
+                  </div>
+                  <div class="paramCont scrollbar scrollbar-black bordered-black square thin">
+                    <label>{{showTooltip(mealTypesSelected, mealTypes)}}</label>
+                  </div>
+                  <div class="paramCont scrollbar scrollbar-black bordered-black square thin">
+                    <label>{{showTooltip(dishesSelected, dishes)}}</label>
+                  </div>
+                  <div class="paramCont scrollbar scrollbar-black bordered-black square thin">
+                    <label>{{showTooltip(goodForSelected, goodFors)}}</label>
+                  </div>
+                </div>
+
+                <div class="paramRight">
+                  <mat-form-field>
+                    <mat-label>Cuisines</mat-label>
+                    <mat-select multiple formControlName="cuisineIds" [(value)]="cuisinesSelected"
+                      matTooltip="{{showTooltip(cuisinesSelected, cuisines)}}">
+                      <mat-option *ngFor="let item of cuisines" [value]="item.id">{{item.title}}</mat-option>
+                      <mat-divider></mat-divider>
+                      <div class="addCont">
+                        <button mat-button (click)="addParam(1)">Add new</button>
+                      </div>
+                    </mat-select>
+                  </mat-form-field>
+
+                  <mat-form-field>
+                    <mat-label>Special diet</mat-label>
+                    <mat-select multiple formControlName="specialDietIds" [(value)]="specialDietSelected"
+                      matTooltip="{{showTooltip(specialDietSelected, specialDiets)}}">
+                      <mat-option *ngFor="let item of specialDiets" [value]="item.id">{{item.title}}</mat-option>
+                      <mat-divider></mat-divider>
+                      <div class="addCont">
+                        <button mat-button (click)="addParam(4)">Add new</button>
+                      </div>
+                    </mat-select>
+                  </mat-form-field>
+
+                  <mat-form-field>
+                    <mat-label>Features</mat-label>
+                    <mat-select multiple (selectionChange)="featureSelectionChange($event.value)"
+                      formControlName="featureIds" [(value)]="featuresSelected"
+                      matTooltip="{{showTooltip(featuresSelected, features)}}">
+                      <mat-option *ngFor="let item of features" [value]="item.id">{{item.title}}</mat-option>
+                      <mat-divider></mat-divider>
+                      <div class="addCont">
+                        <button mat-button (click)="addParam(5)">Add new</button>
+                      </div>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+
+                <div class="paramRightCont">
+                  <div class="paramCont scrollbar scrollbar-black bordered-black square thin">
+                    <label>{{showTooltip(cuisinesSelected, cuisines)}}</label>
+                  </div>
+                  <div class="paramCont scrollbar scrollbar-black bordered-black square thin">
+                    <label>{{showTooltip(specialDietSelected, specialDiets)}}</label>
+                  </div>
+                  <div class="paramCont scrollbar scrollbar-black bordered-black square thin">
+                    <label>{{showTooltip(featuresSelected, features)}}</label>
+                  </div>
+                </div>
+
+              </div>
+            </mat-panel-description>
+          </mat-expansion-panel>
+        </div>
+
+        <div #settings>
+          <mat-expansion-panel (afterExpand)="scrollTo(settings)">
+            <mat-expansion-panel-header>
+              <label id="headerTitleId">Settings</label>
+              <label id="headerStarId">&nbsp;&nbsp;*</label>
+            </mat-expansion-panel-header>
+            <mat-panel-description>
+              <div class="settingsCont">
+
+                <div class="beforeReservCont">
+                  <label>Maximum number of days before reservation</label>
+                  <div>
+                    <mat-form-field>
+                      <input id="maxReserveDaysId" matInput type="number" formControlName="maxReserveDays"
+                        (keydown)="onEnterCatchKeyDown($event, 1)">
+                    </mat-form-field>
+                    <span>day(s)</span>
+                  </div>
+                </div>
+                <div class="beforeReservCont">
+                  <label>Default reservation duration</label>
+                  <div>
+                    <mat-form-field>
+                      <input id="reserveDurationAvgId" matInput type="text" [errorStateMatcher]="matcher"
+                        formControlName="reserveDurationAvg" (keydown)="onEnterCatchKeyDown($event, 2)" min="30">
+                      <mat-error *ngIf="clientForm.get('reserveDurationAvg').hasError('pattern')">Only number and not
+                        start from 0</mat-error>
+                      <mat-error *ngIf="clientForm.get('reserveDurationAvg').hasError('min')">Minimum 30 minutes
+                      </mat-error>
+                    </mat-form-field>
+                    <span>minute(s)</span>
+                  </div>
+                </div>
+                <div class="beforeReservCont">
+                  <label>Confirmation period</label>
+                  <div>
+                    <mat-form-field>
+                      <input id="confirmationDurationId" matInput type="number" formControlName="confirmationDuration"
+                        (keydown)="onEnterCatchKeyDown($event, 3)" min="15">
+                      <mat-error *ngIf="clientForm.get('confirmationDuration').hasError('min')">Minimum 15 minutes
+                      </mat-error>
+                    </mat-form-field>
+                    <span>minute(s)</span>
+                  </div>
+                </div>
+                <div class="beforeReservCont" *ngIf="isBarReservation">
+                  <label>Bar reservation duration average</label>
+                  <div>
+                    <mat-form-field>
+                      <input id="barReserveDurationAvgId" matInput type="number" formControlName="barReserveDurationAvg"
+                        (keydown)="onEnterCatchKeyDown($event, -1)">
+                    </mat-form-field>
+                    <span>minute(s)</span>
+                  </div>
+                </div>
+              </div>
+            </mat-panel-description>
+          </mat-expansion-panel>
+        </div>
+
+        <!-- <div #schema *ngIf="client.characteristics!=null">
+          <mat-expansion-panel (afterExpand)="scrollTo(schema)" [disabled]="!isStepThree">
+            <mat-expansion-panel-header>
+              <label id="headerTitleId">Schema</label>
+              <label id="headerStarId">&nbsp;&nbsp;*</label>
+            </mat-expansion-panel-header>
+            <mat-panel-description>
+              <div class="schemaCont">
+                <a href="#">Link</a>
+              </div>
+            </mat-panel-description>
+          </mat-expansion-panel>
         </div> -->
-      </div>
 
-      <mat-divider></mat-divider>
-
-      <div class="timeCont">
-
-        <div class="openTimeCont">
-          <mat-form-field>
-            <mat-label>Open time</mat-label>
-            <input matInput type="time" formControlName="openTime">
-          </mat-form-field>
-        </div>
-
-        <div class="closeTimeCont">
-          <mat-form-field>
-            <mat-label>Close time</mat-label>
-            <input matInput type="time" formControlName="closeTime">
-          </mat-form-field>
-        </div>
-      </div>
-
-      <mat-divider></mat-divider>
-
-      <div class="numbersCont">
-        <label>Number for reservation</label>
-        <div class="numCont" *ngFor="let item of phones">
-          <mat-form-field>
-            <span matPrefix>+994 &nbsp;</span>
-            <input matInput [(ngModel)]="item.number" [ngModelOptions]="{standalone: true}" type="tel">
-          </mat-form-field>
-
-          <mat-checkbox labelPosition="before" [(ngModel)]="item.isWhatsApp" [ngModelOptions]="{standalone: true}">
-            WhatsApp</mat-checkbox>
-          <button type="button" mat-button [disabled]="phones.length === 1" (click)="removeNumber(item)">
-            <mat-icon>remove</mat-icon>
-          </button>
-        </div>
-
-        <button type="button" mat-button [disabled]="phones.length === 4" (click)="addNumber()">
-          <mat-icon>add</mat-icon>
-        </button>
-      </div>
-
-      <mat-divider></mat-divider>
-
-      <div class="socLinkCont">
-        <div class="socCont" *ngFor="let item of links">
-          <mat-form-field>
-            <mat-label>Social link</mat-label>
-            <input matInput [(ngModel)]="item.link" [ngModelOptions]="{standalone: true}">
-          </mat-form-field>
-
-          <button type="button" mat-button [disabled]="links.length === 1" (click)="removeSocLink(item)">
-            <mat-icon>remove</mat-icon>
-          </button>
-        </div>
-
-        <button type="button" mat-button [disabled]="links.length === 4" (click)="addSocLink()">
-          <mat-icon>add</mat-icon>
-        </button>
-      </div>
-
-      <mat-divider></mat-divider>
-
-      <div class="parametrCont">
-
-        <div class="paramLeft">
-          <mat-form-field>
-            <mat-label>Client type</mat-label>
-            <mat-select multiple formControlName="clientTypeIds">
-              <mat-option *ngFor="let item of clientTypes" [value]="item.id">{{item.title}}</mat-option>
-            </mat-select>
-          </mat-form-field>
-
-          <mat-form-field>
-            <mat-label>Meal Type</mat-label>
-            <mat-select multiple formControlName="mealTypeIds">
-              <mat-option *ngFor="let item of mealTypes" [value]="item.id">{{item.title}}</mat-option>
-            </mat-select>
-          </mat-form-field>
-
-          <mat-form-field>
-            <mat-label>Dishes</mat-label>
-            <mat-select multiple formControlName="dishIds">
-              <mat-option *ngFor="let item of dishes" [value]="item.id">{{item.title}}</mat-option>
-            </mat-select>
-          </mat-form-field>
-
-          <mat-form-field>
-            <mat-label>Good for</mat-label>
-            <mat-select multiple formControlName="goodForIds">
-              <mat-option *ngFor="let item of goodFors" [value]="item.id">{{item.title}}</mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-
-        <div class="paramRight">
-          <mat-form-field>
-            <mat-label>Cuisines</mat-label>
-            <mat-select multiple formControlName="cuisineIds">
-              <mat-option *ngFor="let item of cuisines" [value]="item.id">{{item.title}}</mat-option>
-            </mat-select>
-          </mat-form-field>
-
-          <mat-form-field>
-            <mat-label>Special diet</mat-label>
-            <mat-select multiple formControlName="specialDietIds">
-              <mat-option *ngFor="let item of specialDiets" [value]="item.id">{{item.title}}</mat-option>
-            </mat-select>
-          </mat-form-field>
-
-          <mat-form-field>
-            <mat-label>Features</mat-label>
-            <mat-select multiple (selectionChange)="featureSelectionChange($event.value)" formControlName="featureIds">
-              <mat-option *ngFor="let item of features" [value]="item.id">{{item.title}}</mat-option>
-            </mat-select>
-          </mat-form-field>
-
-          <mat-form-field>
-            <mat-label>Price Category</mat-label>
-            <mat-select formControlName="priceCategory">
-              <mat-option *ngFor="let item of priceCategories" [value]="item">{{item}}</mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-
-      </div>
-
-      <mat-divider></mat-divider>
-
-      <div class="reservParamCont">
-
-        <mat-form-field>
-          <mat-label>Max reserve days</mat-label>
-          <input matInput type="number" formControlName="maxReserveDays">
-        </mat-form-field>
-
-        <mat-form-field>
-          <mat-label>Reservation duration average</mat-label>
-          <input matInput type="number" formControlName="reserveDurationAvg">
-        </mat-form-field>
-
-        <mat-form-field>
-          <mat-label>Confirmation duration</mat-label>
-          <input matInput type="number" formControlName="confirmationDuration">
-        </mat-form-field>
-
-        <mat-form-field *ngIf="isBarReservation">
-          <mat-label>Bar reservation duration avarage</mat-label>
-          <input matInput type="number" formControlName="barReserveDurationAvg">
-        </mat-form-field>
-
-      </div>
-
-      <mat-divider></mat-divider>
-
-      <mat-form-field>
-        <mat-label>Description</mat-label>
-        <textarea matInput formControlName="description"></textarea>
-      </mat-form-field>
-
-      <mat-divider></mat-divider>
-
-      <div class="btnCont">
-        <button mat-button id="btnSave" type="submit">Save</button>
-      </div>
-
+      </mat-accordion>
     </div>
   </form>
 </div>
-
-<router-outlet></router-outlet>

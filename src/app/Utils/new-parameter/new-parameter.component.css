@@ -1,0 +1,38 @@
+ /deep/ .mat-dialog-container {
+  background-color: white;
+  padding: 0;
+}
+form {
+  width: 40vh;
+  height: 30vh;
+  display: grid;
+  padding: 0 20px;
+}
+form h3 {
+  color: #8996a3;
+}
+form mat-form-field {
+  width: 100%;
+  font-family: inherit;
+}
+form .btnCont {
+  grid-row: 4;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  margin: auto 0;
+}
+form .btnCont button {
+  color: white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  font-family: inherit;
+  margin: 0 0 0 5px;
+  line-height: 0;
+  height: 30px;
+}
+form .btnCont #btnSave {
+  background: linear-gradient(to bottom, #1275c0 0%, #2aa9e2 100%);
+}
+form .btnCont #btnCancel {
+  background: linear-gradient(to bottom, #bc4c04 0%, #e16028 100%);
+}
