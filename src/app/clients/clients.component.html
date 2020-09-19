@@ -1,12 +1,12 @@
 <div class="wrap">
 
   <div class="toolsCont">
-    <div class="contView">
+    <!-- <div class="contView">
       <mat-icon class="choosenView" id="gridId" (click)="viewChange('gridId', true)">apps</mat-icon>
       <mat-icon id="tableId" (click)="viewChange('tableId', false)">table_chart</mat-icon>
-    </div>
+    </div> -->
 
-    <div class="sortToolsCont">
+    <!-- <div class="sortToolsCont">
 
       <div class="sortSearchCont">
         <img src="../../assets/Pictures/search_icon.png">
@@ -16,15 +16,12 @@
       <div class="sortCont">
         <img src="../../assets/Pictures/A-Z icon.png">
 
-        <!-- <mat-form-field> -->
-        <!-- <select matNativeControl> -->
         <select>
           <option value="clientName">A to Z</option>
           <option value="registrationDate">Registration date</option>
         </select>
-        <!-- </mat-form-field> -->
       </div>
-    </div>
+    </div> -->
 
     <div class="btnCont">
 
@@ -38,34 +35,35 @@
 
   <div class="gridCont scrollbar scrollbar-black bordered-black square thin" *ngIf="view">
     <div *ngFor="let item of clients" class="clientCont">
-      <img src="{{ item.logoPath }}">
+      <div class="imgCont">
+        <img src="{{ item.logoPath }}">
+      </div>
 
       <div class="infoButCont">
 
-        <h3>
-          {{item.clientName}}
+        <h3 matTooltip="{{(item.clientName.length > 10) ? item.clientName : ''}}">
+          {{(item.clientName.length > 10) ? (item.clientName | slice: 0:10) + '...' : (item.clientName)}}
         </h3>
 
-        <div *ngIf="item.admins.length !== 0">
+        <div class="infoCont">
+          <div *ngIf="item.admins.length !== 0">
+            <div class="fieldCont">
+              <label>Email:</label>
+              <a href="mailto:{{ item.admins[0].email }}">
+                {{ item.admins[0].email }}
+              </a>
+            </div>
+            <div class="fieldCont">
+              <label>Number:</label>
+              <label>+{{ item.admins[0].phoneNumber }}</label>
+            </div>
+          </div>
+
           <div class="fieldCont">
-            <label>Email:</label>
-            <a href="mailto:{{item.admins[0].email}}">{{item.admins[0].email}}</a>
+            <label>Registration:</label>
+            <label>{{ item.registrationDate | date: 'dd/MM/yyyy' }}</label>
           </div>
         </div>
-        <div *ngIf="item.admins.length === 0">
-          <div class="fieldCont">
-            <label>Email:</label>
-            <a href="mailto:{{item.owner.email}}">{{item.owner.email}}</a>
-          </div>
-        </div>
-        <div class="fieldCont">
-          <label>Registration date:</label>
-          <label>{{item.registrationDate  | date: 'dd/MM/yyyy'}}</label>
-        </div>
-        <!-- <div class="fieldCont">
-          <label>Number:</label>
-          <label>+994{{cl.numbers[0].number}}</label>
-        </div> -->
 
         <div class="btnCont">
           <button mat-button routerLink="/clients/{{item.id}}">
@@ -75,54 +73,53 @@
         </div>
       </div>
     </div>
+
+    <div class="tableCont" *ngIf="!view">
+      <table mat-table [dataSource]="clientsDataSource">
+
+        <ng-container matColumnDef="position">
+          <th mat-header-cell *matHeaderCellDef> No. </th>
+          <td mat-cell *matCellDef="let i = index"> {{ paginator.pageIndex * paginator.pageSize + i + 1 }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="title">
+          <th mat-header-cell *matHeaderCellDef> Title </th>
+          <td mat-cell *matCellDef="let item">{{ item.clientName }} </td>
+        </ng-container>
+
+
+        <ng-container matColumnDef="email">
+          <th mat-header-cell *matHeaderCellDef> Email </th>
+          <td mat-cell *matCellDef="let item"> {{ item.email }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="number">
+          <th mat-header-cell *matHeaderCellDef> Number </th>
+          <td mat-cell *matCellDef="let item"> {{ item.phone }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="registrationDate">
+          <th mat-header-cell *matHeaderCellDef> Registration date </th>
+          <td mat-cell *matCellDef="let item"> {{ item.registrationDate | date: 'dd/MM/yyyy HH:mm' }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="blocked">
+          <th mat-header-cell *matHeaderCellDef> Blocked </th>
+          <td mat-cell *matCellDef="let item"> {{ item.blocked | date: 'dd/MM/yyyy' }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="deleted">
+          <th mat-header-cell *matHeaderCellDef> Deleted </th>
+          <td mat-cell *matCellDef="let item"> {{ item.deleted | date: 'dd/MM/yyyy' }} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+
+      <mat-paginator #paginator [length]="clients.length" [pageSize]="10" showFirstLastButtons></mat-paginator>
+    </div>
+
   </div>
 
-  <div class="tableCont" *ngIf="!view">
-    <table mat-table [dataSource]="clientsDataSource">
-
-      <ng-container matColumnDef="position">
-        <th mat-header-cell *matHeaderCellDef> No. </th>
-        <td mat-cell *matCellDef="let i = index"> {{ paginator.pageIndex * paginator.pageSize + i + 1 }} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="title">
-        <th mat-header-cell *matHeaderCellDef> Title </th>
-        <td mat-cell *matCellDef="let item">{{ item.clientName }} </td>
-      </ng-container>
-
-
-      <ng-container matColumnDef="email">
-        <th mat-header-cell *matHeaderCellDef> Email </th>
-        <td mat-cell *matCellDef="let item"> {{ item.email }} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="number">
-        <th mat-header-cell *matHeaderCellDef> Number </th>
-        <td mat-cell *matCellDef="let item"> {{ item.phone }} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="registrationDate">
-        <th mat-header-cell *matHeaderCellDef> Registration date </th>
-        <td mat-cell *matCellDef="let item"> {{ item.registrationDate | date: 'dd/MM/yyyy HH:mm' }} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="blocked">
-        <th mat-header-cell *matHeaderCellDef> Blocked </th>
-        <td mat-cell *matCellDef="let item"> {{ item.blocked | date: 'dd/MM/yyyy' }} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="deleted">
-        <th mat-header-cell *matHeaderCellDef> Deleted </th>
-        <td mat-cell *matCellDef="let item"> {{ item.deleted | date: 'dd/MM/yyyy' }} </td>
-      </ng-container>
-
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table>
-
-    <mat-paginator #paginator [length]="clients.length" [pageSize]="10" showFirstLastButtons></mat-paginator>
-  </div>
-
-</div>
-
-<router-outlet></router-outlet>
+  <router-outlet></router-outlet>

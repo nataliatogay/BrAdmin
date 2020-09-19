@@ -17,6 +17,8 @@ export class LoginComponent implements OnInit {
     remember: ['']
   });
 
+  isPassShow = false;
+
   constructor(
     private accountService: AccountService,
     private fb: FormBuilder,
@@ -61,6 +63,18 @@ export class LoginComponent implements OnInit {
     } else {
       document.getElementById('loginId').style.display = 'grid';
       document.getElementById('forgotId').style.display = 'none';
+    }
+  }
+
+  togglePass(isShow, elem: HTMLInputElement) {
+    if (isShow) {
+      this.isPassShow = true;
+
+      elem.type = 'text';
+    } else {
+      this.isPassShow = false;
+
+      elem.type = 'password';
     }
   }
 }

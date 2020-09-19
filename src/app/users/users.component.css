@@ -26,18 +26,20 @@
 }
 .wrap .toolsCont .contView {
   margin: auto 0;
-  height: 40px;
+  display: flex;
+  flex-direction: row;
 }
 .wrap .toolsCont .contView .choosenView {
-  background: #8996a3;
+  background: linear-gradient(to bottom, #1275c0 0%, #2aa9e2 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 .wrap .toolsCont .contView mat-icon {
+  font-family: "Material Icons" !important;
   height: auto;
   width: auto;
   margin-right: 12px;
-  font-size: 40px;
+  font-size: 30px;
   cursor: pointer;
   background: #c0c0c0;
   -webkit-background-clip: text;
@@ -101,8 +103,8 @@
   grid-template-columns: repeat(5, 1fr);
   overflow: auto;
   position: absolute;
-  height: calc(100% - 137px);
-  width: calc(100% - 30px);
+  height: calc(100% - 165px);
+  width: calc(100% - 60px);
 }
 .wrap .gridCont .clientCont {
   border-radius: 10px;

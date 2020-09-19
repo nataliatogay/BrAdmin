@@ -30,7 +30,7 @@
 }
 .wrap .headerCont .tabCont mat-tab-group .listOverflow {
   overflow: auto;
-  height: calc(100vh - 22vh);
+  height: calc(100vh - 28vh);
   box-sizing: border-box;
 }
 .wrap .headerCont .tabCont mat-tab-group .listOverflow .listCont {
@@ -47,7 +47,7 @@
 .wrap .headerCont .tabCont mat-tab-group .listOverflow .listCont label {
   margin: auto 0 auto 5px;
   color: #5f6d7b;
-  font-size: 23px;
+  font-size: 18px;
 }
 .wrap .headerCont .tabCont mat-tab-group .listOverflow .listCont .editDelCont {
   margin: auto 0;

@@ -19,6 +19,7 @@ import { first } from 'rxjs/operators';
 import { ClientInfoShort } from '../core/models/client-info-short';
 import { NotificationType } from '../core/models/notification-type';
 import { NotificationComponent } from './notification/notification.component';
+import { LoadingService } from '../core/services/loading.service';
 
 @Component({
   selector: 'app-notifications',
@@ -38,10 +39,12 @@ export class NotificationsComponent implements OnInit {
     private clientService: ClientService,
     private ownerService: OwnerService,
     public dialog: MatDialog,
-    public router: Router
+    public router: Router,
+    public loadingService: LoadingService
   ) { }
 
   ngOnInit() {
+    this.loadingService.setIsLoading(true);
     this.notificationService.getNotifications()
       .pipe(first())
       .subscribe(
@@ -51,10 +54,11 @@ export class NotificationsComponent implements OnInit {
           }
           console.log(this.notifications);
 
-
+          this.loadingService.setIsLoading(false);
         },
         (error) => {
           console.log(error);
+          this.loadingService.setIsLoading(false);
         }
       );
   }

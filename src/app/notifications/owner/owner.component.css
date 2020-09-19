@@ -1,72 +1,50 @@
  /deep/ .mat-dialog-container {
-  background-color: #e2e2e2;
-  padding: 20px 50px;
+  background-color: white;
+  padding: 10px;
 }
-.headerCont {
+.dateCont {
   display: flex;
   flex-direction: row;
-}
-.headerCont h2 {
-  text-align: center;
-  background: linear-gradient(to bottom, #1275c0 0%, #2aa9e2 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  margin: 5px 0;
-}
-.headerCont button {
-  border: 2px solid #c0c0c0;
-  color: #5f6d7b;
-  margin: auto 0 auto 20px;
-  padding: 3px;
-  box-sizing: content-box;
-  height: 20px;
-  line-height: normal;
-  width: min-content;
+  justify-content: space-between;
 }
 .dateCont label {
-  font-size: 12px;
+  font-size: 14px;
+  margin: auto 0;
 }
 .wrap {
   width: 70vh;
   display: grid;
 }
+.wrap .phoneEmailCont {
+  display: grid;
+  grid-template-columns: 150px 20px 1fr;
+}
+.wrap .phoneEmailCont #secondId {
+  grid-column: 3;
+}
 .wrap mat-form-field {
   font-family: inherit;
   margin: 3px;
+  width: 100%;
 }
 .wrap mat-form-field textarea {
-  height: 100px;
-  background-color: #C4C4C4;
+  height: 150px;
+  background-color: #F8F8F8;
   resize: none;
 }
 .wrap mat-form-field textarea::-webkit-scrollbar {
-  width: 12px;
+  width: 7px;
   background-color: transparent;
 }
 .wrap mat-form-field textarea::-webkit-scrollbar-thumb {
-  border-radius: 10px;
+  border-radius: 4px;
   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
-  background-color: #5f6d7b;
-}
-.wrap .organizationCont {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-}
-.wrap .organizationCont button {
-  border: 2px solid #c0c0c0;
-  color: #5f6d7b;
-  margin: auto 0 auto 20px;
-  padding: 3px;
-  box-sizing: content-box;
-  height: 20px;
-  line-height: normal;
-  width: min-content;
+  background-color: #0375BE;
 }
 .wrap .btnCont {
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: flex-end;
 }
 .wrap .btnCont button {
   color: white;

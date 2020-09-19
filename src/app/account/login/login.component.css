@@ -14,59 +14,84 @@
                                   supported by Chrome, Opera and Firefox */
 }
 .loginWrap {
-  background-image: url("../../../assets/Pictures/LoginBkg.jpeg");
-  height: 100vh;
-  background-repeat: no-repeat;
-  background-size: cover;
+  display: grid;
+  grid-template-columns: 0.5fr 20px 1fr;
+  position: absolute;
+  height: 50vh;
+  width: 50vw;
+  left: calc(100% - 75vw);
+  top: calc(100% - 80vh);
 }
-.loginWrap .imageBlur {
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
+.loginWrap .logoCont {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
-.loginWrap .imageBlur .hCont {
+.loginWrap .logoCont img {
+  width: 150px;
+  margin: 0 auto;
+}
+.loginWrap .hCont {
   display: flex;
   flex-direction: column;
   justify-content: center;
   margin: 0 35px;
 }
-.loginWrap .imageBlur .hCont h1 {
-  grid-row: 1;
+.loginWrap .hCont h1 {
   text-align: center;
+  margin: auto;
+  height: 50px;
   background: linear-gradient(to bottom, #1275c0 0%, #2aa9e2 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
-.loginWrap .imageBlur .cont {
+.loginWrap .cont {
   margin: auto 35px;
   font-family: inherit;
 }
-.loginWrap .imageBlur .cont mat-form-field {
+.loginWrap .cont .mat-form-field {
   width: 100%;
   color: #5f6d7b;
+  font-size: 12px;
+  margin-bottom: 20px;
 }
-.loginWrap .imageBlur .cont mat-form-field mat-label {
+.loginWrap .cont .mat-form-field .mat-label {
   color: #5f6d7b;
 }
-.loginWrap .imageBlur .cont .remForCont {
+.loginWrap .cont .showHiddenPassContainer /deep/ .mat-form-field-infix {
+  display: flex !important;
+}
+.loginWrap .cont .showHiddenPassContainer .mat-icon {
+  margin-left: 5px;
+  cursor: pointer;
+}
+@media (max-width: 1160px) {
+  .loginWrap .cont .remForCont {
+    flex-direction: column !important;
+    text-align: center;
+  }
+}
+.loginWrap .cont .remForCont {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   font-size: 12px;
 }
-.loginWrap .imageBlur .cont .remForCont mat-checkbox {
+.loginWrap .cont .remForCont mat-checkbox {
   color: #5f6d7b;
 }
-.loginWrap .imageBlur .cont .remForCont a {
+.loginWrap .cont .remForCont a {
   text-decoration: none;
   color: #5f6d7b;
   font-weight: unset;
   margin: auto 0;
   cursor: pointer;
 }
-.loginWrap .imageBlur .buttonCont {
+.loginWrap .buttonCont {
   margin: auto 35px;
 }
-.loginWrap .imageBlur .buttonCont button {
+.loginWrap .buttonCont button {
   height: auto;
   width: 100%;
   margin: auto;
@@ -76,15 +101,8 @@
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
   font-family: inherit;
 }
-.loginWrap .imageBlur .loginCont {
-  background-color: rgba(255, 255, 255, 0.7);
-  height: 60%;
-  width: 25%;
-  border-radius: 30px;
-  position: absolute;
-  left: calc(100% / 2 - 14.5%);
-  top: 15%;
-  margin: auto;
+.loginWrap .loginCont {
+  grid-column: 3;
   display: grid;
-  grid-template-rows: 1fr auto 1fr;
+  grid-template-rows: auto auto auto;
 }

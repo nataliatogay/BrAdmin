@@ -2,10 +2,6 @@
   padding: 10px;
   background-color: white;
 }
-.wrap {
-  display: grid;
-  width: 320px;
-}
 .wrap .btnCont {
   display: flex;
   flex-direction: row;
@@ -20,9 +16,6 @@
   line-height: 0;
   height: 30px;
 }
-.wrap .btnCont #btnYes {
+.wrap .btnCont #btnLink {
   background: linear-gradient(to bottom, #1275c0 0%, #2aa9e2 100%);
-}
-.wrap .btnCont #btnNo {
-  background: linear-gradient(to bottom, #bc4c04 0%, #e16028 100%);
 }

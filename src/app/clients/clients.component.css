@@ -21,23 +21,26 @@
   -webkit-box-shadow: none;
 }
 .wrap .toolsCont {
-  display: grid;
-  grid-template-columns: 1fr 1fr 2fr 1fr;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
 }
 .wrap .toolsCont .contView {
   margin: auto 0;
-  height: 40px;
+  display: flex;
+  flex-direction: row;
 }
 .wrap .toolsCont .contView .choosenView {
-  background: #8996a3;
+  background: linear-gradient(to bottom, #1275c0 0%, #2aa9e2 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 .wrap .toolsCont .contView mat-icon {
+  font-family: "Material Icons" !important;
   height: auto;
   width: auto;
   margin-right: 12px;
-  font-size: 40px;
+  font-size: 30px;
   cursor: pointer;
   background: #c0c0c0;
   -webkit-background-clip: text;
@@ -100,10 +103,7 @@
   background-size: 15px;
 }
 .wrap .toolsCont .btnCont {
-  display: flex;
-  justify-content: flex-end;
-  margin: auto 30px;
-  grid-column: 4;
+  margin: auto 0;
 }
 .wrap .toolsCont .btnCont button {
   background: linear-gradient(to bottom, #1275c0 0%, #2aa9e2 100%);
@@ -111,62 +111,87 @@
   font-size: 17px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
   font-family: inherit;
+  margin: auto;
 }
-.wrap .toolsCont .btnCont button mat-icon {
+.wrap .toolsCont .btnCont button .mat-icon {
   font-size: 25px;
   height: auto;
 }
 .wrap .gridCont {
   margin-top: 15px;
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
   overflow: auto;
   position: absolute;
-  height: calc(100% - 137px);
+  height: calc(100% - 170px);
   width: calc(100% - 30px);
 }
 .wrap .gridCont .clientCont {
-  border-radius: 10px;
-  background-color: lightgray;
-  width: 220px;
-  height: 280px;
-  margin: 10px 15px 10px 0;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  border-radius: 4px;
+  width: 180px;
+  height: 260px;
+  margin: 10px 15px 10px 10px;
 }
-.wrap .gridCont .clientCont img {
-  width: 220px;
+.wrap .gridCont .clientCont .imgCont img {
+  width: 180px;
   height: 100px;
-  border-radius: 10px 10px 0 0;
+  border-radius: 4px 4px 0 0;
+  object-fit: cover;
 }
 .wrap .gridCont .clientCont .infoButCont {
   margin: 0 15px;
 }
 .wrap .gridCont .clientCont .infoButCont h3 {
-  margin: 7px 0;
+  margin: 10px 0;
   text-align: center;
+  font-size: 20px;
+}
+.wrap .gridCont .clientCont .infoButCont .infoCont {
+  height: 7vh;
 }
 .wrap .gridCont .clientCont .infoButCont .fieldCont {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
 }
-.wrap .gridCont .clientCont .infoButCont .fieldCont label {
-  font-size: 12px;
+.wrap .gridCont .clientCont .infoButCont .fieldCont label,
+.wrap .gridCont .clientCont .infoButCont .fieldCont a {
+  font-size: 10px;
   color: #788897;
+  text-decoration: none;
+}
+.wrap .gridCont .clientCont .infoButCont .fieldCont a:hover {
+  text-decoration: underline;
 }
 .wrap .gridCont .clientCont .infoButCont .btnCont {
-  margin-top: 25px;
+  margin-top: 15px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+.wrap .gridCont .clientCont .infoButCont .btnCont .mat-icon {
+  margin: auto 0;
+  font-size: 23px;
+  cursor: pointer;
 }
 .wrap .gridCont .clientCont .infoButCont .btnCont button {
-  float: right;
-  margin: auto;
-  background: linear-gradient(to bottom, #1275c0 0%, #2aa9e2 100%);
+  margin: auto 0;
   color: white;
-  font-size: 20px;
+  line-height: normal;
+  height: auto;
+  width: 80px;
+  font-size: 14px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
   font-family: inherit;
+  background: linear-gradient(to bottom, #1275c0 0%, #2aa9e2 100%);
 }
-.wrap .gridCont .clientCont .infoButCont .btnCont button mat-icon {
-  font-size: 40px;
+.wrap .gridCont .clientCont .infoButCont .btnCont button:disabled {
+  background: lightgray;
+}
+.wrap .gridCont .clientCont .infoButCont .btnCont button .mat-icon {
+  font-size: 25px;
   height: auto;
 }
 .wrap .tableCont {

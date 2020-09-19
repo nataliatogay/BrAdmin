@@ -34,26 +34,28 @@
   height: calc(100% - 120px);
   width: calc(100% - 60px);
 }
-.wrap .done {
-  background-color: #d3d3d378;
-}
-.wrap .unDone {
-  background-color: gray;
-  font-weight: bold;
-}
 .wrap .notifCont {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: auto 20px 1fr;
   margin: 10px;
   border-radius: 5px;
-  padding: 5px;
+  padding: 5px 10px;
   cursor: pointer;
   height: 20px;
+  background-color: #e3e3e3;
 }
-.wrap .notifCont label,
-.wrap .notifCont .mat-checkbox {
-  margin: 0 auto;
+.wrap .notifCont:hover {
+  background-color: #0375BE;
+}
+.wrap .notifCont:hover label {
+  color: white;
+}
+.wrap .notifCont label {
   cursor: pointer;
+  font-size: 14px;
+}
+.wrap .notifCont #secondId {
+  grid-column: 3;
 }
 .wrap .REQUEST {
   color: #0aed0a;

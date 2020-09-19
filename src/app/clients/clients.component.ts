@@ -5,6 +5,7 @@ import { ClientService } from '../core/services/client.service';
 import { NewClientComponent } from './new-client/new-client.component';
 import { ServerResponse, StatusCode, ServerResponseGeneric } from '../core/models/server-response';
 import { ClientInfoShort } from '../core/models/client-info-short';
+import { LoadingService } from '../core/services/loading.service';
 
 @Component({
   selector: 'app-clients',
@@ -31,21 +32,27 @@ export class ClientsComponent implements OnInit {
 
   constructor(
     public dialog: MatDialog,
-    public clientService: ClientService
+    public clientService: ClientService,
+    public loadingService: LoadingService
   ) { }
 
   ngOnInit() {
+    this.loadingService.setIsLoading(true);
+
     this.clientService.getClients().subscribe(
       (result: ServerResponseGeneric<ClientInfoShort[]>) => {
         if (result.statusCode === StatusCode.Ok) {
           this.clients = result.data;
           this.clientsDataSource.data = this.clients;
-        } else {
 
+          this.loadingService.setIsLoading(false);
+        } else {
           alert(result.statusCode);
+
+          this.loadingService.setIsLoading(false);
         }
       }
-    )
+    );
   }
 
   viewChange(id, vBool) {
@@ -56,8 +63,6 @@ export class ClientsComponent implements OnInit {
     this.oldId = id;
     this.view = vBool;
   }
-
-
 
   addNewClient() {
     setTimeout(() => {
@@ -78,7 +83,7 @@ export class ClientsComponent implements OnInit {
                 alert(result.statusCode);
               }
             }
-          )
+          );
         }
       });
     });

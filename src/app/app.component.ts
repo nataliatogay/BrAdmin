@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { Location } from '@angular/common';
 import { AccountService } from './core/services/account.service';
 import { Router } from '@angular/router';
@@ -21,11 +21,14 @@ export class AppComponent {
     private notificationService: NotificationService,
     private router: Router,
     private location: Location,
-    public loadingService: LoadingService
+    public loadingService: LoadingService,
+    private cdRef: ChangeDetectorRef
   ) { }
 
   title = 'BrAdminWithRoute';
   isAuth = true;
+
+  isLoading = false;
 
   oldId = '';
 
@@ -50,6 +53,13 @@ export class AppComponent {
         }
       );
 
+    }
+  }
+
+  ngAfterViewChecked() {
+    if (this.loadingService.IsLoading !== this.isLoading) {
+      this.isLoading = this.loadingService.IsLoading;
+      this.cdRef.detectChanges();
     }
   }
 
@@ -93,7 +103,7 @@ export class AppComponent {
         sessionStorage.clear();
         window.location.reload();
       }
-    )
+    );
   }
 
   routeChange(id) {

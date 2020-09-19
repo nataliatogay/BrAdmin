@@ -5,7 +5,7 @@ import { NotificationInfo } from 'src/app/core/models/notification-info';
 @Component({
   selector: 'app-notification',
   templateUrl: './notification.component.html',
-  // styleUrls: ['./notification.component.css']
+  styleUrls: ['./notification.component.css']
 })
 export class NotificationComponent implements OnInit {
 
@@ -15,11 +15,11 @@ export class NotificationComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-
+    // console.log(this.data.description);
   }
 
   buttonClick() {
     console.log(this.data);
   }
- 
+
 }

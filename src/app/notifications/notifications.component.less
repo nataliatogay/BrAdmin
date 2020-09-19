@@ -1,31 +1,32 @@
-@doneCol: #d3d3d378;
-@newCol: #0aed0a;
-@mainTextColor: #5f6d7b;
-@secondTextColor: #8996a3;
+@doneCol           : #d3d3d378;
+@newCol            : #0aed0a;
+@mainTextColor     : #5f6d7b;
+@secondTextColor   : #8996a3;
 @listElemBackground: #8996a329;
+@mainCol           : #0375BE;
 
 .scrollbar-black::-webkit-scrollbar-track {
   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
-  background-color: @secondTextColor;
-  border-radius: 10px;
+  background-color  : @secondTextColor;
+  border-radius     : 10px;
 }
 
 .scrollbar-black::-webkit-scrollbar {
-  width: 7px;
+  width           : 7px;
   background-color: #f5f5f5;
-  border-radius: 10px;
+  border-radius   : 10px;
 }
 
 .scrollbar-black::-webkit-scrollbar-thumb {
-  border-radius: 10px;
+  border-radius     : 10px;
   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
-  background-color: @mainTextColor;
+  background-color  : @mainTextColor;
 }
 
 .bordered-black::-webkit-scrollbar-track {
   -webkit-box-shadow: none;
   // border: 1px solid #000;
-  border: 0 solid @mainTextColor;
+  border            : 0 solid @mainTextColor;
 }
 
 .bordered-black::-webkit-scrollbar-thumb {
@@ -35,11 +36,11 @@
 .wrap {
 
   .paginationCont {
-    display: flex;
+    display        : flex;
     justify-content: flex-end;
 
     label {
-      margin: auto 0;
+      margin     : auto 0;
       font-weight: normal;
     }
   }
@@ -47,32 +48,44 @@
   .notificationsCont {
     overflow: auto;
     position: absolute;
-    height: calc(100% - 120px);
-    width: calc(100% - 60px);
+    height  : calc(100% - 120px);
+    width   : calc(100% - 60px);
   }
 
-  .done {
-    background-color: @doneCol;
-  }
+  // .done {
+  //   background-color: @doneCol;
+  // }
 
-  .unDone {
-    background-color: gray;
-    font-weight: bold;
-  }
+  // .unDone {
+  //   background-color: gray;
+  //   font-weight     : bold;
+  // }
 
   .notifCont {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    margin: 10px;
-    border-radius: 5px;
-    padding: 5px;
-    cursor: pointer;
-    height: 20px;
+    display              : grid;
+    grid-template-columns: auto 20px 1fr;
+    margin               : 10px;
+    border-radius        : 5px;
+    padding              : 5px 10px;
+    cursor               : pointer;
+    height               : 20px;
+    background-color     : #e3e3e3;
 
-    label,
-    .mat-checkbox {
-      margin: 0 auto;
-      cursor: pointer;
+    &:hover {
+      background-color: @mainCol;
+
+      label {
+        color: white;
+      }
+    }
+
+    label {
+      cursor   : pointer;
+      font-size: 14px;
+    }
+
+    #secondId {
+      grid-column: 3;
     }
   }
 

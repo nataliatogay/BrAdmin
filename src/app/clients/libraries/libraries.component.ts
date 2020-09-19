@@ -1,14 +1,14 @@
-import { Component, OnInit, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatDialogRef, MatDialog } from '@angular/material';
 import { ConfirmationDialogComponent } from 'src/app/Utils/confirmation-dialog/confirmation-dialog.component';
 import { ParameterService } from 'src/app/core/services/parameter.service';
 import { ClientParameterInfo } from 'src/app/core/models/client-parameter-info';
 import { forkJoin } from 'rxjs';
 import { LibraryItemComponent } from '../library-item/library-item.component';
-import { ServerResponse, StatusCode, ServerResponseGeneric } from 'src/app/core/models/server-response';
-import { isNgTemplate } from '@angular/compiler';
+import { StatusCode, ServerResponseGeneric } from 'src/app/core/models/server-response';
 import { isUndefined } from 'util';
 import { ConfirmationType } from 'src/app/core/models/confirmation-type';
+import { LoadingService } from 'src/app/core/services/loading.service';
 
 
 @Component({
@@ -19,7 +19,7 @@ import { ConfirmationType } from 'src/app/core/models/confirmation-type';
 export class LibrariesComponent implements OnInit {
 
   methods: string[] = ['clientType', 'cuisine', 'dish', 'goodFor', 'specialDiet', 'feature'];
-  selectedMethodIndex: number = 0;
+  selectedMethodIndex = 0;
   parameters: ClientParameterInfo[][] = [];
 
   oldId = '';
@@ -28,10 +28,13 @@ export class LibrariesComponent implements OnInit {
 
   constructor(
     private parameterService: ParameterService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    public loadingService: LoadingService
   ) { }
 
   ngOnInit() {
+
+    this.loadingService.setIsLoading(true);
 
     forkJoin(
       this.parameterService.getClientTypes(),
@@ -54,11 +57,14 @@ export class LibrariesComponent implements OnInit {
         this.parameters.forEach(element => {
           element.sort((item1, item2) => item1.title.localeCompare(item2.title));
         });
+
+        this.loadingService.setIsLoading(false);
       },
       (error) => {
         console.log(error);
+        this.loadingService.setIsLoading(false);
       }
-    )
+    );
   }
 
   routeChange(id) {
@@ -91,8 +97,8 @@ export class LibrariesComponent implements OnInit {
         if (dialogResult) {
 
           this.parameterService.deleteParameter(parameter.id, this.methods[this.selectedMethodIndex]).subscribe(
-            (result) =>{
-              if(result.statusCode == StatusCode.Ok){
+            (result) => {
+              if (result.statusCode === StatusCode.Ok) {
                 this.parameters[this.selectedMethodIndex].splice(this.parameters[this.selectedMethodIndex].findIndex(item => item.id === parameter.id), 1);
               } else {
                 this.dialogRef = this.dialog.open(ConfirmationDialogComponent, {
@@ -106,7 +112,7 @@ export class LibrariesComponent implements OnInit {
                 });
               }
             }
-          )          
+          )
         }
 
         this.dialogRef = null;
@@ -126,7 +132,7 @@ export class LibrariesComponent implements OnInit {
   }
 
   editParameter(parameter: ClientParameterInfo) {
-    let titlePrevious = parameter.title;
+    const titlePrevious = parameter.title;
 
     if (!isUndefined(parameter) && parameter.editable) {
       setTimeout(() => {
@@ -146,8 +152,8 @@ export class LibrariesComponent implements OnInit {
             parameter.title = result;
 
             this.parameterService.updateParameter(parameter, this.methods[this.selectedMethodIndex]).subscribe(
-              (result)=>{
-                if(result.statusCode != StatusCode.Ok){
+              (result) => {
+                if (result.statusCode !== StatusCode.Ok) {
 
                   parameter.title = titlePrevious;
                   this.dialogRef = this.dialog.open(ConfirmationDialogComponent, {
@@ -161,7 +167,7 @@ export class LibrariesComponent implements OnInit {
                   });
                 }
               }
-            )
+            );
           }
         });
       });
@@ -194,12 +200,12 @@ export class LibrariesComponent implements OnInit {
 
       dialogRef.afterClosed().subscribe(dialogResult => {
         if (dialogResult) {
-          
+
           this.parameterService.addParameter(dialogResult, this.methods[this.selectedMethodIndex]).subscribe(
-            (result: ServerResponseGeneric<ClientParameterInfo>) =>{
-              if (result.statusCode == StatusCode.Ok){
+            (result: ServerResponseGeneric<ClientParameterInfo>) => {
+              if (result.statusCode === StatusCode.Ok) {
                 this.parameters[this.selectedMethodIndex].push(result.data);
-                this.parameters[this.selectedMethodIndex].sort((item1, item2)=>item1.title.localeCompare(item2.title));
+                this.parameters[this.selectedMethodIndex].sort((item1, item2) => item1.title.localeCompare(item2.title));
               } else {
 
                 this.dialogRef = this.dialog.open(ConfirmationDialogComponent, {
@@ -213,7 +219,7 @@ export class LibrariesComponent implements OnInit {
                 });
               }
             }
-          )
+          );
         }
       });
     });

@@ -1,99 +1,107 @@
-@topMargin: 15px;
-@sideMargin: 30px;
-@mainTextColor: #5f6d7b;
+@topMargin      : 15px;
+@sideMargin     : 30px;
+@mainTextColor  : #5f6d7b;
 @secondTextColor: #8996a3;
+@mainCol        : #0375BE;
 
 .outletCont {
-  margin: 0 @sideMargin;
+  padding: 10px 30px;
 }
 
 .wrap {
+  padding: 10px 30px;
 
   .headerCont {
-    margin: 0 @sideMargin;
-    display: grid;
+    // margin: 0 @sideMargin;
+    display              : grid;
     grid-template-columns: 1fr 3fr 0.5fr 1fr;
 
 
     .imgCont {
-      margin-top: @topMargin;
-      // margin: auto 0;
+      // margin-top: @topMargin;
+      margin: auto 0;
 
       img {
-        height: 50px;
+        height    : 80px;
+        object-fit: cover;
       }
     }
 
     .tabCont {
-      margin-top: @topMargin;
-      // margin: auto 0;
+      margin : auto 0;
+      padding: 0 25px;
 
       mat-toolbar {
         background-color: white;
-        font-family: inherit;
+        font-family     : inherit;
 
         a {
-          color: @secondTextColor;
-          padding: 0 20px;
-          border-radius: 0;
-          font-family: inherit;
-          font-size: 20px;
+          color          : @secondTextColor;
+          padding        : 0 20px;
+          border-radius  : 0;
+          font-family    : inherit;
+          font-size      : 14px;
+          text-decoration: none;
+
+          &:focus {
+            outline: 0;
+          }
         }
 
         .checkedLine {
-          border-bottom: 1px solid @mainTextColor;
-          font-weight: bold;
-          color: @mainTextColor;
+          border-bottom: 2px solid @mainCol;
+          font-weight  : bold;
+          color        : @mainTextColor;
         }
 
         hr {
-          height: 40px;
+          height: 20px;
           margin: 0 10px;
         }
 
         .mat-badge-content {
-          right: 0;
-          top: 0;
-          color: red;
+          right     : 0;
+          top       : 0;
+          color     : red;
           background: transparent;
         }
       }
     }
 
     .profileCont {
-      margin-top: @topMargin;
+      margin-top        : @topMargin;
       // margin: auto 0;
-      grid-column: 4;
-      display: flex;
-      flex-direction: row;
-      justify-content: flex-end;
-      margin-right: 30px;
+      grid-column       : 4;
+      display           : flex;
+      flex-direction    : row;
+      justify-content   : flex-end;
+      // margin-right   : 30px;
 
       .iconMenu {
-        margin-top: 10px;
-        display: flex;
-        flex-direction: row;
+        margin-top     : 10px;
+        display        : flex;
+        flex-direction : row;
         justify-content: center;
 
         mat-icon {
-          margin: 0;
-          font-size: 35px;
+          margin   : 0;
+          font-size: 40px;
         }
 
         .color {
-          background: linear-gradient(to bottom, #1275c0 0%, #2aa9e2 100%);
+          background             : linear-gradient(to bottom, #1275c0 0%, #2aa9e2 100%);
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
         }
 
         /deep/ .mat-icon {
           height: auto;
-          width: auto;
+          width : auto;
         }
 
         .menuCont {
           mat-icon {
-            cursor: pointer;
+            cursor   : pointer;
             font-size: 40px;
           }
         }
@@ -104,4 +112,8 @@
 
 /deep/ .mat-menu-item {
   font-family: inherit;
+
+  &:focus {
+    outline: 0;
+  }
 }

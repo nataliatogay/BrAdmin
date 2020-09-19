@@ -1,45 +1,34 @@
-<div class="headerCont">
-  <h2>New Owner Request</h2>
-  <!-- <button mat-button type="button" (click)="declineRequest()">Decline</button> -->
-</div>
-
-
 <div class="dateCont">
+  <h4>New Owner Request</h4>
+
   <label>{{ data.registeredDate | date: 'dd.MM.yyyy HH:mm' }}</label>
 </div>
 
 <form [formGroup]='ownerForm' (ngSubmit)='onSubmit()' class="wrap">
 
-  <!-- <div> -->
   <mat-form-field>
     <mat-label>Name</mat-label>
     <input matInput formControlName="ownerName">
   </mat-form-field>
 
-  <mat-form-field>
-    <mat-label>Phone Number</mat-label>
-    <input matInput formControlName="ownerPhoneNumber">
-  </mat-form-field>
-  <!-- </div> -->
+  <div class="phoneEmailCont">
 
-  <mat-form-field>
-    <mat-label>Email</mat-label>
-    <input matInput formControlName="email">
-  </mat-form-field>
-
-  <div class="organizationCont">
-
-    
-
-    <mat-form-field style="margin-left: 55px;">
-      <mat-label>Organization title</mat-label>
-      <input matInput formControlName="organizationName">
+    <mat-form-field>
+      <label matPrefix>+</label>
+      <mat-label>Phone Number</mat-label>
+      <input matInput formControlName="ownerPhoneNumber">
     </mat-form-field>
 
-   
-
+    <mat-form-field id="secondId">
+      <mat-label>Email</mat-label>
+      <input matInput type="email" formControlName="email">
+    </mat-form-field>
   </div>
 
+  <mat-form-field>
+    <mat-label>Organization title</mat-label>
+    <input matInput formControlName="organizationName">
+  </mat-form-field>
 
   <mat-form-field>
     <mat-label>Comments</mat-label>

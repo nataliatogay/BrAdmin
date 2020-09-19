@@ -1,5 +1,5 @@
 <form [formGroup]='libraryForm' (ngSubmit)='onSubmit()'>
-  <h3>{{ data.item == null ? 'New' : 'Edit' }} {{ titles[data.selectedArrayIndex] }}</h3>
+  <h4>{{ data.item == null ? 'New' : 'Edit' }} {{ titles[data.selectedArrayIndex] }}</h4>
 
   <mat-form-field>
     <input matInput formControlName='title' title="{{libraryForm.value.title}}" placeholder="Title" id="titleId">
