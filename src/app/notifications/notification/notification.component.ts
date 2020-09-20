@@ -9,6 +9,8 @@ import { NotificationInfo } from 'src/app/core/models/notification-info';
 })
 export class NotificationComponent implements OnInit {
 
+  isDone = false;
+
   constructor(
     public dialogRef: MatDialogRef<NotificationComponent>,
     @Inject(MAT_DIALOG_DATA) public data: NotificationInfo

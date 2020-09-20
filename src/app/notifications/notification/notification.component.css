@@ -2,20 +2,11 @@
   padding: 10px;
   background-color: white;
 }
-.wrap .btnCont {
+.actionCont {
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
-  margin-top: 20px;
 }
-.wrap .btnCont button {
-  color: white;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-  font-family: inherit;
-  margin: 5px;
-  line-height: 0;
-  height: 30px;
-}
-.wrap .btnCont #btnLink {
-  background: linear-gradient(to bottom, #1275c0 0%, #2aa9e2 100%);
+.actionCont mat-checkbox {
+  margin: auto 10px auto 0;
 }

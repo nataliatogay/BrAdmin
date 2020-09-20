@@ -1,9 +1,7 @@
 <div class="wrap" *ngIf="!loadingService.IsLoading">
-
-  <div class="headerCont">
-    <h2>Venue</h2>
-  </div>
-
+  
+  <h4>New Venue</h4>
+  
   <div class="generalInfoCont">
     <div class="contactsCont">
       <mat-form-field>
@@ -70,7 +68,7 @@
   </div>
 
   <div class="btnCont">
-    <button mat-button id="btnCancel" type="button" (click)="dialogVenue.close(null)">Cancel</button>
     <button mat-button id="btnSave" (click)="confirmClient()">Confirm</button>
+    <button mat-button id="btnCancel" type="button" (click)="dialogVenue.close(null)">Cancel</button>
   </div>
 </div>
