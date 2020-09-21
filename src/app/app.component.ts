@@ -33,6 +33,7 @@ export class AppComponent {
   oldId = '';
 
   undoneNotificationCount = 0;
+  isRequestTimerOn = true;
 
   ngOnInit() {
     this.isAuth = this.accountService.isAuth();
@@ -53,7 +54,37 @@ export class AppComponent {
         }
       );
 
+      this.router.events.subscribe((val) => {
+        this.isRequestTimerOn = true;
+      });
+
+      this.refreshWaitingRequestsTimer();
+
     }
+  }
+
+  refreshWaitingRequestsTimer() {
+    (async () => {
+      while (this.isRequestTimerOn) {
+        this.notificationService.getNotifications().subscribe(
+          (result: ServerResponseGeneric<NotificationInfo[]>) => {
+            if (result.statusCode === StatusCode.Ok) {
+              this.undoneNotificationCount = result.data.length;
+              console.log(this.undoneNotificationCount);
+            }
+          },
+          (error) => {
+            console.log(error);
+            this.undoneNotificationCount = 0;
+          }
+        );
+        await this.delay(5000);
+      }
+    })();
+  }
+
+  delay(ms: number) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
   }
 
   ngAfterViewChecked() {

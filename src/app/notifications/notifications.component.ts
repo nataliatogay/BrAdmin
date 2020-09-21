@@ -77,6 +77,9 @@ export class NotificationsComponent implements OnInit {
           if (index !== -1) {
             this.notifications.splice(index, 1);
           }
+          this.notificationService.handleNotification(notification.id).subscribe(
+            (result) => { }
+          );
           // сделать метод для прочитанных уведомлений
         }
         if (dialogResult.event === 'link') {

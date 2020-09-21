@@ -30,4 +30,10 @@ export class NotificationService {
   declineRequest(resuestId: number): Observable<ServerResponse> {
     return this.http.put<ServerResponse>(`${this.requestUrl}/decline`, resuestId);
   }
+
+  handleNotification(notificationId: string): Observable<ServerResponse> {
+    console.log(`${this.notificationUrl}/Handle/${notificationId}`);
+    return this.http.get<ServerResponse>(`${this.notificationUrl}/Handle/${notificationId}`);
+   
+  }
 }

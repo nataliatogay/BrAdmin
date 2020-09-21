@@ -13,10 +13,12 @@ export class AuthInterceptor {
     constructor(private http: HttpClient) { }
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+        console.log('intercept');
         let accessToken = localStorage.getItem('accessToken');
         if (accessToken == null) {
             accessToken = sessionStorage.getItem('accessToken');
         }
+        console.log(accessToken);
         if (accessToken) {
             const h = new HttpHeaders().set('Authorization', 'Bearer ' + accessToken).append('Content-Type', 'application/json');
             req = req.clone({ headers: h });
@@ -24,19 +26,20 @@ export class AuthInterceptor {
 
         }
 
+
         return next.handle(req).pipe(catchError((err) => {
             if (err.status === 401) {
                 console.log('inter');
                 let refreshToken = localStorage.getItem('refreshToken');
-                if(!refreshToken) {
+                if (!refreshToken) {
                     refreshToken = sessionStorage.getItem('refreshToken');
                 }
                 if (refreshToken) {
                     const headers = new HttpHeaders({
                         'Content-Type': 'application/json'
-                      });
+                    });
 
-                    return this.http.post<ServerResponseGeneric<LoginResponse>>(`${this.url}adminaccount/token`, JSON.stringify(refreshToken), { headers } )
+                    return this.http.post<ServerResponseGeneric<LoginResponse>>(`${this.url}adminaccount/token`, JSON.stringify(refreshToken), { headers })
                         .pipe(flatMap((result) => {
                             localStorage.clear();
                             sessionStorage.clear();

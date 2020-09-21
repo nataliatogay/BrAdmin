@@ -22,7 +22,7 @@ export class NotificationComponent implements OnInit {
   }
 
   buttonClick() {
-    console.log(this.data);
+    console.log(this.isDone);
   }
 
   closeWindow() {
