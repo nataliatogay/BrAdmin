@@ -2,8 +2,9 @@
   <p>{{data.description}}</p>
 
   <div class="actionCont">
-    <mat-checkbox [checked]="isDone">Done</mat-checkbox>
+    <mat-checkbox [(ngModel)]="isDone">Done</mat-checkbox>
 
     <a mat-button (click)="dialogRef.close(true)">Link</a>
+    <!-- <button (click)='buttonClick()'>Cl</button> -->
   </div>
 </div>
