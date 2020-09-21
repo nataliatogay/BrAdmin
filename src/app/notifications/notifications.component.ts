@@ -68,10 +68,18 @@ export class NotificationsComponent implements OnInit {
 
   openNotification(notification: NotificationInfo) {
     console.log(notification);
-    const notifDialog = this.dialog.open(NotificationComponent, { data: notification });
+    const notifDialog = this.dialog.open(NotificationComponent, { data: notification, disableClose: true });
     notifDialog.afterClosed().subscribe(
       (dialogResult) => {
-        if (dialogResult) {
+        console.log(dialogResult);
+        if (dialogResult.data) {
+          const index = this.notifications.findIndex(item => item.id === notification.id);
+          if (index !== -1) {
+            this.notifications.splice(index, 1);
+          }
+          // сделать метод для прочитанных уведомлений
+        }
+        if (dialogResult.event === 'link') {
           if (notification.notificationTypeId === NotificationType.RequestOwner) {
             let requestInfo: OwnerRequestInfo;
             this.notificationService.getRequest(notification.reference)

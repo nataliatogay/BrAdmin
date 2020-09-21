@@ -1,9 +1,10 @@
 <div class="wrap">
+  <button (click)="closeWindow()">x</button>
   <p>{{data.description}}</p>
 
   <div class="actionCont">
     <mat-checkbox [checked]="isDone">Done</mat-checkbox>
 
-    <a mat-button (click)="dialogRef.close(true)">Link</a>
+    <a mat-button (click)="openLink()">Link</a>
   </div>
 </div>
