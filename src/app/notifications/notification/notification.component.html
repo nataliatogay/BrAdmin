@@ -1,5 +1,10 @@
 <div class="wrap">
-  <button (click)="closeWindow()">x</button>
+
+  <div class="hCloseCont">
+    <h4>Notification</h4>
+    <mat-icon (click)="closeWindow()">close</mat-icon>
+  </div>
+  
   <p>{{data.description}}</p>
 
   <div class="actionCont">

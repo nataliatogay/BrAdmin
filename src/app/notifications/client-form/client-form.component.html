@@ -12,24 +12,24 @@
 
         <mat-form-field>
           <mat-label>Owner name</mat-label>
-          <input matInput [value]="data.owner.name">
+          <input matInput disabled [value]="data.owner.name">
         </mat-form-field>
 
         <div class="phoneEmailCont">
           <mat-form-field>
             <!-- <label matPrefix>+</label> -->
             <mat-label>Owner phone</mat-label>
-            <input matInput [value]="data.owner.phoneNumber">
+            <input matInput disabled [value]="data.owner.phoneNumber">
           </mat-form-field>
           <mat-form-field id="secondId">
             <mat-label>Owner email</mat-label>
-            <input matInput type="email" [value]="data.owner.email">
+            <input matInput disabled type="email" [value]="data.owner.email">
           </mat-form-field>
         </div>
 
         <mat-form-field>
           <mat-label>Organization name</mat-label>
-          <input matInput [value]="data.owner.organizationTitle">
+          <input matInput disabled [value]="data.owner.organizationTitle">
         </mat-form-field>
       </div>
 
@@ -68,7 +68,7 @@
       <div class="imgCont">
         <img [src]="sanitizeImageUrl(logo)" (click)="showLogo()">
       </div>
-      <button mat-button type="button" (click)="uploadLogo()">Upload logo</button>
+      <!-- <button mat-button type="button" (click)="uploadLogo()">Upload logo</button> -->
     </div>
   </div>
 

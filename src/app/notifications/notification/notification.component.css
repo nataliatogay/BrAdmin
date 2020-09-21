@@ -2,6 +2,21 @@
   padding: 10px;
   background-color: white;
 }
+.hCloseCont {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.hCloseCont .mat-icon {
+  color: #BEBEBE;
+  font-size: 16px;
+  height: auto;
+  width: auto;
+  cursor: pointer;
+}
+.hCloseCont h4 {
+  margin: 0;
+}
 .actionCont {
   display: flex;
   flex-direction: row;
