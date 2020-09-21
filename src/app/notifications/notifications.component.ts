@@ -127,6 +127,7 @@ export class NotificationsComponent implements OnInit {
               .pipe(first())
               .subscribe(
                 (response: ServerResponseGeneric<ClientInfoShort>) => {
+                  console.log(response.statusCode);
                   if (response.statusCode === StatusCode.Ok) {
                     console.log(response.data);
                     const dialogRef = this.dialog.open(ClientFormComponent, {

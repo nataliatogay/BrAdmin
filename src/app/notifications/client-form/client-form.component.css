@@ -37,6 +37,7 @@
 }
 .generalInfoCont .contactsCont .ownerCont .phoneEmailCont #secondId {
   grid-column: 3;
+  width: 250px;
 }
 .generalInfoCont .contactsCont .adminObject span {
   font-family: none;

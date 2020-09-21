@@ -17,11 +17,11 @@
 
         <div class="phoneEmailCont">
           <mat-form-field>
-            <label matPrefix>+</label>
+            <!-- <label matPrefix>+</label> -->
             <mat-label>Owner phone</mat-label>
             <input matInput [value]="data.owner.phoneNumber">
           </mat-form-field>
-          <mat-form-field>
+          <mat-form-field id="secondId">
             <mat-label>Owner email</mat-label>
             <input matInput type="email" [value]="data.owner.email">
           </mat-form-field>
@@ -34,7 +34,7 @@
       </div>
 
       <div class="adminObject" *ngIf="admin!=null">
-        <h4>Administrator</h4>
+        <h5>Administrator</h5>
 
         <div class="gridCont">
 
