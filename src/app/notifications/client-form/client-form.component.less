@@ -34,6 +34,20 @@
         display       : flex;
         flex-direction: column;
 
+        .ownerCont {
+            display       : flex;
+            flex-direction: column;
+
+            .phoneEmailCont {
+                display              : grid;
+                grid-template-columns: 150px 20px 1fr;
+
+                #secondId {
+                    grid-column: 3;
+                }
+            }
+        }
+
         .adminObject {
 
             span {

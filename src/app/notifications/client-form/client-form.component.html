@@ -1,27 +1,32 @@
 <div class="wrap" *ngIf="!loadingService.IsLoading">
-  
+
   <h4>New Venue</h4>
-  
+
   <div class="generalInfoCont">
     <div class="contactsCont">
-      <mat-form-field>
-        <mat-label>Restaurant Title</mat-label>
-        <input matInput [value]="newClientTitle">
-      </mat-form-field>
-
       <div class="ownerCont">
+        <mat-form-field>
+          <mat-label>Restaurant Title</mat-label>
+          <input matInput [value]="newClientTitle">
+        </mat-form-field>
+
         <mat-form-field>
           <mat-label>Owner name</mat-label>
           <input matInput [value]="data.owner.name">
         </mat-form-field>
-        <mat-form-field>
-          <mat-label>Owner phone</mat-label>
-          <input matInput [value]="data.owner.phoneNumber">
-        </mat-form-field>
-        <mat-form-field>
-          <mat-label>Owner email</mat-label>
-          <input matInput [value]="data.owner.email">
-        </mat-form-field>
+
+        <div class="phoneEmailCont">
+          <mat-form-field>
+            <label matPrefix>+</label>
+            <mat-label>Owner phone</mat-label>
+            <input matInput [value]="data.owner.phoneNumber">
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Owner email</mat-label>
+            <input matInput type="email" [value]="data.owner.email">
+          </mat-form-field>
+        </div>
+
         <mat-form-field>
           <mat-label>Organization name</mat-label>
           <input matInput [value]="data.owner.organizationTitle">
