@@ -80,7 +80,7 @@ export class NotificationsComponent implements OnInit {
           this.notificationService.handleNotification(notification.id).subscribe(
             (result) => { }
           );
-          // сделать метод для прочитанных уведомлений
+         
         }
         if (dialogResult.event === 'link') {
           if (notification.notificationTypeId === NotificationType.RequestOwner) {

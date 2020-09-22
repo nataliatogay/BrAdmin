@@ -17,16 +17,10 @@ export class NotificationComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: NotificationInfo
   ) { }
 
-  ngOnInit() {
-    // console.log(this.data.description);
-  }
+  ngOnInit() { }
 
-  buttonClick() {
-    console.log(this.isDone);
-  }
 
   closeWindow() {
-    console.log(this.isDone);
     this.dialogRef.close({ event: 'close', data: this.isDone });
   }
 
