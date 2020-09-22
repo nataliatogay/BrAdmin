@@ -34,521 +34,521 @@
   -webkit-box-shadow: none;
 }
 
-.btnCont {
-  display        : flex;
-  justify-content: flex-end;
-
-  .mat-button {
-    color      : white;
-    box-shadow : 0 0 10px rgba(0, 0, 0, 0.5);
-    font-family: inherit;
-    line-height: 0;
-    margin     : 5px;
-    height     : 30px;
-
-    &:disabled {
-      background: #e3e3e3 !important;
-    }
-  }
-
-  #btnSave {
-    background: linear-gradient(to bottom, #1275c0 0%, #2aa9e2 100%);
-  }
-
-  #btnReset {
-    background: linear-gradient(to bottom, #bc0404 0%, #e12828 100%);
-  }
-}
-
-.addCont {
-  display        : flex;
-  justify-content: flex-end;
-
-  .mat-button {
-    color      : white;
-    box-shadow : 0 0 10px rgba(0, 0, 0, 0.5);
-    font-family: inherit;
-    font-size  : 12px;
-    line-height: 0;
-    margin     : 5px;
-    height     : 25px;
-    background : linear-gradient(to bottom, #1275c0 0%, #2aa9e2 100%);
-  }
-}
-
-.wrap {
-  padding         : 10px 15%;
-  background-color: @backgroundCol;
-  display         : flex;
-  flex-direction  : column;
-  border-radius   : 4px;
-  position        : relative;
-  height          : calc(100vh - 19vh);
-
-  #headerTitleId {
-    color: @mainCol;
-  }
-
-  #headerStarId {
-    color: red;
-  }
-
-  input {
-    font-size: 12px;
-  }
-
-  .cont {
-    display       : flex;
-    flex-direction: column;
-    overflow      : auto;
-    position      : absolute;
-    height        : calc(100% - 70px);
-    width         : 70%;
-
-    .mat-accordion {
-      // margin: 0 20%;
-    }
-
-    .mat-expansion-panel-header-description {
-      margin: 0;
-    }
-
-    @media (max-width: 1200px) {
-      .generalInfoCont {
-        grid-template-columns: none !important;
-        grid-template-rows   : auto 20px auto;
-
-        .logoCont {
-          grid-column: 1 !important;
-          grid-row   : 3;
-        }
-      }
-    }
-
-    .generalInfoCont {
-      display              : grid;
-      grid-template-columns: auto 50px auto;
-      width                : 100%;
-
-      .contactsCont {
-        display       : flex;
-        flex-direction: column;
-
-        .titleCont {
-          font-size: 18px;
-        }
-
-        .adminList {
-          display       : flex;
-          flex-direction: column;
-
-          .adminObject {
-            display              : grid;
-            grid-template-columns: repeat(4, 1fr);
-            padding              : 5px;
-            margin               : 5px;
-
-            label {
-              margin     : auto;
-              padding    : 0 10px;
-              white-space: nowrap;
-            }
-
-            .configurationCont {
-              display        : flex;
-              flex-direction : row;
-              justify-content: center;
-
-              .mat-icon {
-                cursor   : pointer;
-                font-size: 20px;
-                height   : auto;
-                width    : auto;
-              }
-
-              #editIcon {
-                color: orange;
-              }
-
-              #deleteIcon {
-                color      : red;
-                margin-left: 10px;
-              }
-            }
-          }
-        }
-
-        .infoCont {
-          display              : grid;
-          grid-template-columns: auto 10px auto;
-          grid-template-rows   : auto auto;
-
-          #firstId {
-            grid-row   : 2;
-            grid-column: 1;
-            margin-top : 5px;
-          }
-
-          #secondId {
-            grid-row   : 2;
-            grid-column: 3;
-            margin-top : 5px;
-          }
-
-          .emailCont {
-            grid-row      : 2;
-            grid-column   : 3;
-            display       : flex;
-            flex-direction: row;
-
-            button {
-              font-family: inherit;
-              border     : 2px solid @secondColor;
-              color      : @mainTextColor;
-              margin     : auto;
-              height     : 20px;
-              width      : 75px;
-              line-height: normal;
-              font-size  : 12px;
-            }
-          }
-        }
-
-      }
-
-      .logoCont {
-        grid-column    : 3;
-        display        : flex;
-        flex-direction : column;
-        justify-content: center;
-
-        label {
-          margin: 0 auto;
-        }
-
-        .imgCont {
-          border: 1px dashed lightgray;
-          width : 150px;
-          height: 150px;
-          margin: 0 auto;
-          cursor: pointer;
-
-          img {
-            max-width : 150px;
-            height    : 150px;
-            margin    : 0 auto;
-            object-fit: cover;
-            padding   : 3px;
-          }
-        }
-
-        button {
-          font-family: inherit;
-          border     : 2px solid @secondColor;
-          color      : @mainTextColor;
-          margin     : 10px auto;
-          height     : 20px;
-          line-height: normal;
-          font-size  : 12px;
-        }
-      }
-
-    }
-
-    .overviewCont {
-      display       : flex;
-      flex-direction: column;
-      width         : 100%;
-
-      button {
-        font-family: inherit;
-        border     : 2px solid @secondColor;
-        color      : @mainTextColor;
-        margin     : 10px auto;
-        height     : 20px;
-        line-height: normal;
-        font-size  : 12px;
-
-        &:disabled {
-          background-color: lightgray;
-        }
-      }
-
-      .galleryCont {
-        display       : flex;
-        flex-direction: column;
-        position      : relative;
-        width         : 100%;
-
-        .hCont {
-          width: fit-content;
-        }
-
-        .imgSwiper {
-          display       : flex;
-          flex-direction: row;
-          overflow      : auto;
-          height        : 90px;
-          width         : 100%;
-
-          .iconImgCont {
-            position: relative;
-            cursor  : pointer;
-
-            .mat-icon {
-              position: absolute;
-              top     : 0;
-              right   : 0;
-              color   : @mainCol;
-            }
-
-            img {
-              height    : 80px;
-              min-width : 80px;
-              width     : 80px;
-              margin    : 0 5px;
-              object-fit: cover;
-            }
-          }
-        }
-
-        button {
-          margin: 10px 0;
-          width : min-content;
-        }
-      }
-
-      textarea {
-        height          : 150px;
-        background-color: #F8F8F8;
-        resize          : none;
-        padding         : 5px;
-      }
-
-      textarea::-webkit-scrollbar {
-        width           : 7px;
-        background-color: transparent;
-      }
-
-      textarea::-webkit-scrollbar-thumb {
-        border-radius     : 4px;
-        -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
-        background-color  : @mainCol;
-      }
-
-      .locationCont {
-        display              : grid;
-        grid-template-columns: auto 20px auto;
-
-        .addressCont {
-          margin: auto 0;
-
-          textarea {
-            height: 150px;
-          }
-        }
-
-        .mapCont {
-          grid-column   : 3;
-          display       : flex;
-          flex-direction: column;
-
-          #map-canvas {
-            height: 250px;
-          }
-        }
-      }
-
-      #descId {
-        min-width: 100%;
-        width    : 100%;
-
-        textarea {
-          height: 100px;
-        }
-      }
-
-      .openingHourCont {
-        display       : flex;
-        flex-direction: row;
-
-        label {
-          margin: auto 0;
-        }
-
-        @media (max-width: 1030px) {
-          .dayOffTimeCont {
-            flex-direction: column !important;
-
-            .dayOffCont {
-              margin-left: 0 !important;
-            }
-          }
-        }
-
-        .dayOffTimeCont {
-          display       : flex;
-          flex-direction: row;
-
-          .timeCont {
-            display       : flex;
-            flex-direction: row;
-
-            .mat-form-field {
-              width     : 40px;
-              text-align: center;
-            }
-          }
-
-          .dayOffCont {
-            display       : flex;
-            flex-direction: row;
-            margin-left   : 40px;
-          }
-
-          .mat-form-field {
-            margin-left: 20px;
-          }
-        }
-      }
-
-      .priceCategCont {
-        .mat-form-field {
-          width      : 70px;
-          margin-left: 20px;
-        }
-      }
-
-      .numbersCont {
-        display       : flex;
-        flex-direction: column;
-        width         : 100%;
-
-        .numCont {
-          display        : flex;
-          flex-direction : row;
-          justify-content: space-between;
-          margin-top     : 10px;
-
-          .mat-form-field {
-            margin: 0;
-            width : 150px;
-          }
-
-          .mat-checkbox {
-            margin: auto 0 auto 20px;
-          }
-
-          .mat-button {
-            margin: auto 0;
-          }
-        }
-
-        .plusCont {
-          display        : flex;
-          justify-content: flex-end;
-        }
-
-        button {
-          border     : 2px solid @secondColor;
-          color      : @mainTextColor;
-          line-height: normal;
-          width      : fit-content;
-          height     : fit-content;
-          margin     : 5px 0;
-          padding    : 0;
-          min-width  : 0;
-        }
-      }
-
-      .socLinkCont {
-        display       : flex;
-        flex-direction: column;
-        width         : 100%;
-
-        .socCont {
-          display              : grid;
-          grid-template-columns: 1.5fr 1fr auto;
-
-          .mat-form-field {
-            margin: auto 0;
-          }
-
-          button {
-            grid-column: 3;
-            margin     : auto 0;
-          }
-        }
-
-        .plusCont {
-          display        : flex;
-          justify-content: flex-end;
-        }
-
-        button {
-          border     : 2px solid @secondColor;
-          color      : @mainTextColor;
-          line-height: normal;
-          width      : fit-content;
-          height     : fit-content;
-          margin     : 5px 0;
-          padding    : 0;
-          min-width  : 0;
-        }
-      }
-
-    }
-
-
-    .parametrCont {
-      display              : grid;
-      grid-template-columns: auto 1fr auto 1fr;
-      width                : 100%;
-
-      .mat-form-field {
-        height   : 100px;
-        font-size: 12px;
-        width    : 125px;
-      }
-
-      .paramCont {
-        border          : none;
-        background-color: #F8F8F8;
-        height          : 80px;
-        margin          : 0 7px 20px 7px;
-        overflow        : auto;
-        padding         : 3px;
-
-        label {
-          font-size: 12px;
-        }
-      }
-
-      .paramLeft {
-        display       : flex;
-        flex-direction: column;
-      }
-
-      .paramRight {
-        grid-column   : 3;
-        display       : flex;
-        flex-direction: column;
-      }
-    }
-
-    .settingsCont {
-      .mat-form-field {
-        width        : 15%;
-        margin-bottom: 25px;
-      }
-
-      input {
-        padding: 3px 5px;
-      }
-
-      span {
-        margin-left: 10px;
-      }
-    }
-  }
-}
+// .btnCont {
+//   display        : flex;
+//   justify-content: flex-end;
+
+//   .mat-button {
+//     color      : white;
+//     box-shadow : 0 0 10px rgba(0, 0, 0, 0.5);
+//     font-family: inherit;
+//     line-height: 0;
+//     margin     : 5px;
+//     height     : 30px;
+
+//     &:disabled {
+//       background: #e3e3e3 !important;
+//     }
+//   }
+
+//   #btnSave {
+//     background: linear-gradient(to bottom, #1275c0 0%, #2aa9e2 100%);
+//   }
+
+//   #btnReset {
+//     background: linear-gradient(to bottom, #bc0404 0%, #e12828 100%);
+//   }
+// }
+
+// .addCont {
+//   display        : flex;
+//   justify-content: flex-end;
+
+//   .mat-button {
+//     color      : white;
+//     box-shadow : 0 0 10px rgba(0, 0, 0, 0.5);
+//     font-family: inherit;
+//     font-size  : 12px;
+//     line-height: 0;
+//     margin     : 5px;
+//     height     : 25px;
+//     background : linear-gradient(to bottom, #1275c0 0%, #2aa9e2 100%);
+//   }
+// }
+
+// .wrap {
+//   padding         : 10px 15%;
+//   background-color: @backgroundCol;
+//   display         : flex;
+//   flex-direction  : column;
+//   border-radius   : 4px;
+//   position        : relative;
+//   height          : calc(100vh - 19vh);
+
+//   #headerTitleId {
+//     color: @mainCol;
+//   }
+
+//   #headerStarId {
+//     color: red;
+//   }
+
+//   input {
+//     font-size: 12px;
+//   }
+
+//   .cont {
+//     display       : flex;
+//     flex-direction: column;
+//     overflow      : auto;
+//     position      : absolute;
+//     height        : calc(100% - 70px);
+//     width         : 70%;
+
+//     .mat-accordion {
+//       // margin: 0 20%;
+//     }
+
+//     .mat-expansion-panel-header-description {
+//       margin: 0;
+//     }
+
+//     @media (max-width: 1200px) {
+//       .generalInfoCont {
+//         grid-template-columns: none !important;
+//         grid-template-rows   : auto 20px auto;
+
+//         .logoCont {
+//           grid-column: 1 !important;
+//           grid-row   : 3;
+//         }
+//       }
+//     }
+
+//     .generalInfoCont {
+//       display              : grid;
+//       grid-template-columns: auto 50px auto;
+//       width                : 100%;
+
+//       .contactsCont {
+//         display       : flex;
+//         flex-direction: column;
+
+//         .titleCont {
+//           font-size: 18px;
+//         }
+
+//         .adminList {
+//           display       : flex;
+//           flex-direction: column;
+
+//           .adminObject {
+//             display              : grid;
+//             grid-template-columns: repeat(4, 1fr);
+//             padding              : 5px;
+//             margin               : 5px;
+
+//             label {
+//               margin     : auto;
+//               padding    : 0 10px;
+//               white-space: nowrap;
+//             }
+
+//             .configurationCont {
+//               display        : flex;
+//               flex-direction : row;
+//               justify-content: center;
+
+//               .mat-icon {
+//                 cursor   : pointer;
+//                 font-size: 20px;
+//                 height   : auto;
+//                 width    : auto;
+//               }
+
+//               #editIcon {
+//                 color: orange;
+//               }
+
+//               #deleteIcon {
+//                 color      : red;
+//                 margin-left: 10px;
+//               }
+//             }
+//           }
+//         }
+
+//         .infoCont {
+//           display              : grid;
+//           grid-template-columns: auto 10px auto;
+//           grid-template-rows   : auto auto;
+
+//           #firstId {
+//             grid-row   : 2;
+//             grid-column: 1;
+//             margin-top : 5px;
+//           }
+
+//           #secondId {
+//             grid-row   : 2;
+//             grid-column: 3;
+//             margin-top : 5px;
+//           }
+
+//           .emailCont {
+//             grid-row      : 2;
+//             grid-column   : 3;
+//             display       : flex;
+//             flex-direction: row;
+
+//             button {
+//               font-family: inherit;
+//               border     : 2px solid @secondColor;
+//               color      : @mainTextColor;
+//               margin     : auto;
+//               height     : 20px;
+//               width      : 75px;
+//               line-height: normal;
+//               font-size  : 12px;
+//             }
+//           }
+//         }
+
+//       }
+
+//       .logoCont {
+//         grid-column    : 3;
+//         display        : flex;
+//         flex-direction : column;
+//         justify-content: center;
+
+//         label {
+//           margin: 0 auto;
+//         }
+
+//         .imgCont {
+//           border: 1px dashed lightgray;
+//           width : 150px;
+//           height: 150px;
+//           margin: 0 auto;
+//           cursor: pointer;
+
+//           img {
+//             max-width : 150px;
+//             height    : 150px;
+//             margin    : 0 auto;
+//             object-fit: cover;
+//             padding   : 3px;
+//           }
+//         }
+
+//         button {
+//           font-family: inherit;
+//           border     : 2px solid @secondColor;
+//           color      : @mainTextColor;
+//           margin     : 10px auto;
+//           height     : 20px;
+//           line-height: normal;
+//           font-size  : 12px;
+//         }
+//       }
+
+//     }
+
+//     .overviewCont {
+//       display       : flex;
+//       flex-direction: column;
+//       width         : 100%;
+
+//       button {
+//         font-family: inherit;
+//         border     : 2px solid @secondColor;
+//         color      : @mainTextColor;
+//         margin     : 10px auto;
+//         height     : 20px;
+//         line-height: normal;
+//         font-size  : 12px;
+
+//         &:disabled {
+//           background-color: lightgray;
+//         }
+//       }
+
+//       .galleryCont {
+//         display       : flex;
+//         flex-direction: column;
+//         position      : relative;
+//         width         : 100%;
+
+//         .hCont {
+//           width: fit-content;
+//         }
+
+//         .imgSwiper {
+//           display       : flex;
+//           flex-direction: row;
+//           overflow      : auto;
+//           height        : 90px;
+//           width         : 100%;
+
+//           .iconImgCont {
+//             position: relative;
+//             cursor  : pointer;
+
+//             .mat-icon {
+//               position: absolute;
+//               top     : 0;
+//               right   : 0;
+//               color   : @mainCol;
+//             }
+
+//             img {
+//               height    : 80px;
+//               min-width : 80px;
+//               width     : 80px;
+//               margin    : 0 5px;
+//               object-fit: cover;
+//             }
+//           }
+//         }
+
+//         button {
+//           margin: 10px 0;
+//           width : min-content;
+//         }
+//       }
+
+//       textarea {
+//         height          : 150px;
+//         background-color: #F8F8F8;
+//         resize          : none;
+//         padding         : 5px;
+//       }
+
+//       textarea::-webkit-scrollbar {
+//         width           : 7px;
+//         background-color: transparent;
+//       }
+
+//       textarea::-webkit-scrollbar-thumb {
+//         border-radius     : 4px;
+//         -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+//         background-color  : @mainCol;
+//       }
+
+//       .locationCont {
+//         display              : grid;
+//         grid-template-columns: auto 20px auto;
+
+//         .addressCont {
+//           margin: auto 0;
+
+//           textarea {
+//             height: 150px;
+//           }
+//         }
+
+//         .mapCont {
+//           grid-column   : 3;
+//           display       : flex;
+//           flex-direction: column;
+
+//           #map-canvas {
+//             height: 250px;
+//           }
+//         }
+//       }
+
+//       #descId {
+//         min-width: 100%;
+//         width    : 100%;
+
+//         textarea {
+//           height: 100px;
+//         }
+//       }
+
+//       .openingHourCont {
+//         display       : flex;
+//         flex-direction: row;
+
+//         label {
+//           margin: auto 0;
+//         }
+
+//         @media (max-width: 1030px) {
+//           .dayOffTimeCont {
+//             flex-direction: column !important;
+
+//             .dayOffCont {
+//               margin-left: 0 !important;
+//             }
+//           }
+//         }
+
+//         .dayOffTimeCont {
+//           display       : flex;
+//           flex-direction: row;
+
+//           .timeCont {
+//             display       : flex;
+//             flex-direction: row;
+
+//             .mat-form-field {
+//               width     : 40px;
+//               text-align: center;
+//             }
+//           }
+
+//           .dayOffCont {
+//             display       : flex;
+//             flex-direction: row;
+//             margin-left   : 40px;
+//           }
+
+//           .mat-form-field {
+//             margin-left: 20px;
+//           }
+//         }
+//       }
+
+//       .priceCategCont {
+//         .mat-form-field {
+//           width      : 70px;
+//           margin-left: 20px;
+//         }
+//       }
+
+//       .numbersCont {
+//         display       : flex;
+//         flex-direction: column;
+//         width         : 100%;
+
+//         .numCont {
+//           display        : flex;
+//           flex-direction : row;
+//           justify-content: space-between;
+//           margin-top     : 10px;
+
+//           .mat-form-field {
+//             margin: 0;
+//             width : 150px;
+//           }
+
+//           .mat-checkbox {
+//             margin: auto 0 auto 20px;
+//           }
+
+//           .mat-button {
+//             margin: auto 0;
+//           }
+//         }
+
+//         .plusCont {
+//           display        : flex;
+//           justify-content: flex-end;
+//         }
+
+//         button {
+//           border     : 2px solid @secondColor;
+//           color      : @mainTextColor;
+//           line-height: normal;
+//           width      : fit-content;
+//           height     : fit-content;
+//           margin     : 5px 0;
+//           padding    : 0;
+//           min-width  : 0;
+//         }
+//       }
+
+//       .socLinkCont {
+//         display       : flex;
+//         flex-direction: column;
+//         width         : 100%;
+
+//         .socCont {
+//           display              : grid;
+//           grid-template-columns: 1.5fr 1fr auto;
+
+//           .mat-form-field {
+//             margin: auto 0;
+//           }
+
+//           button {
+//             grid-column: 3;
+//             margin     : auto 0;
+//           }
+//         }
+
+//         .plusCont {
+//           display        : flex;
+//           justify-content: flex-end;
+//         }
+
+//         button {
+//           border     : 2px solid @secondColor;
+//           color      : @mainTextColor;
+//           line-height: normal;
+//           width      : fit-content;
+//           height     : fit-content;
+//           margin     : 5px 0;
+//           padding    : 0;
+//           min-width  : 0;
+//         }
+//       }
+
+//     }
+
+
+//     .parametrCont {
+//       display              : grid;
+//       grid-template-columns: auto 1fr auto 1fr;
+//       width                : 100%;
+
+//       .mat-form-field {
+//         height   : 100px;
+//         font-size: 12px;
+//         width    : 125px;
+//       }
+
+//       .paramCont {
+//         border          : none;
+//         background-color: #F8F8F8;
+//         height          : 80px;
+//         margin          : 0 7px 20px 7px;
+//         overflow        : auto;
+//         padding         : 3px;
+
+//         label {
+//           font-size: 12px;
+//         }
+//       }
+
+//       .paramLeft {
+//         display       : flex;
+//         flex-direction: column;
+//       }
+
+//       .paramRight {
+//         grid-column   : 3;
+//         display       : flex;
+//         flex-direction: column;
+//       }
+//     }
+
+//     .settingsCont {
+//       .mat-form-field {
+//         width        : 15%;
+//         margin-bottom: 25px;
+//       }
+
+//       input {
+//         padding: 3px 5px;
+//       }
+
+//       span {
+//         margin-left: 10px;
+//       }
+//     }
+//   }
+// }

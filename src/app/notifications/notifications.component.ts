@@ -113,11 +113,12 @@ export class NotificationsComponent implements OnInit {
                           this.ownerService
                             .addOwner(dialogResult.data)
                             .subscribe((result: ServerResponse) => {
+                              alert('New client was confirmed');
                               if (result.statusCode === StatusCode.Ok) {
-                                alert('Success');
-                                window.location.reload();
+                                // alert('Success');
+                                // window.location.reload();
                               } else {
-                                alert(result.statusCode);
+                                // alert(result.statusCode);
                               }
                             });
                         }
