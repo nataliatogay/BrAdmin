@@ -1,13 +1,5 @@
 <div class="wrap" *ngIf="!loadingService.IsLoading">
-  <!-- <div class="paginationCont">
-    <label>{{ pagesView }} of {{ notificationCount }}</label>
-    <button mat-button [disabled]="currentPage === 1" (click)="pageChange(false)">
-      <mat-icon>chevron_left</mat-icon>
-    </button>
-    <button mat-button [disabled]="currentPage === lastPage || lastPage === 0" (click)="pageChange(true)">
-      <mat-icon>chevron_right</mat-icon>
-    </button>
-  </div> -->
+
 
   <div class="notificationsCont scrollbar scrollbar-black bordered-black square thin">
 
@@ -15,10 +7,6 @@
       <label>{{ item.dateTime | date: 'dd.MM.yyyy HH:mm' }}</label>
 
       <label id="secondId">{{item.title}}</label>
-
-      <!-- <label class="{{item.notificationType}}">{{item.notificationType}}</label> -->
-
-      <!-- <mat-checkbox [disabled]="true" [checked]="item.done != null" readonly>Done</mat-checkbox> -->
 
     </div>
 
